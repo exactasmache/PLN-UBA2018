@@ -15,8 +15,9 @@ Options:
 """
 from docopt import docopt
 import pickle
+import languagemodeling.config as cfg
 
-from nltk.corpus import gutenberg
+from nltk.corpus import gutenberg, PlaintextCorpusReader
 
 from languagemodeling.ngram import NGram
 # from languagemodeling.ngram import NGram, AddOneNGram, InterpolatedNGram
@@ -28,14 +29,19 @@ from languagemodeling.ngram import NGram
 #     'inter': InterpolatedNGram,
 # }
 
-
 if __name__ == '__main__':
     opts = docopt(__doc__)
 
     # load the data
-    # WORK HERE!! LOAD YOUR TRAINING CORPUS
-    sents = gutenberg.sents(['austen-emma.txt', 'austen-sense.txt'])
+    chesterton_corpus = PlaintextCorpusReader(cfg.corpus_root, '.*\.txt')
+    fileids = chesterton_corpus.fileids()
 
+    words = chesterton_corpus.words(fileids)
+    print words[1:40]
+    exit()
+    
+    sents = gutenberg.sents(['austen-emma.txt', 'austen-sense.txt'])
+    
     # train the model
     n = int(opts['-n'])
     model = NGram(n, sents)

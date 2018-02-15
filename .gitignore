@@ -1,1 +1,5 @@
+*.pyc
+__init__.py
 venv/
+corpus/
+out*
