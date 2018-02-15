@@ -157,7 +157,8 @@ class TestNGram(TestCase):
 
         def log2(x): return log(x, 2)
         sents = {
-            # 'come', '.' and '</s>' have prob 1/6, the rest have 1/12.
+            # 'come', '.', '<s>' and '</s>' have prob 2/total, 
+            # the rest have 1/total.
             'el gato come pescado .': 4 * log2(2 / self.total) + 3 * log2(1 / self.total),
             'la gata come salmón .': 4 * log2(2 / self.total) + 3 * log2(1 / self.total),
             'el gato come salame .': -inf,  # 'salame' unseen
