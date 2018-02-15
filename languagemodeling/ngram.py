@@ -107,7 +107,7 @@ class NGram(LanguageModel):
 
         return 0. if amount == 0 else appearances / amount
 
-    def calculate_prob(self, sent, p_tokens, p_type='linear'):
+    def calculate_prob(self, sent, p_type='linear'):
         """Probability of a sentence given previous tokens and probability type.
 
           sent -- the sentence as a list of tokens.
@@ -115,6 +115,9 @@ class NGram(LanguageModel):
           p_type -- the probability type to calculate.
         """
         res = 0 if p_type == 'log' else 1
+        
+        sent = [START] + sent + [END]
+        p_tokens = tuple([START] * (self._n-1))
 
         for token in sent[self._n-1:]:
             prob = self.cond_prob(token, p_tokens)
@@ -130,20 +133,17 @@ class NGram(LanguageModel):
 
         sent -- the sentence as a list of tokens.
         """
-        sent = [START] + sent + [END]
-        p_tokens = tuple([START] * (self._n-1))
 
-        return self.calculate_prob(sent, p_tokens)
+        return self.calculate_prob(sent)
 
     def sent_log_prob(self, sent):
         """Log-probability of a sentence.
 
         sent -- the sentence as a list of tokens.
         """
-        sent = [START] + sent + [END]
-        p_tokens = tuple([START] * (self._n-1))
+        
 
-        return self.calculate_prob(sent, p_tokens, 'log')
+        return self.calculate_prob(sent, 'log')
 
 
 class AddOneNGram(NGram):
