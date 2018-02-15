@@ -104,7 +104,7 @@ class NGram(LanguageModel):
 
         amount = sum([v for k, v in self._count.items()
                       if len(k) == len(tokens) and k[:-1] == prev_tokens])
-        print(token, '|', prev_tokens, '-->', appearances, '/', amount)
+
         return 0. if amount == 0 else appearances / amount
 
     def calculate_prob(self, sent, p_tokens, p_type='linear'):
@@ -118,6 +118,8 @@ class NGram(LanguageModel):
 
         for token in sent[self._n-1:]:
             prob = self.cond_prob(token, p_tokens)
+            if prob == 0:
+              return float('-inf') if p_type == 'log' else 0
             res = res + math.log(prob, 2) if p_type == 'log' else res * prob
             p_tokens = (p_tokens + (token,))[1:]
 

@@ -151,35 +151,34 @@ class TestNGram(TestCase):
         for sent, prob in sents.items():
             self.assertAlmostEqual(ngram.sent_prob(
                 sent.split()), prob, msg=sent)
-            # self.assertEqual(1,2)
 
-    # def test_sent_log_prob_1gram(self):
-    #     ngram = NGram(1, self.sents)
+    def test_sent_log_prob_1gram(self):
+        ngram = NGram(1, self.sents)
 
-    #     def log2(x): return log(x, 2)
-    #     sents = {
-    #         # 'come', '.' and '</s>' have prob 1/6, the rest have 1/12.
-    #         'el gato come pescado .': 3 * log2(1 / 6.0) + 3 * log2(1 / 12.0),
-    #         'la gata come salmón .': 3 * log2(1 / 6.0) + 3 * log2(1 / 12.0),
-    #         'el gato come salame .': -inf,  # 'salame' unseen
-    #         'la la la': log2(1 / 6.0) + 3 * log2(1 / 12.0),
-    #     }
-    #     for sent, prob in sents.items():
-    #         self.assertAlmostEqual(ngram.sent_log_prob(sent.split()), prob, msg=sent)
+        def log2(x): return log(x, 2)
+        sents = {
+            # 'come', '.' and '</s>' have prob 1/6, the rest have 1/12.
+            'el gato come pescado .': 4 * log2(2 / self.total) + 3 * log2(1 / self.total),
+            'la gata come salmón .': 4 * log2(2 / self.total) + 3 * log2(1 / self.total),
+            'el gato come salame .': -inf,  # 'salame' unseen
+            'la la la': 2* log2(2 / self.total) + 3 * log2(1 / self.total),
+        }
+        for sent, prob in sents.items():
+            self.assertAlmostEqual(ngram.sent_log_prob(sent.split()), prob, msg=sent)
 
-    # def test_sent_log_prob_2gram(self):
-    #     ngram = NGram(2, self.sents)
+    def test_sent_log_prob_2gram(self):
+        ngram = NGram(2, self.sents)
 
-    #     def log2(x): return log(x, 2)
-    #     sents = {
-    #         # after '<s>': 'el' and 'la' have prob 0.5.
-    #         # after 'come': 'pescado' and 'salmón' have prob 0.5.
-    #         'el gato come pescado .': 2 * log2(0.5),
-    #         'la gata come salmón .': 2 * log2(0.5),
-    #         'el gato come salmón .': 2 * log2(0.5),
-    #         'la gata come pescado .': 2 * log2(0.5),
-    #         'el gato come salame .': -inf,  # 'salame' unseen
-    #         'la la la': -inf,  # 'la' after 'la' unseen
-    #     }
-    #     for sent, prob in sents.items():
-    #         self.assertAlmostEqual(ngram.sent_log_prob(sent.split()), prob, msg=sent)
+        def log2(x): return log(x, 2)
+        sents = {
+            # after '<s>': 'el' and 'la' have prob 0.5.
+            # after 'come': 'pescado' and 'salmón' have prob 0.5.
+            'el gato come pescado .': 2 * log2(0.5),
+            'la gata come salmón .': 2 * log2(0.5),
+            'el gato come salmón .': 2 * log2(0.5),
+            'la gata come pescado .': 2 * log2(0.5),
+            'el gato come salame .': -inf,  # 'salame' unseen
+            'la la la': -inf,  # 'la' after 'la' unseen
+        }
+        for sent, prob in sents.items():
+            self.assertAlmostEqual(ngram.sent_log_prob(sent.split()), prob, msg=sent)
