@@ -50,7 +50,17 @@ class NGram(LanguageModel):
 
         count = defaultdict(int)
 
-        # WORK HERE!!
+        # with this little modification it 
+        # counts every k-gram, with k = 1..n
+        for sent in sents:
+          # we add the start and end of sentence's characters
+          sent = ['<s>'] + sent + ['</s>']
+          top = len(sent)
+          for i in range(top):
+              for k in range(min(n, top-i)):
+                ngram = tuple(sent[i:i+k+1])
+                print(ngram)
+                count[ngram] += 1
 
         self._count = dict(count)
 
