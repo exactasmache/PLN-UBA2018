@@ -40,16 +40,8 @@ class LanguageModel(object):
 
 class NGram(LanguageModel):
 
-    def __init__(self, n, sents):
-        """
-        n -- order of the model.
-        sents -- list of sentences, each one being a list of tokens.
-        """
-        assert n > 0
-        self._n = n
-
+    def get_n_grams_count_dict(self, n, sents):
         count = defaultdict(int)
-
         # with this little modification it 
         # counts every k-gram, with k = 1..n
         for sent in sents:
@@ -59,10 +51,18 @@ class NGram(LanguageModel):
           for i in range(top):
               for k in range(min(n, top-i)):
                 ngram = tuple(sent[i:i+k+1])
-                print(ngram)
                 count[ngram] += 1
 
-        self._count = dict(count)
+        return dict(count)
+
+    def __init__(self, n, sents):
+        """
+        n -- order of the model.
+        sents -- list of sentences, each one being a list of tokens.
+        """
+        assert n > 0
+        self._n = n
+        self._count = self.get_n_grams_count_dict(n, sents)
 
     def count(self, tokens):
         """Count for an n-gram or (n-1)-gram.
@@ -77,7 +77,22 @@ class NGram(LanguageModel):
         token -- the token.
         prev_tokens -- the previous n-1 tokens (optional only if n = 1).
         """
-        # WORK HERE!!
+        # if prev_tokens not given, assume 0-uple:
+        prev_tokens = () if not prev_tokens else prev_tokens
+        
+        # if string given, we convert it to a 1-uple:
+        token = (token,) if isinstance(token, str) else token
+
+        # print('cond_prob', token, prev_tokens)
+        amount = appearances = 0
+        for k, v in self._count.items():
+          if len(k) == len(prev_tokens+token) and k[:-1] == prev_tokens:
+            amount += v
+          if token[0] == k[-1]:
+            appearances = v
+
+        return appearances / amount
+
 
     def sent_prob(self, sent):
         """Probability of a sentence. Warning: subject to underflow problems.
