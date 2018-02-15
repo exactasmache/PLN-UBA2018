@@ -37,9 +37,35 @@ licencia, el autor de la digitalización y cualquier otro comentario que no fuer
 tabla de definiciones, el THE END, los prólogos ajenos al autor, notas alusivas a las puestas en escena, entre otros.
 Dado que no eran muchos archivos, no consideré necesario hacer un parser para ello. Simplemente edité cada archivo a mano.
 
+Las primeras pruebas que hice utilizaron el tokenizador por default del método PlaintextCorpusReader, dando como resultado
+que las 10 palabras mas frecuentes eran:
+the: 58814 veces,
+, : 51626 veces
+. : 43909 veces
+of : 35770 veces
+a : 27551 veces
+and : 26260 veces
+to : 21386 veces
+in : 17543 veces
+that : 16956 veces
+is : 16478 veces
+
+Con un vocabulario de 31918 palabras en un total de 1161036 tokens.
+
+Mientras que aplicnado una expresion regular (que se encuentra en el script train.py) los resultados variaron levemente 
+disminuyendo en primer lugar la cantidad tokens y el vocabulario, 1144844 y 33887 respectivamente; mientras que las 10 
+palabras mas frecuentes siguieron siendo las mismas pero la cantidad de apariciones de algunas disminuyó:
+
+the : 58800 veces
+, : 55584 veces
+. : 47348 veces
+of : 35744 veces
+a : 27547 veces
+and : 26232 veces
+to : 21241 veces
+in : 17511 veces
+that : 16956 veces
+is : 16478 veces
 
 
-Cargar el corpus usando un “corpus reader” de NLTK (e.g. PlaintextCorpusReader) o definiendo uno propio.
-El “corpus reader” debe proveer un método sents que permita iterar sobre las oraciones tokenizadas del corpus.
-Revisar a ojo la tokenización y segmentado en oraciones. Si es muy mala, probar otras formas de tokenización/segmentado.
-Modificar el script train.py para utilizar el nuevo corpus.
+- Ejercicio 2.
