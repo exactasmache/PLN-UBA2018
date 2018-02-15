@@ -16,6 +16,7 @@ Options:
 from docopt import docopt
 import pickle
 import languagemodeling.config as cfg
+import languagemodeling.utils as utils
 
 from nltk.corpus import gutenberg, PlaintextCorpusReader
 from collections import Counter
@@ -37,25 +38,20 @@ if __name__ == '__main__':
     opts = docopt(__doc__)
 
     # load the data:
-    # we define a re to tokenize
-    pattern = r'''(?x)    # set flag to allow verbose regexps
-        (?:[A-Z]\.)+        # abbreviations, e.g. U.S.A.
-      | \w+(?:-\w+)*        # words with optional internal hyphens
-      | \$?\d+(?:\.\d+)?%?  # currency and percentages, e.g. $12.40, 82%
-      | \.\.\.            # ellipsis
-      | [][.,;"'?():-_`]  # these are separate tokens; includes ], [
-    '''
-    tokenizer = RegexpTokenizer(pattern)
+    tokenizer = RegexpTokenizer(utils.patterns['sofisticated'])
 
     chesterton_corpus = PlaintextCorpusReader(cfg.corpus_root, '.*\.txt', word_tokenizer=tokenizer)
     fileids = chesterton_corpus.fileids()
+    sents = chesterton_corpus.sents()
 
     # counter to do elemental statistics in order to test the tokenizer
     count = Counter()
-
-    for sent in chesterton_corpus.sents():
+    for sent in sents:
       count.update(sent)
 
+    # prints in order to manually find tokenizations differences
+    for s in sents[0:20]:
+          print s
     print('10 palabras mas frecuentes:', count.most_common()[:10])
     print('Vocabulario:', len(count))
     print('Tokens:', sum(count.values()))

@@ -37,35 +37,33 @@ licencia, el autor de la digitalización y cualquier otro comentario que no fuer
 tabla de definiciones, el THE END, los prólogos ajenos al autor, notas alusivas a las puestas en escena, entre otros.
 Dado que no eran muchos archivos, no consideré necesario hacer un parser para ello. Simplemente edité cada archivo a mano.
 
-Las primeras pruebas que hice utilizaron el tokenizador por default del método PlaintextCorpusReader, dando como resultado
-que las 10 palabras mas frecuentes eran:
-the: 58814 veces,
-, : 51626 veces
-. : 43909 veces
-of : 35770 veces
-a : 27551 veces
-and : 26260 veces
-to : 21386 veces
-in : 17543 veces
-that : 16956 veces
-is : 16478 veces
+Las primeras pruebas que hice utilizaron el tokenizador por default del método PlaintextCorpusReader, luego se generaron 
+dos tokenizadores más a partir de dos expresiones regulares distintas: uno básico y otro más sofisticados (ambos se encuentran
+en el script utils.py). Sobre los tres tipos de tokenizadores se realizaron estadisticas simples de palabras mas utilizadas,
+cantidad de tokens y vocabulario. Estos resultados se encuentran en la siguientes tablas, donde las columnas de la primera denotan
+de izquierda a derecha: la palabra, la cantidad de apariciones utilizando el tokenizador default, el básico y el sofisticado, respectivamente.
 
-Con un vocabulario de 31918 palabras en un total de 1161036 tokens.
+CANTIDAD DE APARICIONES
+palabra   default   basico    sofisticado
+the     : 58814     58800     58800
+,       : 51626     55584     55584
+.       : 43909     47348     47312
+of      : 35770     35744     35744
+a       : 27551     27547     27547
+and     : 26260     26232     26232
+to      : 21386     21241     21241
+in      : 17543     17511     17511
+that    : 16956     16956     16956
+is      : 16478     16478     16478
 
-Mientras que aplicnado una expresion regular (que se encuentra en el script train.py) los resultados variaron levemente 
-disminuyendo en primer lugar la cantidad tokens y el vocabulario, 1144844 y 33887 respectivamente; mientras que las 10 
-palabras mas frecuentes siguieron siendo las mismas pero la cantidad de apariciones de algunas disminuyó:
+              default   basico    sofisticado
+Vocabulario : 31918     33887     33888
+Tokens      : 1161036   1144844   1144808
 
-the : 58800 veces
-, : 55584 veces
-. : 47348 veces
-of : 35744 veces
-a : 27547 veces
-and : 26232 veces
-to : 21241 veces
-in : 17511 veces
-that : 16956 veces
-is : 16478 veces
+De estos resultados se ve que, al no tener muchas abreviaciones, no hay mayor diferencia entre los tokenizadores basico 
+y sofisticado, y, observando las oraciones tokenizadas, se ve que cualquiera de los dos funciona suficientemente bien. 
+Un resultado interesante es que el porcentaje de palabras distintas utilizadas por Chesterton se acerca bastante al 
+utilizado por otro autor ingles, Shakespeare: 2,96% vs 3,51%.
 
 
 - Ejercicio 2.
