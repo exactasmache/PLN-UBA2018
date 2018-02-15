@@ -55,7 +55,7 @@ class NGram(LanguageModel):
             ngram = tuple(sent[i: i + n])
             count[ngram] += 1
             if ngram[:-1]:
-              count[ngram[:-1]] += 1
+                count[ngram[:-1]] += 1
 
     def get_n_grams_count_dict(self, n, sents):
         """
@@ -94,18 +94,34 @@ class NGram(LanguageModel):
         """
         # if prev_tokens not given, assume 0-uple:
         prev_tokens = prev_tokens or ()
-        assert len(prev_tokens) == self._n - 1 
-        
+        assert len(prev_tokens) == self._n - 1
+
         # if string given, we convert it to a 1-uple:
         token = (token,) if isinstance(token, str) else token
         tokens = prev_tokens+token
-        
+
         appearances = self._count.get(tokens, 0)
 
         amount = sum([v for k, v in self._count.items()
                       if len(k) == len(tokens) and k[:-1] == prev_tokens])
-        print(token,'|', prev_tokens,'-->', appearances,'/',amount)
+        print(token, '|', prev_tokens, '-->', appearances, '/', amount)
         return 0. if amount == 0 else appearances / amount
+
+    def calculate_prob(self, sent, p_tokens, p_type='linear'):
+        """Probability of a sentence given previous tokens and probability type.
+
+          sent -- the sentence as a list of tokens.
+          p_tokens -- the list of previous tokens.
+          p_type -- the probability type to calculate.
+        """
+        res = 0 if p_type == 'log' else 1
+
+        for token in sent[self._n-1:]:
+            prob = self.cond_prob(token, p_tokens)
+            res = res + math.log(prob, 2) if p_type == 'log' else res * prob
+            p_tokens = (p_tokens + (token,))[1:]
+
+        return res
 
     def sent_prob(self, sent):
         """Probability of a sentence. Warning: subject to underflow problems.
@@ -113,23 +129,19 @@ class NGram(LanguageModel):
         sent -- the sentence as a list of tokens.
         """
         sent = [START] + sent + [END]
-        
-        prev_tokens = tuple([START] * (self._n-1))
+        p_tokens = tuple([START] * (self._n-1))
 
-        res = 1
-        for token in sent[self._n-1:]:
-            prob = self.cond_prob(token, prev_tokens)
-            res *= prob 
-            prev_tokens = (prev_tokens + (token,))[1:] 
- 
-        return res
+        return self.calculate_prob(sent, p_tokens)
 
     def sent_log_prob(self, sent):
         """Log-probability of a sentence.
 
         sent -- the sentence as a list of tokens.
         """
-        # WORK HERE!!
+        sent = [START] + sent + [END]
+        p_tokens = tuple([START] * (self._n-1))
+
+        return self.calculate_prob(sent, p_tokens, 'log')
 
 
 class AddOneNGram(NGram):
