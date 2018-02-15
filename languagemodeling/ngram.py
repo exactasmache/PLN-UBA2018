@@ -53,10 +53,8 @@ class NGram(LanguageModel):
         top = len(sent)
         for i in range(top - n + 1):
             ngram = tuple(sent[i: i + n])
-            print(ngram)
             count[ngram] += 1
             if ngram[:-1]:
-              print(ngram[:-1])
               count[ngram[:-1]] += 1
 
     def get_n_grams_count_dict(self, n, sents):
@@ -68,7 +66,6 @@ class NGram(LanguageModel):
         for sent in sents:
             # we add the start and end of sentence's characters
             sent = [START] + sent + [END]
-            print(sent)
             self.get_n_grams_count_dict_by_sent(n, sent, count)
 
         return dict(count)
@@ -107,7 +104,7 @@ class NGram(LanguageModel):
 
         amount = sum([v for k, v in self._count.items()
                       if len(k) == len(tokens) and k[:-1] == prev_tokens])
-
+        print(token,'|', prev_tokens,'-->', appearances,'/',amount)
         return 0. if amount == 0 else appearances / amount
 
     def sent_prob(self, sent):
@@ -115,7 +112,17 @@ class NGram(LanguageModel):
 
         sent -- the sentence as a list of tokens.
         """
+        sent = [START] + sent + [END]
         
+        prev_tokens = tuple([START] * (self._n-1))
+
+        res = 1
+        for token in sent[self._n-1:]:
+            prob = self.cond_prob(token, prev_tokens)
+            res *= prob 
+            prev_tokens = (prev_tokens + (token,))[1:] 
+ 
+        return res
 
     def sent_log_prob(self, sent):
         """Log-probability of a sentence.

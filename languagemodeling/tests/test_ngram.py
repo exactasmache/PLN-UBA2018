@@ -12,12 +12,15 @@ class TestNGram(TestCase):
             'el gato come pescado .'.split(),
             'la gata come salmón .'.split(),
         ]
+        # NOTA: No entiendo por que el total es 12 y no 14.
+        # Son 7 tokens por oracion teniendo en cuenta <s> y </s>
+        self.total = 14.
 
     def test_count_1gram(self):
         ngram = NGram(1, self.sents)
 
         counts = {
-            # (): 12, por que tendria que haber 12 vacios?
+            # (): int(self.total),
             ('<s>',): 2,
             ('el',): 1,
             ('gato',): 1,
@@ -120,33 +123,35 @@ class TestNGram(TestCase):
 
     def test_sent_prob_1gram(self):
         ngram = NGram(1, self.sents)
-
         sents = {
-            # 'come', '.' and '</s>' have prob 1/6, the rest have 1/12.
-            'el gato come pescado .': (1 / 6.0)**3 * (1 / 12.0)**3,
-            'la gata come salmón .': (1 / 6.0)**3 * (1 / 12.0)**3,
+            # 'come', '.', '<s>' and '</s>' have prob 2/total, 
+            # the rest have 1/total.
+            'el gato come pescado .': (2 / self.total)**4 * (1 / self.total)**3,
+            'la gata come salmón .': (2 / self.total)**4 * (1 / self.total)**3,
             'el gato come salame .': 0.0,  # 'salame' unseen
-            'la la la': (1 / 6.0)**1 * (1 / 12.0)**3,
+            'la la la': (2 / self.total)**2 * (1 / self.total)**3,
         }
         for sent, prob in sents.items():
             self.assertAlmostEqual(ngram.sent_prob(
                 sent.split()), prob, msg=sent)
 
-    # def test_sent_prob_2gram(self):
-    #     ngram = NGram(2, self.sents)
+    def test_sent_prob_2gram(self):
+        ngram = NGram(2, self.sents)
 
-    #     sents = {
-    #         # after '<s>': 'el' and 'la' have prob 0.5.
-    #         # after 'come': 'pescado' and 'salmón' have prob 0.5.
-    #         'el gato come pescado .': 0.5 * 0.5,
-    #         'la gata come salmón .': 0.5 * 0.5,
-    #         'el gato come salmón .': 0.5 * 0.5,
-    #         'la gata come pescado .': 0.5 * 0.5,
-    #         'el gato come salame .': 0.0,  # 'salame' unseen
-    #         'la la la': 0.0,  # 'la' after 'la' unseen
-    #     }
-    #     for sent, prob in sents.items():
-    #         self.assertAlmostEqual(ngram.sent_prob(sent.split()), prob, msg=sent)
+        sents = {
+            # after '<s>': 'el' and 'la' have prob 0.5.
+            # after 'come': 'pescado' and 'salmón' have prob 0.5.
+            'el gato come pescado .': 0.5 * 0.5,
+            'la gata come salmón .': 0.5 * 0.5,
+            'el gato come salmón .': 0.5 * 0.5,
+            'la gata come pescado .': 0.5 * 0.5,
+            'el gato come salame .': 0.0,  # 'salame' unseen
+            'la la la': 0.0,  # 'la' after 'la' unseen
+        }
+        for sent, prob in sents.items():
+            self.assertAlmostEqual(ngram.sent_prob(
+                sent.split()), prob, msg=sent)
+            # self.assertEqual(1,2)
 
     # def test_sent_log_prob_1gram(self):
     #     ngram = NGram(1, self.sents)
