@@ -17,7 +17,7 @@ class TestNGram(TestCase):
         ngram = NGram(1, self.sents)
 
         counts = {
-            # (): 12,   #This seems to be an error.
+            # (): 12, por que tendria que haber 12 vacios?
             ('<s>',): 2,
             ('el',): 1,
             ('gato',): 1,
@@ -69,31 +69,18 @@ class TestNGram(TestCase):
         ngram = NGram(3, sents)
 
         counts = {
-            ('<s>',): 3,
-            ('</s>',): 3,
-            ('el',): 1,
-            ('gato',): 1,
-            ('come',): 2,
-            ('pescado',): 1,
-            ('.',): 2,
-            ('la',): 1,
-            ('gata',): 1,
-            ('salmón',): 1,
-            ('unaria',): 1,
-
             ('<s>', 'el'): 1,
             ('el', 'gato'): 1,
             ('gato', 'come'): 1,
             ('come', 'pescado'): 1,
             ('pescado', '.'): 1,
-            ('.', '</s>'): 2,
+
             ('<s>', 'la'): 1,
             ('la', 'gata'): 1,
             ('gata', 'come'): 1,
             ('come', 'salmón'): 1,
             ('salmón', '.'): 1,
             ('<s>', 'unaria'): 1,
-            ('unaria', '</s>'): 1,
 
             ('<s>', 'el', 'gato'): 1,
             ('el', 'gato', 'come'): 1,

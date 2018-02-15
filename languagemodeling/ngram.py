@@ -2,6 +2,9 @@
 from collections import defaultdict
 import math
 
+START = '<s>'
+END = '</s>'
+
 
 class LanguageModel(object):
 
@@ -40,18 +43,33 @@ class LanguageModel(object):
 
 class NGram(LanguageModel):
 
+    def get_n_grams_count_dict_by_sent(self, n, sent, count):
+        """
+        n -- order of the model.
+        sent -- list of tokens.
+        count -- defaultdict of count of ngrams
+        """
+
+        top = len(sent)
+        for i in range(top - n + 1):
+            ngram = tuple(sent[i: i + n])
+            print(ngram)
+            count[ngram] += 1
+            if ngram[:-1]:
+              print(ngram[:-1])
+              count[ngram[:-1]] += 1
+
     def get_n_grams_count_dict(self, n, sents):
+        """
+        n -- order of the model.
+        sents -- list of sentences, each one being a list of tokens.
+        """
         count = defaultdict(int)
-        # with this little modification it
-        # counts every k-gram, with k = 1..n
         for sent in sents:
             # we add the start and end of sentence's characters
-            sent = ['<s>'] + sent + ['</s>']
-            top = len(sent)
-            for i in range(top):
-                for k in range(min(n, top-i)):
-                    ngram = tuple(sent[i:i+k+1])
-                    count[ngram] += 1
+            sent = [START] + sent + [END]
+            print(sent)
+            self.get_n_grams_count_dict_by_sent(n, sent, count)
 
         return dict(count)
 
@@ -79,23 +97,25 @@ class NGram(LanguageModel):
         """
         # if prev_tokens not given, assume 0-uple:
         prev_tokens = prev_tokens or ()
-
+        assert len(prev_tokens) == self._n - 1 
+        
         # if string given, we convert it to a 1-uple:
         token = (token,) if isinstance(token, str) else token
-
-        appearances = self._count.get(prev_tokens+token, 0)
+        tokens = prev_tokens+token
+        
+        appearances = self._count.get(tokens, 0)
 
         amount = sum([v for k, v in self._count.items()
-                      if len(k) == len(prev_tokens+token) and k[:-1] == prev_tokens])
+                      if len(k) == len(tokens) and k[:-1] == prev_tokens])
 
-        return appearances / amount
+        return 0. if amount == 0 else appearances / amount
 
     def sent_prob(self, sent):
         """Probability of a sentence. Warning: subject to underflow problems.
 
         sent -- the sentence as a list of tokens.
         """
-        # WORK HERE!!
+        
 
     def sent_log_prob(self, sent):
         """Log-probability of a sentence.
