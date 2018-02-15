@@ -17,7 +17,7 @@ Instalación
 
     sudo apt-get install git python-pip python3 python3-tk virtualenv
 
-2. Crear y activar un nuevo
+2. a. Crear y activar un nuevo
    `virtualenv <http://virtualenv.readthedocs.org/en/latest/virtualenv.html>`_.
    Recomiendo usar `virtualenvwrapper
    <http://virtualenvwrapper.readthedocs.org/en/latest/install.html#basic-installation>`_.
@@ -32,6 +32,32 @@ Instalación
    Para crear y activar nuestro virtualenv::
 
     mkvirtualenv --system-site-packages --python=/usr/bin/python3 pln
+2. b.
+   Otra manera es utilizar virtualenv directamente sin virtualenvwrapper.
+   De este modo el enviroment se crea directamente en la carpeta donde se ejecuta el comando.
+   Una ventaja es que se elimina al eliminar el codigo, se traslada con el, etc. 
+
+   Crear entorno virtual::
+
+    virtualenv venv
+
+   Activar el entorno virtual::
+
+    . venv/bin/activate
+
+   Instalar en el entorno los paquetes enumerados dentro del archivo requirements.txt::
+
+    pip -r install requirements.txt
+
+   Comandos Opcionales::
+
+   Listar los paquetes instalados en el entorno activado::
+
+    pip freeze
+
+   Desactivar entorno::
+
+    deactivate
 
 3. Bajar el código::
 
