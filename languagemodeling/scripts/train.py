@@ -22,7 +22,7 @@ import languagemodeling.utils as utils
 from languagemodeling.ngram import NGram
 # from languagemodeling.ngram import NGram, AddOneNGram, InterpolatedNGram
 
-from nltk.corpus import gutenberg, PlaintextCorpusReader
+from nltk.corpus import PlaintextCorpusReader
 from nltk.tokenize import RegexpTokenizer
 
 # models = {
@@ -38,7 +38,8 @@ if __name__ == '__main__':
     # load the data:
     tokenizer = RegexpTokenizer(utils.patterns['sofisticated'])
 
-    chesterton_corpus = PlaintextCorpusReader(cfg.corpus_root, '.*\.txt', word_tokenizer=tokenizer)
+    chesterton_corpus = PlaintextCorpusReader(
+        cfg.corpus_root, '.*\.txt', word_tokenizer=tokenizer)
     sents = chesterton_corpus.sents()
     utils.show_basic_statistics(sents)
 

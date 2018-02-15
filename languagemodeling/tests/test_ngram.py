@@ -59,7 +59,7 @@ class TestNGram(TestCase):
         }
         for gram, c in counts.items():
             self.assertEqual(ngram.count(gram), c)
-    
+
     def test_count_3gram(self):
         sents = [
             'el gato come pescado .'.split(),
@@ -94,7 +94,7 @@ class TestNGram(TestCase):
             ('salmón', '.'): 1,
             ('<s>', 'unaria'): 1,
             ('unaria', '</s>'): 1,
-            
+
             ('<s>', 'el', 'gato'): 1,
             ('el', 'gato', 'come'): 1,
             ('gato', 'come', 'pescado'): 1,
@@ -142,7 +142,8 @@ class TestNGram(TestCase):
             'la la la': (1 / 6.0)**1 * (1 / 12.0)**3,
         }
         for sent, prob in sents.items():
-            self.assertAlmostEqual(ngram.sent_prob(sent.split()), prob, msg=sent)
+            self.assertAlmostEqual(ngram.sent_prob(
+                sent.split()), prob, msg=sent)
 
     # def test_sent_prob_2gram(self):
     #     ngram = NGram(2, self.sents)

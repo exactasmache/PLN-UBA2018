@@ -42,16 +42,16 @@ class NGram(LanguageModel):
 
     def get_n_grams_count_dict(self, n, sents):
         count = defaultdict(int)
-        # with this little modification it 
+        # with this little modification it
         # counts every k-gram, with k = 1..n
         for sent in sents:
-          # we add the start and end of sentence's characters
-          sent = ['<s>'] + sent + ['</s>']
-          top = len(sent)
-          for i in range(top):
-              for k in range(min(n, top-i)):
-                ngram = tuple(sent[i:i+k+1])
-                count[ngram] += 1
+            # we add the start and end of sentence's characters
+            sent = ['<s>'] + sent + ['</s>']
+            top = len(sent)
+            for i in range(top):
+                for k in range(min(n, top-i)):
+                    ngram = tuple(sent[i:i+k+1])
+                    count[ngram] += 1
 
         return dict(count)
 
@@ -78,21 +78,17 @@ class NGram(LanguageModel):
         prev_tokens -- the previous n-1 tokens (optional only if n = 1).
         """
         # if prev_tokens not given, assume 0-uple:
-        prev_tokens = () if not prev_tokens else prev_tokens
-        
+        prev_tokens = prev_tokens or ()
+
         # if string given, we convert it to a 1-uple:
         token = (token,) if isinstance(token, str) else token
 
-        # print('cond_prob', token, prev_tokens)
-        amount = appearances = 0
-        for k, v in self._count.items():
-          if len(k) == len(prev_tokens+token) and k[:-1] == prev_tokens:
-            amount += v
-          if token[0] == k[-1]:
-            appearances = v
+        appearances = self._count.get(prev_tokens+token, 0)
+
+        amount = sum([v for k, v in self._count.items()
+                      if len(k) == len(prev_tokens+token) and k[:-1] == prev_tokens])
 
         return appearances / amount
-
 
     def sent_prob(self, sent):
         """Probability of a sentence. Warning: subject to underflow problems.
