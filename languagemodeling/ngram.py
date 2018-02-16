@@ -43,7 +43,7 @@ class LanguageModel(object):
 
 class NGram(LanguageModel):
 
-    def get_n_grams_count_dict_by_sent(self, n, sent, count):
+    def generate_n_grams_count_dict_by_sent(self, n, sent, count):
         """
         n -- order of the model.
         sent -- list of tokens.
@@ -57,7 +57,7 @@ class NGram(LanguageModel):
             if ngram[:-1]:
                 count[ngram[:-1]] += 1
 
-    def get_n_grams_count_dict(self, n, sents):
+    def generate_n_grams_count_dict(self, n, sents):
         """
         n -- order of the model.
         sents -- list of sentences, each one being a list of tokens.
@@ -66,7 +66,7 @@ class NGram(LanguageModel):
         for sent in sents:
             # we add the start and end of sentence's characters
             sent = [START] + sent + [END]
-            self.get_n_grams_count_dict_by_sent(n, sent, count)
+            self.generate_n_grams_count_dict_by_sent(n, sent, count)
 
         return dict(count)
 
@@ -77,9 +77,9 @@ class NGram(LanguageModel):
         """
         assert n > 0
         self._n = n
-        self._count = self.get_n_grams_count_dict(n, sents)
+        self._count = self.generate_n_grams_count_dict(n, sents)
 
-    def get_tokens(self):
+    def get_ngrams(self):
         return self._count.keys()
 
     def count(self, tokens):
