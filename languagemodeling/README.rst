@@ -34,7 +34,7 @@ Trabajo Practico N 1
 
  Las primeras pruebas que hice utilizaron el tokenizador por default del método PlaintextCorpusReader, luego se generaron dos tokenizadores más a partir de dos expresiones regulares distintas: uno básico y otro más sofisticados (ambos se encuentran en el script utils.py). Sobre los tres tipos de tokenizadores se realizaron estadisticas simples de palabras mas utilizadas, cantidad de tokens y vocabulario. Estos resultados se encuentran en la siguientes tablas, donde las columnas de la primera denotan de izquierda a derecha: la palabra, la cantidad de apariciones utilizando el tokenizador default, el básico y el sofisticado, respectivamente.
 
- .. list-table:: CANTIDAD DE APARICIONES
+ .. list-table: CANTIDAD DE APARICIONES
   :widths: 20 20 20 20
   :header-rows: 1
 
@@ -75,7 +75,7 @@ Trabajo Practico N 1
     - 16478
     - 16478
 
- .. list-table:: Vocabulario y tokens
+ .. list-table: Vocabulario y tokens
   :widths: 20 20 20 20
   :header-rows: 1
 
@@ -124,17 +124,17 @@ Trabajo Practico N 1
 
  Por una cuestion de tiempo, estoy usando solamente uno de los libros de Chesterton. La idea es mas adelante usar todos.
 
- Unigram::
+ Unigram:
 
  - a and lack letter
 
  - last the
 
  - fact we here the very at say Warner in " mere
- 
+
  - red We have and you returned windy . to dock fiver of which back he the the find stood <s> said <s> and cried parasol shadows , he Of have tiny scoots of I albino of London the a go young . As turrets as of instant of I not No . a can of as , and I pole <s> than back the clergyman him Not " and dark-gray of ` advanced so always Mrs " . other for
 
- Bigram::
+ Bigram:
 
  - he is flat square , fixing his brain and unspoilt riddle , she smiled and birds and myself , call at the thunderbolt , ' s letter I suppose ) , " What would have been on this is something indifferent and tears across the other two actors is the heights beyond the little time that it produced two words were really astonished to chase him nearly run down in the dying fish ; they were puddles puddles and was a man the grivest apprehensions .
 
@@ -144,37 +144,42 @@ Trabajo Practico N 1
 
  - "
 
- Trigram::
+ Trigram:
 
 
- Quadrigram::
+ Quadrigram:
 
 
 - Ejercicio 4.
 
-Para este ejercicio completé la clase AddOneNGram la cual hereda de NGram, por lo que tiene todos sus métodos. Para obtener la cantidad de elementos del alfabeto utilice la funcion get_ngrams de la clase NGram (generada anteriormente), haciendo un flat a la lista recibida y metiendo los elementos en un conjunto a fin de eliminar repetidos. 
-Con estos cambios generé cuatro modelos (n = 1, ..., 4)
+ Para este ejercicio completé la clase AddOneNGram la cual hereda de NGram, por lo que tiene todos sus métodos. Para obtener la cantidad de elementos del alfabeto utilice la funcion get_ngrams de la clase NGram (generada anteriormente), haciendo un flat a la lista recibida y metiendo los elementos en un conjunto a fin de eliminar repetidos. 
+ Con estos cambios generé cuatro modelos (n = 1, ..., 4)
 
 - Ejercicio 5.
 
-Mediante el script eval.py analicé los 4 modelos generados en el ejercicio anterior. Los resultados son los siguientes:
+ Mediante el script eval.py analicé los 4 modelos generados en el ejercicio anterior. Los resultados son los siguientes:
 
-Unigram:
-  Log probability: -639708.1687413851
-  Cross entropy: 6.276633098258275
-  Perplexity: 77.5273312490472
-Bigram:
-  Log probability: -1130481.5105199092
-  Cross entropy: 11.091960385403205
-  Perplexity: 2182.7941778531745
-Trigram:
-  Log probability: -1250125.2252017916
-  Cross entropy: 12.265870202825692
-  Perplexity: 4924.870940079708
-Quadrigram:
-  Log probability: -1220380.805217252
-  Cross entropy: 11.974026483945606
-  Perplexity: 4022.9176313151183
+ Unigram:
+
+ - Log probability: -639708.1687413851
+ - Cross entropy: 6.276633098258275
+ - Perplexity: 77.5273312490472
+
+ Bigram:
+ - Log probability: -1130481.5105199092
+ - Cross entropy: 11.091960385403205
+ - Perplexity: 2182.7941778531745
+
+ Trigram:
+ - Log probability: -1250125.2252017916
+ - Cross entropy: 12.265870202825692
+ - Perplexity: 4924.870940079708
+ Quadrigram:
+ - Log probability: -1220380.805217252
+ - Cross entropy: 11.974026483945606
+ - Perplexity: 4022.9176313151183
 
 
-Por otro lado separé el corpus en entrenamiento y test.
+ Por otro lado separé el corpus en entrenamiento y test.
+
+- Ejercicio 6.
