@@ -144,10 +144,11 @@ Trabajo Practico N 1
 
  - "
 
- Trigram:
+ Trigram::
+ TODAVIA ESTA CORRIENDO
 
-
- Quadrigram:
+ Quadrigram::
+ TODAVIA ESTA CORRIENDO
 
 
 - Ejercicio 4.
@@ -174,6 +175,7 @@ Trabajo Practico N 1
  - Log probability: -1250125.2252017916
  - Cross entropy: 12.265870202825692
  - Perplexity: 4924.870940079708
+
  Quadrigram:
  - Log probability: -1220380.805217252
  - Cross entropy: 11.974026483945606
@@ -182,4 +184,6 @@ Trabajo Practico N 1
 
  Por otro lado separé el corpus en entrenamiento y test.
 
-- Ejercicio 6.
+- Ejercicio 6::
+ NO LLEGUÉ A HACERLO.
+
