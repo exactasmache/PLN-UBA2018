@@ -27,8 +27,8 @@ if __name__ == '__main__':
     # build generator
     generator = NGramGenerator(model)
 
-    # # generate sentences
-    # n = int(opts['-n'])
-    # for i in range(n):
-    #     sent = generator.generate_sent()
-    #     print(' '.join(sent))
+    # generate sentences
+    n = int(opts['-n'])
+    for i in range(n):
+        sent = generator.generate_sent()
+        print(' '.join(sent))
