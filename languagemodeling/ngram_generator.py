@@ -1,6 +1,9 @@
 from collections import defaultdict
 import random
 
+START = '<s>'
+END = '</s>'
+
 
 class NGramGenerator(object):
 
@@ -25,9 +28,9 @@ class NGramGenerator(object):
 
         # sort in descending order for efficient sampling
         # self._sorted_probs = {k: sorted(v.items()) for k, v in self._probs.items()}
-        self._sorted_probs = {k: sorted(v.items(), key=lambda t: t[1]) 
-          for k, v in self._probs.items()}
-        
+        self._sorted_probs = {k: sorted(v.items(), key=lambda t: t[1])
+                              for k, v in self._probs.items()}
+
         print (self._sorted_probs)
 
     def generate_sent(self):
@@ -35,11 +38,18 @@ class NGramGenerator(object):
         n = self._n
 
         sent = []
-        prev_tokens = ['<s>'] * (n - 1)
-        token = self.generate_token(tuple(prev_tokens))
-        while token != '</s>':
-                # WORK HERE!!
-            pass
+
+        # this enforces to generate complete phrases
+        # otherwise we should start without the START
+        # token. I mean: with p_tokens = []
+        p_tokens = tuple([START] * (self._n-1))
+
+        while True:
+            token = self.generate_token(tuple(p_tokens))
+            sent += [token]
+            p_tokens = (p_tokens + (token,))[1:]
+            if token == END:
+                break
 
         return sent
 
@@ -53,8 +63,8 @@ class NGramGenerator(object):
             prev_tokens = ()
         assert len(prev_tokens) == n - 1
 
-        r = random.random()
         probs = self._sorted_probs[prev_tokens]
-        # WORK HERE!!
+        tkns, weights = zip(*probs)
+        token = random.choices(tkns, weights=weights)
 
-        return token
+        return token[0]

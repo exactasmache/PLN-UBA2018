@@ -75,3 +75,6 @@ Debido a lo aclarado previamente, tuve que centralizar el valor de self.total en
 - Ejercicio 3.
 Para no acceder a los metodos internos de la clase NGram, genero un getter que me devuelve los ngramas que son clave en el diccionario de _count. A esa lista le agrego la tupla vacia y la uso para generar el diccionario de probabilidades. Para ello tomo todos los ngramas de longitud n, un calculo la probabilidad de aparicion del ultimo token, dado los primeros n-1; ese valor lo guardo en el diccionario de probabilidades condicionales. En caso de n=1, todo quedará asignado a la tupla vacia.
 Para ordenar los diccionarios de menor a mayor usé la funcion 'sorted' de python al definir el diccionario por comprensión.
+
+El generador de tokens lo hice utilizando la funcion radom.choices, a la cual le pasé la lista de tokens junto a la lista de sus pesos. 
+Para el generador de oraciones, viendo como estaba formulado el test, forcé a que las oraciones comenzaran con el caracter de inicio a fin de generar oraciones completas. En principio gregué en el test el caracter </s> dado que lo genero, pero luego decidí omitirlo en el generador. 
