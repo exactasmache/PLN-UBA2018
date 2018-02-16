@@ -33,34 +33,63 @@ A fin de que los resultados se centraran más sobre su escritura, eliminé de to
 
 Las primeras pruebas que hice utilizaron el tokenizador por default del método PlaintextCorpusReader, luego se generaron dos tokenizadores más a partir de dos expresiones regulares distintas: uno básico y otro más sofisticados (ambos se encuentran en el script utils.py). Sobre los tres tipos de tokenizadores se realizaron estadisticas simples de palabras mas utilizadas, cantidad de tokens y vocabulario. Estos resultados se encuentran en la siguientes tablas, donde las columnas de la primera denotan de izquierda a derecha: la palabra, la cantidad de apariciones utilizando el tokenizador default, el básico y el sofisticado, respectivamente.
 
- .. list-table:: CANTIDAD DE APARICIONES
-   :widths: 25 25 50
-   :header-rows: 1
+.. list-table:: CANTIDAD DE APARICIONES
+  :widths: 20 20 20 20
+  :header-rows: 1
 
-   * - Heading row 1, column 1
-     - Heading row 1, column 2
-     - Heading row 1, column 3
-   * - Row 1, column 1
-     -
-     - Row 1, column 3
-   * - Row 2, column 1
-     - Row 2, column 2
-     - Row 2, column 3
- palabra   default   basico    sofisticado
- the     : 58814     58800     58800
- ,       : 51626     55584     55584
- .       : 43909     47348     47312
- of      : 35770     35744     35744
- a       : 27551     27547     27547
- and     : 26260     26232     26232
- to      : 21386     21241     21241
- in      : 17543     17511     17511
- that    : 16956     16956     16956
- is      : 16478     16478     16478
+  * - palabra
+    - default
+    - basico
+    - sofisticado
+  * - the
+    - 58814
+    - 58800
+    - 58800
+  * - of 
+    - 35770
+    - 35744
+    - 35744
+  * - a 
+    - 27551
+    - 27547
+    - 27547
+  * - and 
+    - 26260
+    - 26232
+    - 26232
+  * - to 
+    - 21386
+    - 21241
+    - 21241
+  * - in 
+    - 17543
+    - 17511
+    - 17511
+  * - that 
+    - 16956
+    - 16956
+    - 16956
+  * - is 
+    - 16478
+    - 16478
+    - 16478
 
-              default   basico    sofisticado
-Vocabulario : 31918     33887     33888
-Tokens      : 1161036   1144844   1144808
+.. list-table:: Vocabulario y tokens
+  :widths: 20 20 20 20
+  :header-rows: 1
+
+  * - 
+    - default
+    - basico
+    - sofisticado
+  * - Vocabulario
+    - 31918
+    - 33887
+    - 33888
+  * - Tokens
+    - 1161036
+    - 1144844
+    - 1144808
 
 De estos resultados se ve que, al no tener muchas abreviaciones, no hay mayor diferencia entre los tokenizadores basico y sofisticado, y, observando las oraciones tokenizadas, se ve que cualquiera de los dos funciona suficientemente bien. No se si conviene eliminar las comillas o adjuntarlas a alguna palabra o dejarlas asi.
 
