@@ -145,9 +145,11 @@ Trabajo Practico N 1
  - "
 
  Trigram::
+
  TODAVIA ESTA CORRIENDO
 
  Quadrigram::
+ 
  TODAVIA ESTA CORRIENDO
 
 
@@ -167,16 +169,19 @@ Trabajo Practico N 1
  - Perplexity: 77.5273312490472
 
  Bigram:
+
  - Log probability: -1130481.5105199092
  - Cross entropy: 11.091960385403205
  - Perplexity: 2182.7941778531745
 
  Trigram:
+
  - Log probability: -1250125.2252017916
  - Cross entropy: 12.265870202825692
  - Perplexity: 4924.870940079708
 
  Quadrigram:
+
  - Log probability: -1220380.805217252
  - Cross entropy: 11.974026483945606
  - Perplexity: 4022.9176313151183
