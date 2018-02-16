@@ -50,7 +50,7 @@ is      : 16478     16478     16478
 Vocabulario : 31918     33887     33888
 Tokens      : 1161036   1144844   1144808
 
-De estos resultados se ve que, al no tener muchas abreviaciones, no hay mayor diferencia entre los tokenizadores basico y sofisticado, y, observando las oraciones tokenizadas, se ve que cualquiera de los dos funciona suficientemente bien. 
+De estos resultados se ve que, al no tener muchas abreviaciones, no hay mayor diferencia entre los tokenizadores basico y sofisticado, y, observando las oraciones tokenizadas, se ve que cualquiera de los dos funciona suficientemente bien. No se si conviene eliminar las comillas o adjuntarlas a alguna palabra o dejarlas asi.
 
 Un resultado interesante es que el porcentaje de palabras distintas utilizadas por Chesterton se acerca bastante al utilizado por otro autor ingles, Shakespeare: 2,96% vs 3,51%.
 
@@ -77,4 +77,51 @@ Para no acceder a los metodos internos de la clase NGram, genero un getter que m
 Para ordenar los diccionarios de menor a mayor usé la funcion 'sorted' de python al definir el diccionario por comprensión.
 
 El generador de tokens lo hice utilizando la funcion radom.choices, a la cual le pasé la lista de tokens junto a la lista de sus pesos. 
-Para el generador de oraciones, viendo como estaba formulado el test, forcé a que las oraciones comenzaran con el caracter de inicio a fin de generar oraciones completas. En principio gregué en el test el caracter </s> dado que lo genero, pero luego decidí omitirlo en el generador. 
+Para el generador de oraciones, viendo como estaba formulado el test, forcé a que las oraciones comenzaran con el caracter de inicio a fin de generar oraciones completas. En principio gregué en el test el caracter </s> dado que lo genero, pero luego viendo como continuaba el ejercicio, vi que debía omitirlo en el generador.
+
+Por una cuestion de tiempo, estoy usando solamente uno de los libros de Chesterton. La idea es mas adelante usar todos.
+
+Unigram:
+- a and lack letter
+- last the
+- fact we here the very at say Warner in " mere
+- red We have and you returned windy . to dock fiver of which back he the the find stood <s> said <s> and cried parasol shadows , he Of have tiny scoots of I albino of London the a go young . As turrets as of instant of I not No . a can of as , and I pole <s> than back the clergyman him Not " and dark-gray of ` advanced so always Mrs " . other for
+
+Bigram:
+- he is flat square , fixing his brain and unspoilt riddle , she smiled and birds and myself , call at the thunderbolt , ' s letter I suppose ) , " What would have been on this is something indifferent and tears across the other two actors is the heights beyond the little time that it produced two words were really astonished to chase him nearly run down in the dying fish ; they were puddles puddles and was a man the grivest apprehensions .
+- " who knows what mystery .
+- But really the houses it gave irresolute youths an atmosphere of arbitration , true " let alone in which has to be the garden quite agree with a prosecutor pursuin '
+- "
+
+Trigram:
+
+
+Quadrigram:
+
+
+- Ejercicio 4.
+Para este ejercicio completé la clase AddOneNGram la cual hereda de NGram, por lo que tiene todos sus métodos. Para obtener la cantidad de elementos del alfabeto utilice la funcion get_ngrams de la clase NGram (generada anteriormente), haciendo un flat a la lista recibida y metiendo los elementos en un conjunto a fin de eliminar repetidos. 
+Con estos cambios generé cuatro modelos (n = 1, ..., 4)
+
+- Ejercicio 5.
+Mediante el script eval.py analicé los 4 modelos generados en el ejercicio anterior. Los resultados son los siguientes:
+
+Unigram:
+  Log probability: -639708.1687413851
+  Cross entropy: 6.276633098258275
+  Perplexity: 77.5273312490472
+Bigram:
+  Log probability: -1130481.5105199092
+  Cross entropy: 11.091960385403205
+  Perplexity: 2182.7941778531745
+Trigram:
+  Log probability: -1250125.2252017916
+  Cross entropy: 12.265870202825692
+  Perplexity: 4924.870940079708
+Quadrigram:
+  Log probability: -1220380.805217252
+  Cross entropy: 11.974026483945606
+  Perplexity: 4022.9176313151183
+
+
+Por otro lado separé el corpus en entrenamiento y test.

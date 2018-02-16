@@ -19,17 +19,17 @@ import pickle
 import languagemodeling.config as cfg
 import languagemodeling.utils as utils
 
-from languagemodeling.ngram import NGram
+from languagemodeling.ngram import NGram, AddOneNGram
 # from languagemodeling.ngram import NGram, AddOneNGram, InterpolatedNGram
 
 from nltk.corpus import PlaintextCorpusReader
 from nltk.tokenize import RegexpTokenizer
 
-# models = {
-#     'ngram': NGram,
-#     'addone': AddOneNGram,
-#     'inter': InterpolatedNGram,
-# }
+models = {
+    'ngram': NGram,
+    'addone': AddOneNGram,
+    # 'inter': InterpolatedNGram,
+}
 
 
 if __name__ == '__main__':
@@ -45,9 +45,8 @@ if __name__ == '__main__':
 
     # train the model
     n = int(opts['-n'])
-    model = NGram(n, sents)
-    # model_class = models[opts['-m']]
-    # model = model_class(n, sents)
+    model_class = models[opts['-m']]
+    model = model_class(n, sents)
 
     # save it
     filename = opts['-o']

@@ -79,7 +79,7 @@ class NGram(LanguageModel):
         self._n = n
         self._count = self.generate_n_grams_count_dict(n, sents)
 
-    def get_ngrams(self):
+    def get_ngrams(self, lenght=None):
         return self._count.keys()
 
     def count(self, tokens):
@@ -159,10 +159,10 @@ class AddOneNGram(NGram):
         super().__init__(n, sents)
 
         # compute vocabulary
-        self._voc = voc = set()
-        # WORK HERE!!
-
-        self._V = len(voc)  # vocabulary size
+        self._voc = set([item for sublist in super().get_ngrams()
+                         for item in sublist])
+        self._voc.discard(START)
+        self._V = len(self._voc)  # vocabulary size
 
     def V(self):
         """Size of the vocabulary.
@@ -176,12 +176,13 @@ class AddOneNGram(NGram):
         prev_tokens -- the previous n-1 tokens (optional only if n = 1).
         """
         n = self._n
+        V = self._V
         if not prev_tokens:
             # if prev_tokens not given, assume 0-uple:
             prev_tokens = ()
         assert len(prev_tokens) == n - 1
-
-        # WORK HERE!!
+        tokens = prev_tokens + (token,)
+        return float(self.count(tokens) + 1) / float(self.count(prev_tokens) + V)
 
 
 class InterpolatedNGram(NGram):

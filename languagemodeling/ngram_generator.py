@@ -31,8 +31,6 @@ class NGramGenerator(object):
         self._sorted_probs = {k: sorted(v.items(), key=lambda t: t[1])
                               for k, v in self._probs.items()}
 
-        print (self._sorted_probs)
-
     def generate_sent(self):
         """Randomly generate a sentence."""
         n = self._n

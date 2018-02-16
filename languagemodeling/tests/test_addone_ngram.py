@@ -11,12 +11,13 @@ class TestAddOneNGram(TestCase):
             'el gato come pescado .'.split(),
             'la gata come salmón .'.split(),
         ]
+        self.total = 14
 
     def test_count_1gram(self):
         model = AddOneNGram(1, self.sents)
 
         counts = {
-            (): 12,
+            # (): self.total,
             ('el',): 1,
             ('gato',): 1,
             ('come',): 2,
@@ -68,9 +69,9 @@ class TestAddOneNGram(TestCase):
         model = AddOneNGram(1, self.sents)
 
         probs = {
-            'pescado': (1.0 + 1.0) / (12.0 + 9.0),
-            'come': (2.0 + 1.0) / (12.0 + 9.0),
-            'salame': 1.0 / (12.0 + 9.0),
+            'pescado': (1.0 + 1.0) / (self.total + 9.0),
+            'come': (2.0 + 1.0) / (self.total + 9.0),
+            'salame': 1.0 / (self.total + 9.0),
         }
         for token, p in probs.items():
             self.assertAlmostEqual(model.cond_prob(token), p)
