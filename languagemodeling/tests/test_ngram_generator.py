@@ -95,10 +95,10 @@ class TestNGramGenerator(TestCase):
 
         # all the possible generated sentences for 2-grams:
         sents = [
-            'el gato come pescado . </s>',
-            'la gata come salmón . </s>',
-            'el gato come salmón . </s>',
-            'la gata come pescado . </s>',
+            'el gato come pescado .',
+            'la gata come salmón .',
+            'el gato come salmón .',
+            'la gata come pescado .',
         ]
 
         for i in range(100):

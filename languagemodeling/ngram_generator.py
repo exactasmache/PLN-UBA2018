@@ -51,7 +51,7 @@ class NGramGenerator(object):
             if token == END:
                 break
 
-        return sent
+        return sent[:-1]
 
     def generate_token(self, prev_tokens=None):
         """Randomly generate a token, given prev_tokens.
