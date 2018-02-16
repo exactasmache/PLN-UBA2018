@@ -33,24 +33,19 @@ A fin de que los resultados se centraran más sobre su escritura, eliminé de to
 
 Las primeras pruebas que hice utilizaron el tokenizador por default del método PlaintextCorpusReader, luego se generaron dos tokenizadores más a partir de dos expresiones regulares distintas: uno básico y otro más sofisticados (ambos se encuentran en el script utils.py). Sobre los tres tipos de tokenizadores se realizaron estadisticas simples de palabras mas utilizadas, cantidad de tokens y vocabulario. Estos resultados se encuentran en la siguientes tablas, donde las columnas de la primera denotan de izquierda a derecha: la palabra, la cantidad de apariciones utilizando el tokenizador default, el básico y el sofisticado, respectivamente.
 
- CANTIDAD DE APARICIONES
- +-----------------------------+-----------------+------------+
-| palabra | default | basico | sofisticado |
-+=============================+=================+============+
-|``the``  |  58814  |            |
-+-----------------------------+-----------------+------------+
-|``,``   | 8               | uimsbf     |
-+-----------------------------+-----------------+------------+
-|``.``   | 8               | uimsbf     |
-+-----------------------------+-----------------+------------+
-|``of``  |                 |            |
-+-----------------------------+-----------------+------------+
-|``a``   | 16              | uimsbf     |
-+-----------------------------+-----------------+------------+
-|``and`` |                 |            |
-+-----------------------------+-----------------+------------+
-|``to``  |                 |            |
-+-----------------------------+-----------------+------------+
+ .. list-table:: CANTIDAD DE APARICIONES
+   :widths: 25 25 50
+   :header-rows: 1
+
+   * - Heading row 1, column 1
+     - Heading row 1, column 2
+     - Heading row 1, column 3
+   * - Row 1, column 1
+     -
+     - Row 1, column 3
+   * - Row 2, column 1
+     - Row 2, column 2
+     - Row 2, column 3
  palabra   default   basico    sofisticado
  the     : 58814     58800     58800
  ,       : 51626     55584     55584
