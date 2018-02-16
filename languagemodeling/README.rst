@@ -70,3 +70,8 @@ En segundo lugar completé el metodo 'cond_prob', encargado de, dado un token y 
 Luego, para completar los metodos de las probabilidades de sentencias, agregué una funcion para centralizar el cálculo tanto de la lineal como de la logaritmica; dicho método se llama 'calculate_prob' y recibe, ademas de la oracion, el tipo de probabilidad a calcular (por default es 'lineal'). Dentro del mismo se genera un conjunto de tokens previos (el cual se genera como n-1 tokens iniciales, a fin de hacer un barrido mediante una ventana) para poder reutilizar la funcion de probabilidad por token. Asimismo se completa la oracion con los tokens de principio y fin, y se itera con una ventana, realizando la suma (en caso de la logaritmica) o la multiplicacion de las probabilidades. Tuve un error cuando la probabilidad era cero para calcular el logaritmo, por lo que en dicho caso detengo la iteracion y devuelvo infinito directamente (en caso de la lineal, devuelvo 0).
 
 Debido a lo aclarado previamente, tuve que centralizar el valor de self.total en la clase Test para cambiarla por 14 en lugar de 12.
+
+
+- Ejercicio 3.
+Para no acceder a los metodos internos de la clase NGram, genero un getter que me devuelve los ngramas que son clave en el diccionario de _count. A esa lista le agrego la tupla vacia y la uso para generar el diccionario de probabilidades. Para ello tomo todos los ngramas de longitud n, un calculo la probabilidad de aparicion del ultimo token, dado los primeros n-1; ese valor lo guardo en el diccionario de probabilidades condicionales. En caso de n=1, todo quedará asignado a la tupla vacia.
+Para ordenar los diccionarios de menor a mayor usé la funcion 'sorted' de python al definir el diccionario por comprensión.

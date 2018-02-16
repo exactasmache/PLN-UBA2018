@@ -12,7 +12,14 @@ class NGramGenerator(object):
 
         # compute the probabilities
         probs = defaultdict(dict)
-        # WORK HERE!!
+
+        tokens = list(model.get_tokens())+[()]
+
+        for p_tkn in tokens:
+          if len(p_tkn) == self._n:
+            tkn, p_tkn = p_tkn[-1], p_tkn[:-1]
+            p = model.cond_prob(tkn, p_tkn)
+            probs[p_tkn][tkn] = p
 
         self._probs = dict(probs)
 

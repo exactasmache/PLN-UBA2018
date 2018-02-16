@@ -79,6 +79,9 @@ class NGram(LanguageModel):
         self._n = n
         self._count = self.get_n_grams_count_dict(n, sents)
 
+    def get_tokens(self):
+        return self._count.keys()
+
     def count(self, tokens):
         """Count for an n-gram or (n-1)-gram.
 
@@ -115,14 +118,14 @@ class NGram(LanguageModel):
           p_type -- the probability type to calculate.
         """
         res = 0 if p_type == 'log' else 1
-        
+
         sent = [START] + sent + [END]
         p_tokens = tuple([START] * (self._n-1))
 
         for token in sent[self._n-1:]:
             prob = self.cond_prob(token, p_tokens)
             if prob == 0:
-              return float('-inf') if p_type == 'log' else 0
+                return float('-inf') if p_type == 'log' else 0
             res = res + math.log(prob, 2) if p_type == 'log' else res * prob
             p_tokens = (p_tokens + (token,))[1:]
 
@@ -141,7 +144,6 @@ class NGram(LanguageModel):
 
         sent -- the sentence as a list of tokens.
         """
-        
 
         return self.calculate_prob(sent, 'log')
 
