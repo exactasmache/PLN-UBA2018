@@ -124,29 +124,30 @@ Trabajo Practico N 1
 
  Por una cuestion de tiempo, estoy usando solamente uno de los libros de Chesterton. La idea es mas adelante usar todos.
 
- .. list-table:: Unigram
-  :widths: 100
-  :header-rows: 0
+ Unigram::
 
-  * - a and lack letter
-    - last the
-    - fact we here the very at say Warner in " mere
-    - red We have and you returned windy . to dock fiver of which back he the the find stood <s> said <s> and cried parasol shadows , he Of have tiny scoots of I albino of London the a go young . As turrets as of instant of I not No . a can of as , and I pole <s> than back the clergyman him Not " and dark-gray of ` advanced so always Mrs " . other for
+ - a and lack letter
 
- Bigram:
+ - last the
 
-  - he is flat square , fixing his brain and unspoilt riddle , she smiled and birds and myself , call at the thunderbolt , ' s letter I suppose ) , " What would have been on this is something indifferent and tears across the other two actors is the heights beyond the little time that it produced two words were really astonished to chase him nearly run down in the dying fish ; they were puddles puddles and was a man the grivest apprehensions .
+ - fact we here the very at say Warner in " mere
+ 
+ - red We have and you returned windy . to dock fiver of which back he the the find stood <s> said <s> and cried parasol shadows , he Of have tiny scoots of I albino of London the a go young . As turrets as of instant of I not No . a can of as , and I pole <s> than back the clergyman him Not " and dark-gray of ` advanced so always Mrs " . other for
 
-  - " who knows what mystery .
+ Bigram::
 
-  - But really the houses it gave irresolute youths an atmosphere of arbitration , true " let alone in which has to be the garden quite agree with a prosecutor pursuin '
+ - he is flat square , fixing his brain and unspoilt riddle , she smiled and birds and myself , call at the thunderbolt , ' s letter I suppose ) , " What would have been on this is something indifferent and tears across the other two actors is the heights beyond the little time that it produced two words were really astonished to chase him nearly run down in the dying fish ; they were puddles puddles and was a man the grivest apprehensions .
 
-  - "
+ - " who knows what mystery .
 
- Trigram:
+ - But really the houses it gave irresolute youths an atmosphere of arbitration , true " let alone in which has to be the garden quite agree with a prosecutor pursuin '
+
+ - "
+
+ Trigram::
 
 
- Quadrigram:
+ Quadrigram::
 
 
 - Ejercicio 4.
