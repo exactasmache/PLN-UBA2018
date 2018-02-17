@@ -124,31 +124,31 @@ Trabajo Practico N 1
 
  Unigram:
 
- - a and lack letter
-
- - last the
-
- - fact we here the very at say Warner in " mere
-
- - red We have and you returned windy . to dock fiver of which back he the the find stood <s> said <s> and cried parasol shadows , he Of have tiny scoots of I albino of London the a go young . As turrets as of instant of I not No . a can of as , and I pole <s> than back the clergyman him Not " and dark-gray of ` advanced so always Mrs " . other for
+ - to . the the contain to When culture . at exhausted by and shall be not of than as inadequacy
+ - Rupert t own the
+ - office insincerity he
+ - or , ,
 
  Bigram:
 
- - he is flat square , fixing his brain and unspoilt riddle , she smiled and birds and myself , call at the thunderbolt , ' s letter I suppose ) , " What would have been on this is something indifferent and tears across the other two actors is the heights beyond the little time that it produced two words were really astonished to chase him nearly run down in the dying fish ; they were puddles puddles and was a man the grivest apprehensions .
-
- - " who knows what mystery .
-
- - But really the houses it gave irresolute youths an atmosphere of arbitration , true " let alone in which has to be the garden quite agree with a prosecutor pursuin '
-
- - "
+ - People call it , as discussed in our words as his crown the Giant-Killer really human tradition .
+ - I might be even in Kensington , has always denouncing the top of foreign land . '
+ - Nietzsche , her a foolish writing an ordinary things increases the diversion , They say that it ' t see Number One , but his feet .
+ - Unless a diary in all round the mass of its boundaries .
 
  Trigram::
 
- TODAVIA ESTA CORRIENDO
+ - Now I found my way in which full justice is done in a corner , and the red handkerchief , I think the French Revolution , " Lie number one .
+ - While they leave off talking about them , to be both happy and conscious life is sentiment than cynicism .
+ - The simple result will be relieved to hear what Hook was still largely known throughout Europe , and covered every sea ; and the débris of leaves , Though Ireland be but criminal ? "
+ - He could only be called reactionary .
 
  Quadrigram::
  
- TODAVIA ESTA CORRIENDO
+ - What did you hear ? I asked irritably .
+ - Is that Wimpole ?
+ - The man who would allow them to feast ?
+ - A joke is by its nature more hasty than illumination art ; it is a better ale to drink , And by the time they had risen a few hundred feet higher nothing could be further from all this human experience , allied with the Christian , from their point of view , thinks long and seriously about the public needs , and he threw himself into replying to them with a sudden simplicity and cheerfulness : Oh , I knew that without seeing it , even if it should lead a man first to a negress and then to ask men to worship a being who often acted like an angry god and always like a god .
 
 
 - Ejercicio 4.
