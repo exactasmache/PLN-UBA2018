@@ -12,16 +12,13 @@ class TestNGram(TestCase):
             'el gato come pescado .'.split(),
             'la gata come salmón .'.split(),
         ]
-        # NOTA: No entiendo por que el total es 12 y no 14.
-        # Son 7 tokens por oracion teniendo en cuenta <s> y </s>
-        self.total = 14.
+        self.total = 12.
 
     def test_count_1gram(self):
         ngram = NGram(1, self.sents)
 
         counts = {
-            # (): int(self.total),
-            ('<s>',): 2,
+            (): int(self.total),
             ('el',): 1,
             ('gato',): 1,
             ('come',): 2,
@@ -103,8 +100,8 @@ class TestNGram(TestCase):
         ngram = NGram(1, self.sents)
 
         probs = {
-            'pescado': 1 / 14.0,
-            'come': 2 / 14.0,
+            'pescado': 1 / self.total,
+            'come': 2 / self.total,
             'salame': 0.0,
         }
         for token, p in probs.items():
@@ -126,10 +123,10 @@ class TestNGram(TestCase):
         sents = {
             # 'come', '.', '<s>' and '</s>' have prob 2/total, 
             # the rest have 1/total.
-            'el gato come pescado .': (2 / self.total)**4 * (1 / self.total)**3,
-            'la gata come salmón .': (2 / self.total)**4 * (1 / self.total)**3,
+            'el gato come pescado .': (2 / self.total)**3 * (1 / self.total)**3,
+            'la gata come salmón .': (2 / self.total)**3 * (1 / self.total)**3,
             'el gato come salame .': 0.0,  # 'salame' unseen
-            'la la la': (2 / self.total)**2 * (1 / self.total)**3,
+            'la la la': (2 / self.total) * (1 / self.total)**3,
         }
         for sent, prob in sents.items():
             self.assertAlmostEqual(ngram.sent_prob(
@@ -159,10 +156,10 @@ class TestNGram(TestCase):
         sents = {
             # 'come', '.', '<s>' and '</s>' have prob 2/total, 
             # the rest have 1/total.
-            'el gato come pescado .': 4 * log2(2 / self.total) + 3 * log2(1 / self.total),
-            'la gata come salmón .': 4 * log2(2 / self.total) + 3 * log2(1 / self.total),
+            'el gato come pescado .': 3 * log2(2 / self.total) + 3 * log2(1 / self.total),
+            'la gata come salmón .': 3 * log2(2 / self.total) + 3 * log2(1 / self.total),
             'el gato come salame .': -inf,  # 'salame' unseen
-            'la la la': 2* log2(2 / self.total) + 3 * log2(1 / self.total),
+            'la la la': log2(2 / self.total) + 3 * log2(1 / self.total),
         }
         for sent, prob in sents.items():
             self.assertAlmostEqual(ngram.sent_log_prob(sent.split()), prob, msg=sent)

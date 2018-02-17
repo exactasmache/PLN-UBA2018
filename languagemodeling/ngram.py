@@ -52,10 +52,9 @@ class NGram(LanguageModel):
 
         top = len(sent)
         for i in range(top - n + 1):
-            ngram = tuple(sent[i: i + n])
+            ngram = tuple(sent[i:i+n])
             count[ngram] += 1
-            if ngram[:-1]:
-                count[ngram[:-1]] += 1
+            count[ngram[:-1]] += 1
 
     def generate_n_grams_count_dict(self, n, sents):
         """
@@ -64,10 +63,8 @@ class NGram(LanguageModel):
         """
         count = defaultdict(int)
         for sent in sents:
-            # we add the start and end of sentence's characters
-            sent = [START] + sent + [END]
+            sent = [START] * (n - 1) + sent + [END]
             self.generate_n_grams_count_dict_by_sent(n, sent, count)
-
         return dict(count)
 
     def __init__(self, n, sents):
@@ -95,20 +92,18 @@ class NGram(LanguageModel):
         token -- the token.
         prev_tokens -- the previous n-1 tokens (optional only if n = 1).
         """
-        # if prev_tokens not given, assume 0-uple:
+        # if now prev_tokens, then prev_tokens=():
         prev_tokens = prev_tokens or ()
         assert len(prev_tokens) == self._n - 1
 
         # if string given, we convert it to a 1-uple:
         token = (token,) if isinstance(token, str) else token
-        tokens = prev_tokens+token
 
-        appearances = self._count.get(tokens, 0)
+        amount = self._count.get(prev_tokens, 0)
+        if amount == 0:
+            return 0.
 
-        amount = sum([v for k, v in self._count.items()
-                      if len(k) == len(tokens) and k[:-1] == prev_tokens])
-
-        return 0. if amount == 0 else appearances / amount
+        return self._count.get(prev_tokens+token, 0) / float(amount)
 
     def calculate_prob(self, sent, p_type='linear'):
         """Probability of a sentence given previous tokens and probability type.
@@ -118,11 +113,9 @@ class NGram(LanguageModel):
           p_type -- the probability type to calculate.
         """
         res = 0 if p_type == 'log' else 1
+        p_tokens = (START,) * (self._n-1)
 
-        sent = [START] + sent + [END]
-        p_tokens = tuple([START] * (self._n-1))
-
-        for token in sent[self._n-1:]:
+        for token in sent+[END]:
             prob = self.cond_prob(token, p_tokens)
             if prob == 0:
                 return float('-inf') if p_type == 'log' else 0
