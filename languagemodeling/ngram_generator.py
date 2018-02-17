@@ -40,7 +40,7 @@ class NGramGenerator(object):
         # this enforces to generate complete phrases
         # otherwise we should start without the START
         # token. I mean: with p_tokens = []
-        p_tokens = tuple([START] * (n))
+        p_tokens = tuple([START] * (n-1))
 
         while True:
             token = self.generate_token(tuple(p_tokens))
@@ -57,8 +57,8 @@ class NGramGenerator(object):
         prev_tokens -- the previous n-1 tokens (optional only if n = 1).
         """
         n = self._n
-        if not prev_tokens:
-            prev_tokens = ()
+        prev_tokens = prev_tokens or ()
+
         assert len(prev_tokens) == n - 1
 
         probs = self._sorted_probs[prev_tokens]

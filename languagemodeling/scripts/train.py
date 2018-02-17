@@ -1,11 +1,12 @@
 """Train an n-gram model.
 
 Usage:
-  train.py [-m <model>] -n <n> -o <file>
+  train.py [-v] [-m <model>] -n <n> -o <file>
   train.py -h | --help
 
 Options:
   -n <n>        Order of the model.
+  -v            Show basical statistics.
   -m <model>    Model to use [default: ngram]:
                   ngram: Unsmoothed n-grams.
                   addone: N-grams with add-one smoothing.
@@ -41,7 +42,11 @@ if __name__ == '__main__':
     chesterton_corpus = PlaintextCorpusReader(
         cfg.corpus_root, '.*\.txt', word_tokenizer=tokenizer)
     sents = chesterton_corpus.sents()
-    utils.show_basic_statistics(sents)
+    
+    verbose = opts['-v']
+
+    if verbose:
+      utils.show_basic_statistics(sents)
 
     # train the model
     n = int(opts['-n'])
