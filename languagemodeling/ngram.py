@@ -49,16 +49,15 @@ class NGram(LanguageModel):
         sent -- list of tokens.
         count -- defaultdict of count of ngrams
         """
-
-        top = len(sent)
-        for i in range(top - n + 1):
-            if all:
-                for k in range(n-1):
-                    ngram = tuple(sent[i:i+k])
-            else:
-                ngram = tuple(sent[i:i+n])
-                count[ngram] += 1
-                count[ngram[:-1]] += 1
+        r = range(0, n+1) if all else [n]
+        for k in r:
+            ksent = [START] * (k - 1) + sent + [END]
+            top = len(ksent)
+            for i in range(top - max(k, 1) + 1):
+                kgram = tuple(ksent[i:i+k])
+                count[kgram] += 1
+                if not all:
+                  count[kgram[:-1]] += 1 
 
     def generate_n_grams_count_dict(self, n, sents, all=False):
         """
@@ -67,8 +66,7 @@ class NGram(LanguageModel):
         """
         count = defaultdict(int)
         for sent in sents:
-            sent = [START] * (n - 1) + sent + [END]
-            self.generate_n_grams_count_dict_by_sent(n, sent, count)
+            self.generate_n_grams_count_dict_by_sent(n, sent, count, all)
         return dict(count)
 
     def __init__(self, n, sents):
@@ -209,8 +207,8 @@ class InterpolatedNGram(NGram):
 
         print('Computing counts...')
         # COMPUTE COUNTS FOR ALL K-GRAMS WITH K <= N
-        self._count_all = self.generate_n_grams_count_dict(n, train_sents, all)
-
+        self._count_all = self.generate_n_grams_count_dict(n, train_sents, True)
+        
         # compute vocabulary size for add-one in the last step
         self._addone = addone
         if addone:
@@ -218,34 +216,34 @@ class InterpolatedNGram(NGram):
             self._voc = voc = set()
             # WORK HERE!!
 
-            self._V = len(voc)
+        #     self._V = len(voc)
 
-        # compute gamma if not given
-        if gamma is not None:
-            self._gamma = gamma
-        else:
-            print('Computing gamma...')
-            # use grid search to choose gamma
-            min_gamma, min_p = None, float('inf')
+        # # compute gamma if not given
+        # if gamma is not None:
+        #     self._gamma = gamma
+        # else:
+        #     print('Computing gamma...')
+        #     # use grid search to choose gamma
+        #     min_gamma, min_p = None, float('inf')
 
-            # WORK HERE!! TRY DIFFERENT VALUES BY HAND:
-            for gamma in [100 + i * 50 for i in range(10)]:
-                self._gamma = gamma
-                p = self.perplexity(held_out_sents)
-                print('  {} -> {}'.format(gamma, p))
+        #     # WORK HERE!! TRY DIFFERENT VALUES BY HAND:
+        #     for gamma in [100 + i * 50 for i in range(10)]:
+        #         self._gamma = gamma
+        #         p = self.perplexity(held_out_sents)
+        #         print('  {} -> {}'.format(gamma, p))
 
-                if p < min_p:
-                    min_gamma, min_p = gamma, p
+        #         if p < min_p:
+        #             min_gamma, min_p = gamma, p
 
-            print('  Choose gamma = {}'.format(min_gamma))
-            self._gamma = min_gamma
+        #     print('  Choose gamma = {}'.format(min_gamma))
+        #     self._gamma = min_gamma
 
     def count(self, tokens):
         """Count for an k-gram for k <= n.
 
         tokens -- the k-gram tuple.
         """
-        return self._count_all
+        return self._count_all.get(tokens, 0)
 
     def cond_prob(self, token, prev_tokens=None):
         """Conditional probability of a token.
