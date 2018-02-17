@@ -43,7 +43,7 @@ class LanguageModel(object):
 
 class NGram(LanguageModel):
 
-    def generate_n_grams_count_dict_by_sent(self, n, sent, count):
+    def generate_n_grams_count_dict_by_sent(self, n, sent, count, all=False):
         """
         n -- order of the model.
         sent -- list of tokens.
@@ -52,11 +52,15 @@ class NGram(LanguageModel):
 
         top = len(sent)
         for i in range(top - n + 1):
-            ngram = tuple(sent[i:i+n])
-            count[ngram] += 1
-            count[ngram[:-1]] += 1
+            if all:
+                for k in range(n-1):
+                    ngram = tuple(sent[i:i+k])
+            else:
+                ngram = tuple(sent[i:i+n])
+                count[ngram] += 1
+                count[ngram[:-1]] += 1
 
-    def generate_n_grams_count_dict(self, n, sents):
+    def generate_n_grams_count_dict(self, n, sents, all=False):
         """
         n -- order of the model.
         sents -- list of sentences, each one being a list of tokens.
@@ -143,6 +147,10 @@ class NGram(LanguageModel):
 
 class AddOneNGram(NGram):
 
+    def compute_vocabulary(self):
+        return set([item for sublist in super().get_ngrams()
+                    for item in sublist])
+
     def __init__(self, n, sents):
         """
         n -- order of the model.
@@ -152,8 +160,7 @@ class AddOneNGram(NGram):
         super().__init__(n, sents)
 
         # compute vocabulary
-        self._voc = set([item for sublist in super().get_ngrams()
-                         for item in sublist])
+        self._voc = self.compute_vocabulary()
         self._voc.discard(START)
         self._V = len(self._voc)  # vocabulary size
 
@@ -201,8 +208,8 @@ class InterpolatedNGram(NGram):
             held_out_sents = sents[m:]
 
         print('Computing counts...')
-        # WORK HERE!!
         # COMPUTE COUNTS FOR ALL K-GRAMS WITH K <= N
+        self._count_all = self.generate_n_grams_count_dict(n, train_sents, all)
 
         # compute vocabulary size for add-one in the last step
         self._addone = addone
@@ -238,7 +245,7 @@ class InterpolatedNGram(NGram):
 
         tokens -- the k-gram tuple.
         """
-        # WORK HERE!! (JUST A RETURN STATEMENT)
+        return self._count_all
 
     def cond_prob(self, token, prev_tokens=None):
         """Conditional probability of a token.
