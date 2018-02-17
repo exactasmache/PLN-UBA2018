@@ -12,7 +12,7 @@ class TestNGramGenerator(TestCase):
             'el gato come pescado .'.split(),
             'la gata come salmón .'.split(),
         ]
-        self.total = 14.
+        self.total = 12.
 
     def test_init_1gram(self):
         ngram = NGram(1, self.sents)
@@ -20,7 +20,6 @@ class TestNGramGenerator(TestCase):
 
         probs = {
             (): {
-                '<s>': 2 / self.total,  # Agrego esta linea
                 'el': 1 / self.total,
                 'gato': 1 / self.total,
                 'come': 2 / self.total,
@@ -101,6 +100,6 @@ class TestNGramGenerator(TestCase):
             'la gata come pescado .',
         ]
 
-        for i in range(100):
+        for _ in range(100):
             sent = generator.generate_sent()
             self.assertTrue(' '.join(sent) in sents, sent)
