@@ -11,13 +11,13 @@ class TestAddOneNGram(TestCase):
             'el gato come pescado .'.split(),
             'la gata come salmón .'.split(),
         ]
-        self.total = 14
+        self.total = 12
 
     def test_count_1gram(self):
         model = AddOneNGram(1, self.sents)
 
         counts = {
-            # (): self.total,
+            (): self.total,
             ('el',): 1,
             ('gato',): 1,
             ('come',): 2,

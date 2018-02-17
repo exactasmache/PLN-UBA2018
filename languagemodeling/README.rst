@@ -162,27 +162,27 @@ Trabajo Practico N 1
 
  Unigram:
 
- - Log probability: -639708.1687413851
- - Cross entropy: 6.276633098258275
- - Perplexity: 77.5273312490472
+ - Log probability: -1000700.785441279
+ - Cross entropy: 9.818589129026766
+ - Perplexity: 903.0043510658176
 
  Bigram:
 
- - Log probability: -1130481.5105199092
- - Cross entropy: 11.091960385403205
- - Perplexity: 2182.7941778531745
+ - Log probability: -1138964.1555715788
+ - Cross entropy: 11.175189666024773
+ - Perplexity: 2312.423087161682
 
  Trigram:
 
- - Log probability: -1250125.2252017916
- - Cross entropy: 12.265870202825692
- - Perplexity: 4924.870940079708
+ - Log probability: -1407232.658596782
+ - Cross entropy: 13.807363284537544
+ - Perplexity: 14336.083097852614
 
  Quadrigram:
 
- - Log probability: -1220380.805217252
- - Cross entropy: 11.974026483945606
- - Perplexity: 4022.9176313151183
+ - Log probability: -1478995.35455488
+ - Cross entropy: 14.51147827740539
+ - Perplexity: 23355.557742842422
 
 
  Por otro lado separé el corpus en entrenamiento y test.
