@@ -24,7 +24,7 @@ class LanguageModel(object):
 
     def log_prob(self, sents):
         result = 0.0
-        for i, sent in enumerate(sents):
+        for _, sent in enumerate(sents):
             lp = self.sent_log_prob(sent)
             if lp == -math.inf:
                 return lp

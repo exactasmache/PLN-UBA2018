@@ -68,7 +68,7 @@ class TestNGramGenerator(TestCase):
         ngram = NGram(2, self.sents)
         generator = NGramGenerator(ngram)
 
-        for i in range(100):
+        for _ in range(100):
             # after 'el' always comes 'gato':
             token = generator.generate_token(('el',))
             self.assertEqual(token, 'gato')
@@ -84,7 +84,7 @@ class TestNGramGenerator(TestCase):
         voc = {'<s>', 'el', 'gato', 'come', 'pescado',
                '.', 'la', 'gata', 'salmón', '</s>'}
 
-        for i in range(100):
+        for _ in range(100):
             sent = generator.generate_sent()
             self.assertTrue(set(sent).issubset(voc))
 

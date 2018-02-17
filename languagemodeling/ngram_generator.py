@@ -40,7 +40,7 @@ class NGramGenerator(object):
         # this enforces to generate complete phrases
         # otherwise we should start without the START
         # token. I mean: with p_tokens = []
-        p_tokens = tuple([START] * (self._n-1))
+        p_tokens = tuple([START] * (n))
 
         while True:
             token = self.generate_token(tuple(p_tokens))
