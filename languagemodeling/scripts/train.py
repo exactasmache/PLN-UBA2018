@@ -20,8 +20,7 @@ import pickle
 import languagemodeling.config as cfg
 import languagemodeling.utils as utils
 
-from languagemodeling.ngram import NGram, AddOneNGram
-# from languagemodeling.ngram import NGram, AddOneNGram, InterpolatedNGram
+from languagemodeling.ngram import NGram, AddOneNGram, InterpolatedNGram
 
 from nltk.corpus import PlaintextCorpusReader
 from nltk.tokenize import RegexpTokenizer
@@ -29,7 +28,7 @@ from nltk.tokenize import RegexpTokenizer
 models = {
     'ngram': NGram,
     'addone': AddOneNGram,
-    # 'inter': InterpolatedNGram,
+    'inter': InterpolatedNGram,
 }
 
 
