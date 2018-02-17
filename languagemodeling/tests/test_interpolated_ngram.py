@@ -11,6 +11,7 @@ class TestInterpolatedNGram(TestCase):
             'el gato come pescado .'.split(),
             'la gata come salmón .'.split(),
         ]
+        self.total = 12.
 
     def test_count_1gram(self):
         model = InterpolatedNGram(1, self.sents, gamma=1.0)
@@ -64,8 +65,8 @@ class TestInterpolatedNGram(TestCase):
 
         # behaves just like unsmoothed n-gram
         probs = {
-            'pescado': 1 / 12.0,
-            'come': 2 / 12.0,
+            'pescado': 1 / self.total,
+            'come': 2 / self.total,
             'salame': 0.0,
         }
         for token, p in probs.items():
@@ -79,10 +80,10 @@ class TestInterpolatedNGram(TestCase):
         l1 = c1 / (c1 + gamma)
 
         probs = {
-            ('pescado', 'come'): l1 * 0.5 + (1.0 - l1) * 1 / 12.0,
-            ('salmón', 'come'): l1 * 0.5 + (1.0 - l1) * 1 / 12.0,
+            ('pescado', 'come'): l1 * 0.5 + (1.0 - l1) * 1 / self.total,
+            ('salmón', 'come'): l1 * 0.5 + (1.0 - l1) * 1 / self.total,
             ('salame', 'come'): 0.0,
-            ('</s>', '.'): l1 * 1.0 + (1.0 - l1) * 2 / 12.0,
+            ('</s>', '.'): l1 * 1.0 + (1.0 - l1) * 2 / self.total,
         }
         for (token, prev), p in probs.items():
             self.assertAlmostEqual(model.cond_prob(token, (prev,)), p, msg=token)
