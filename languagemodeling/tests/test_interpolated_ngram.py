@@ -30,9 +30,6 @@ class TestInterpolatedNGram(TestCase):
         }
         for gram, c in counts.items():
             self.assertEqual(model.count(gram), c, gram)
-        
-        # size of the vocabulary
-        self.assertEqual(model.V(), 9)
 
     def test_count_2gram(self):
         ngram = InterpolatedNGram(2, self.sents, gamma=1.0)
@@ -62,55 +59,56 @@ class TestInterpolatedNGram(TestCase):
         }
         for gram, c in counts.items():
             self.assertEqual(ngram.count(gram), c, gram)
+          
+    def test_cond_prob_1gram_no_addone(self):
+        model = InterpolatedNGram(1, self.sents, gamma=1.0, addone=False)
 
-    # def test_cond_prob_1gram_no_addone(self):
-    #     model = InterpolatedNGram(1, self.sents, gamma=1.0, addone=False)
+        # behaves just like unsmoothed n-gram
+        probs = {
+            'pescado': 1 / self.total,
+            'come': 2 / self.total,
+            'salame': 0.0,
+        }
+        for token, p in probs.items():
+            self.assertAlmostEqual(model.cond_prob(token), p, msg=token)
 
-    #     # behaves just like unsmoothed n-gram
-    #     probs = {
-    #         'pescado': 1 / self.total,
-    #         'come': 2 / self.total,
-    #         'salame': 0.0,
-    #     }
-    #     for token, p in probs.items():
-    #         self.assertAlmostEqual(model.cond_prob(token), p, msg=token)
+    def test_cond_prob_2gram_no_addone(self):
+        gamma = 1.0
+        model = InterpolatedNGram(2, self.sents, gamma, addone=False)
 
-    # def test_cond_prob_2gram_no_addone(self):
-    #     gamma = 1.0
-    #     model = InterpolatedNGram(2, self.sents, gamma, addone=False)
+        c1 = 2.0  # count for 'come' (and '.')
+        l1 = c1 / (c1 + gamma)
 
-    #     c1 = 2.0  # count for 'come' (and '.')
-    #     l1 = c1 / (c1 + gamma)
+        probs = {
+            ('pescado', 'come'): l1 * 0.5 + (1.0 - l1) * 1 / self.total,
+            ('salmón', 'come'): l1 * 0.5 + (1.0 - l1) * 1 / self.total,
+            ('salame', 'come'): 0.0,
+            ('</s>', '.'): l1 * 1.0 + (1.0 - l1) * 2 / self.total,
+        }
+        for (token, prev), p in probs.items():
+            self.assertAlmostEqual(model.cond_prob(token, (prev,)), p, msg=token)
 
-    #     probs = {
-    #         ('pescado', 'come'): l1 * 0.5 + (1.0 - l1) * 1 / self.total,
-    #         ('salmón', 'come'): l1 * 0.5 + (1.0 - l1) * 1 / self.total,
-    #         ('salame', 'come'): 0.0,
-    #         ('</s>', '.'): l1 * 1.0 + (1.0 - l1) * 2 / self.total,
-    #     }
-    #     for (token, prev), p in probs.items():
-    #         self.assertAlmostEqual(model.cond_prob(token, (prev,)), p, msg=token)
+    def test_norm_1gram(self):
+        models = [
+            InterpolatedNGram(1, self.sents, gamma=1.0, addone=False),
+            InterpolatedNGram(1, self.sents, gamma=5.0, addone=False),
+            InterpolatedNGram(1, self.sents, gamma=10.0, addone=False),
+            InterpolatedNGram(1, self.sents, gamma=50.0, addone=False),
+            InterpolatedNGram(1, self.sents, gamma=100.0, addone=False),
+            InterpolatedNGram(1, self.sents, gamma=1.0, addone=True),
+            InterpolatedNGram(1, self.sents, gamma=5.0, addone=True),
+            InterpolatedNGram(1, self.sents, gamma=10.0, addone=True),
+            InterpolatedNGram(1, self.sents, gamma=50.0, addone=True),
+            InterpolatedNGram(1, self.sents, gamma=100.0, addone=True),
+        ]
 
-    # def test_norm_1gram(self):
-    #     models = [
-    #         InterpolatedNGram(1, self.sents, gamma=1.0, addone=False),
-    #         InterpolatedNGram(1, self.sents, gamma=5.0, addone=False),
-    #         InterpolatedNGram(1, self.sents, gamma=10.0, addone=False),
-    #         InterpolatedNGram(1, self.sents, gamma=50.0, addone=False),
-    #         InterpolatedNGram(1, self.sents, gamma=100.0, addone=False),
-    #         InterpolatedNGram(1, self.sents, gamma=1.0, addone=True),
-    #         InterpolatedNGram(1, self.sents, gamma=5.0, addone=True),
-    #         InterpolatedNGram(1, self.sents, gamma=10.0, addone=True),
-    #         InterpolatedNGram(1, self.sents, gamma=50.0, addone=True),
-    #         InterpolatedNGram(1, self.sents, gamma=100.0, addone=True),
-    #     ]
+        tokens = {'el', 'gato', 'come', 'pescado', '.', 'la', 'gata', 'salmón', '</s>'}
 
-    #     tokens = {'el', 'gato', 'come', 'pescado', '.', 'la', 'gata', 'salmón', '</s>'}
-
-    #     for model in models:
-    #         prob_sum = sum(model.cond_prob(token) for token in tokens)
-    #         # prob_sum < 1.0 or almost equal to 1.0:
-    #         self.assertAlmostLessEqual(prob_sum, 1.0)
+        for model in models:
+            prob_sum = sum(model.cond_prob(token) for token in tokens)
+            # prob_sum < 1.0 or almost equal to 1.0:
+            if not prob_sum < 1.0:
+              self.assertAlmostEqual(prob_sum, 1.0)
 
     # def test_norm_2gram(self):
     #     models = [

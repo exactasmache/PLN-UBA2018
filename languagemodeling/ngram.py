@@ -94,15 +94,19 @@ class NGram(LanguageModel):
         """
         return self._count.get(tokens, 0)
 
-    def cond_prob(self, token, prev_tokens=None):
+    def cond_prob(self, token, prev_tokens=None, given_n=None):
         """Conditional probability of a token.
 
         token -- the token.
         prev_tokens -- the previous n-1 tokens (optional only if n = 1).
+        given_n -- allows
         """
+        n = self._n if given_n == None else given_n
+        print(n, len(prev_tokens))
+
         # if now prev_tokens, then prev_tokens=():
         prev_tokens = prev_tokens or ()
-        assert len(prev_tokens) == self._n - 1
+        assert len(prev_tokens) == n - 1
 
         # if string given, we convert it to a 1-uple:
         token = (token,) if isinstance(token, str) else token
@@ -176,9 +180,8 @@ class AddOneNGram(NGram):
         """
         n = self._n
         V = self._V
-        if not prev_tokens:
-            # if prev_tokens not given, assume 0-uple:
-            prev_tokens = ()
+        # if prev_tokens not given, assume 0-uple:
+        prev_tokens = prev_tokens or ()
         assert len(prev_tokens) == n - 1
         tokens = prev_tokens + (token,)
         return float(self.count(tokens) + 1) / float(self.count(prev_tokens) + V)
@@ -217,30 +220,25 @@ class InterpolatedNGram(NGram):
             self._voc = self.compute_vocabulary()
             self._V = len(self._voc)  # vocabulary size
 
-        # # compute gamma if not given
-        # if gamma is not None:
-        #     self._gamma = gamma
-        # else:
-        #     print('Computing gamma...')
-        #     # use grid search to choose gamma
-        #     min_gamma, min_p = None, float('inf')
+        # compute gamma if not given
+        if gamma is not None:
+            self._gamma = gamma
+        else:
+            print('Computing gamma...')
+            # use grid search to choose gamma
+            min_gamma, min_p = None, float('inf')
 
-        #     # WORK HERE!! TRY DIFFERENT VALUES BY HAND:
-        #     for gamma in [100 + i * 50 for i in range(10)]:
-        #         self._gamma = gamma
-        #         p = self.perplexity(held_out_sents)
-        #         print('  {} -> {}'.format(gamma, p))
+            # WORK HERE!! TRY DIFFERENT VALUES BY HAND:
+            for gamma in [100 + i * 50 for i in range(10)]:
+                self._gamma = gamma
+                p = self.perplexity(held_out_sents)
+                print('  {} -> {}'.format(gamma, p))
 
-        #         if p < min_p:
-        #             min_gamma, min_p = gamma, p
+                if p < min_p:
+                    min_gamma, min_p = gamma, p
 
-        #     print('  Choose gamma = {}'.format(min_gamma))
-        #     self._gamma = min_gamma
-
-    def V(self):
-        """Size of the vocabulary.
-        """
-        return self._V
+            print('  Choose gamma = {}'.format(min_gamma))
+            self._gamma = min_gamma
 
     def count(self, tokens):
         """Count for an k-gram for k <= n.
@@ -256,25 +254,38 @@ class InterpolatedNGram(NGram):
         prev_tokens -- the previous n-1 tokens (optional only if n = 1).
         """
         n = self._n
-        if not prev_tokens:
-            # if prev_tokens not given, assume 0-uple:
-            prev_tokens = ()
+        # if prev_tokens not given, assume 0-uple:
+        prev_tokens = prev_tokens or ()
         assert len(prev_tokens) == n - 1
 
-        # WORK HERE!!
-        # SUGGESTED STRUCTURE:
-        tokens = prev_tokens + (token,)
+        gamma = self._gamma
+        addone = self._addone
+
         prob = 0.0
         cum_lambda = 0.0  # sum of previous lambdas
         for i in range(n):
             # i-th term of the sum
+            p_tkns = prev_tokens[i:]
+            tokens = p_tkns + (token,)
+            appear = self.count(tokens)
+            t_amount = self.count(p_tkns)
+            
+            # COMPUTE lambdaa AND cond_ml.
             if i < n - 1:
-                # COMPUTE lambdaa AND cond_ml.
-                pass
+                cond_ml = 0. if appear == 0 else appear / t_amount
+
+                lambdaa = (1 - cum_lambda) * t_amount / \
+                    (t_amount + gamma)
             else:
                 # COMPUTE lambdaa AND cond_ml.
-                # LAST TERM: USE ADD ONE IF NEEDED!
-                pass
+                if addone:
+                    cond_ml = float(appear + 1) / t_amount + self._V
+                else:
+                    cond_ml = 0. if appear == 0 else appear / t_amount
+
+                lambdaa = 1 - cum_lambda
+
+            print(i, p_tkns, tokens, appear, t_amount, cond_ml, lambdaa)
 
             prob += lambdaa * cond_ml
             cum_lambda += lambdaa
