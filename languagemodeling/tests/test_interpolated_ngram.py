@@ -30,6 +30,9 @@ class TestInterpolatedNGram(TestCase):
         }
         for gram, c in counts.items():
             self.assertEqual(model.count(gram), c, gram)
+        
+        # size of the vocabulary
+        self.assertEqual(model.V(), 9)
 
     def test_count_2gram(self):
         ngram = InterpolatedNGram(2, self.sents, gamma=1.0)

@@ -57,7 +57,7 @@ class NGram(LanguageModel):
                 kgram = tuple(ksent[i:i+k])
                 count[kgram] += 1
                 if not all:
-                  count[kgram[:-1]] += 1 
+                    count[kgram[:-1]] += 1
 
     def generate_n_grams_count_dict(self, n, sents, all=False):
         """
@@ -80,6 +80,12 @@ class NGram(LanguageModel):
 
     def get_ngrams(self, lenght=None):
         return self._count.keys()
+
+    def compute_vocabulary(self):
+        voc = set([item for sublist in self.get_ngrams()
+                   for item in sublist])
+        voc.discard(START)
+        return voc
 
     def count(self, tokens):
         """Count for an n-gram or (n-1)-gram.
@@ -145,10 +151,6 @@ class NGram(LanguageModel):
 
 class AddOneNGram(NGram):
 
-    def compute_vocabulary(self):
-        return set([item for sublist in super().get_ngrams()
-                    for item in sublist])
-
     def __init__(self, n, sents):
         """
         n -- order of the model.
@@ -159,7 +161,6 @@ class AddOneNGram(NGram):
 
         # compute vocabulary
         self._voc = self.compute_vocabulary()
-        self._voc.discard(START)
         self._V = len(self._voc)  # vocabulary size
 
     def V(self):
@@ -207,16 +208,14 @@ class InterpolatedNGram(NGram):
 
         print('Computing counts...')
         # COMPUTE COUNTS FOR ALL K-GRAMS WITH K <= N
-        self._count_all = self.generate_n_grams_count_dict(n, train_sents, True)
-        
+        self._count = self.generate_n_grams_count_dict(n, train_sents, True)
+
         # compute vocabulary size for add-one in the last step
         self._addone = addone
         if addone:
             print('Computing vocabulary...')
-            self._voc = voc = set()
-            # WORK HERE!!
-
-        #     self._V = len(voc)
+            self._voc = self.compute_vocabulary()
+            self._V = len(self._voc)  # vocabulary size
 
         # # compute gamma if not given
         # if gamma is not None:
@@ -238,12 +237,17 @@ class InterpolatedNGram(NGram):
         #     print('  Choose gamma = {}'.format(min_gamma))
         #     self._gamma = min_gamma
 
+    def V(self):
+        """Size of the vocabulary.
+        """
+        return self._V
+
     def count(self, tokens):
         """Count for an k-gram for k <= n.
 
         tokens -- the k-gram tuple.
         """
-        return self._count_all.get(tokens, 0)
+        return self._count.get(tokens, 0)
 
     def cond_prob(self, token, prev_tokens=None):
         """Conditional probability of a token.
