@@ -136,14 +136,14 @@ Trabajo Practico N 1
  - Nietzsche , her a foolish writing an ordinary things increases the diversion , They say that it ' t see Number One , but his feet .
  - Unless a diary in all round the mass of its boundaries .
 
- Trigram::
+ Trigram:
 
  - Now I found my way in which full justice is done in a corner , and the red handkerchief , I think the French Revolution , " Lie number one .
  - While they leave off talking about them , to be both happy and conscious life is sentiment than cynicism .
  - The simple result will be relieved to hear what Hook was still largely known throughout Europe , and covered every sea ; and the débris of leaves , Though Ireland be but criminal ? "
  - He could only be called reactionary .
 
- Quadrigram::
+ Quadrigram:
  
  - What did you hear ? I asked irritably .
  - Is that Wimpole ?
@@ -153,12 +153,12 @@ Trabajo Practico N 1
 
 - Ejercicio 4.
 
-  Para este ejercicio completé la clase AddOneNGram la cual hereda de NGram, por lo que tiene todos sus métodos. Para obtener la cantidad de elementos del alfabeto utilice la funcion get_ngrams de la clase NGram (generada anteriormente), haciendo un flat a la lista recibida y metiendo los elementos en un conjunto a fin de eliminar repetidos. 
-  Con estos cambios generé cuatro modelos (n = 1, ..., 4)
+ Para este ejercicio completé la clase AddOneNGram la cual hereda de NGram, por lo que tiene todos sus métodos. Para obtener la cantidad de elementos del alfabeto utilice la funcion get_ngrams de la clase NGram (generada anteriormente), haciendo un flat a la lista recibida y metiendo los elementos en un conjunto a fin de eliminar repetidos. 
+ Con estos cambios generé cuatro modelos (n = 1, ..., 4)
 
 - Ejercicio 5.
 
- Mediante el script eval.py analicé los 4 modelos generados en el ejercicio anterior. Los resultados son los siguientes:
+ Mediante el script eval.py analicé los 4 modelos generados en el ejercicio anterior (entrenados sobre un porcentaje del corpus y evaluados sobre el resto). Los resultados son los siguientes:
 
  Unigram:
  - Log probability: -1327691.8840736155
