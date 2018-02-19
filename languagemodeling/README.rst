@@ -153,21 +153,17 @@ Trabajo Practico N 1
 
 - Ejercicio 4.
 
- Para este ejercicio completé la clase AddOneNGram la cual hereda de NGram, por lo que tiene todos sus métodos. Para obtener la cantidad de elementos del alfabeto utilice la funcion get_ngrams de la clase NGram (generada anteriormente), haciendo un flat a la lista recibida y metiendo los elementos en un conjunto a fin de eliminar repetidos. 
- Con estos cambios generé cuatro modelos (n = 1, ..., 4)
+  Para este ejercicio completé la clase AddOneNGram la cual hereda de NGram, por lo que tiene todos sus métodos. Para obtener la cantidad de elementos del alfabeto utilice la funcion get_ngrams de la clase NGram (generada anteriormente), haciendo un flat a la lista recibida y metiendo los elementos en un conjunto a fin de eliminar repetidos. 
+  Con estos cambios generé cuatro modelos (n = 1, ..., 4)
 
 - Ejercicio 5.
 
  Mediante el script eval.py analicé los 4 modelos generados en el ejercicio anterior. Los resultados son los siguientes:
 
  Unigram:
-Log probability: -1327691.8840736155
-Cross entropy: 9.555314823341218
-Perplexity: 752.3785055442511
-
- - Log probability: -1000700.785441279
- - Cross entropy: 9.818589129026766
- - Perplexity: 903.0043510658176
+ - Log probability: -1327691.8840736155
+ - Cross entropy: 9.555314823341218
+ - Perplexity: 752.3785055442511
 
  Bigram:
 
@@ -188,17 +184,17 @@ Perplexity: 752.3785055442511
  - Perplexity: 11578.865905324472
 
 - Ejercicio 6::
-Para este ejercicio completé la clase InterpolatedNgrame dentro de ngram.py. Para eso primeramente actualice la funcion generate_n_grams_count_dict_by_sent dentro de la clase NGram para que admitiera un parametro extra a fin de indicarle si calcular los n y (n-1) gramas o si calcular todos los k-gramas con k=0..n. Tambien en la misma clase centralice el calculo del vocabulario en la funcion compute_vocabulary, la cual llamo desde las clases AddOneNGram e InterpolatedNgrame.
+ Para este ejercicio completé la clase InterpolatedNgrame dentro de ngram.py. Para eso primeramente actualice la funcion generate_n_grams_count_dict_by_sent dentro de la clase NGram para que admitiera un parametro extra a fin de indicarle si calcular los n y (n-1) gramas o si calcular todos los k-gramas con k=0..n. Tambien en la misma clase centralice el calculo del vocabulario en la funcion compute_vocabulary, la cual llamo desde las clases AddOneNGram e InterpolatedNgrame.
 
-Luego completé la funcion de instanciacion de la clase, para lo cual, en primer lugar dividí el conjunto de oraciones en dos subconjuntos: de entrenamiento y de test, luego con el conjunto de entrenamiento computo el diccionario de counts y el vocabulario. A ambos los guardo en variables nombradas igual que en las clases anteriores a fin de poder usar sus metodos.
+ Luego completé la funcion de instanciacion de la clase, para lo cual, en primer lugar dividí el conjunto de oraciones en dos subconjuntos: de entrenamiento y de test, luego con el conjunto de entrenamiento computo el diccionario de counts y el vocabulario. A ambos los guardo en variables nombradas igual que en las clases anteriores a fin de poder usar sus metodos.
 
-A continuacion seteo la variable de clase gamma a partir del parametro de entrada en caso de haber, sino selecciono el gamma con menor perplejidad dentro de una lista de posibles.
+ A continuacion seteo la variable de clase gamma a partir del parametro de entrada en caso de haber, sino selecciono el gamma con menor perplejidad dentro de una lista de posibles.
 
-La funcion count() no hizo falta sobreescribirla (Al usar _count puedo usar la ya definida en la super clase NGram.
+ La funcion count() no hizo falta sobreescribirla (Al usar _count puedo usar la ya definida en la super clase NGram.
 
-Para calcular la probabilidad condicional acepto un parametro booleano para setear si usar o no la condicion addone en el ultimo termino de la suma, y realizo la misma siguiendo la formula que figura en https://cs.famaf.unc.edu.ar/~francolq/lm-notas.pdf.
+ Para calcular la probabilidad condicional acepto un parametro booleano para setear si usar o no la condicion addone en el ultimo termino de la suma, y realizo la misma siguiendo la formula que figura en https://cs.famaf.unc.edu.ar/~francolq/lm-notas.pdf.
 
-Por ultimo agregué al script train.py la opcion de linea de comandos para seleccionar la clase InterpolatedNgrame para el modelo, entrené cuatro modelos con n=1...4 sobre un conjunto de entrenamiento, y luego los evalué sobre el test obteniendo los siguientes resultados:
+ Por ultimo agregué al script train.py la opcion de linea de comandos para seleccionar la clase InterpolatedNgrame para el modelo, entrené cuatro modelos con n=1...4 sobre un conjunto de entrenamiento, y luego los evalué sobre el test obteniendo los siguientes resultados:
 
  Unigram:
 
