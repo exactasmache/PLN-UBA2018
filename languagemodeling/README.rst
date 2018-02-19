@@ -161,6 +161,9 @@ Trabajo Practico N 1
  Mediante el script eval.py analicé los 4 modelos generados en el ejercicio anterior. Los resultados son los siguientes:
 
  Unigram:
+Log probability: -1327691.8840736155
+Cross entropy: 9.555314823341218
+Perplexity: 752.3785055442511
 
  - Log probability: -1000700.785441279
  - Cross entropy: 9.818589129026766
@@ -168,25 +171,55 @@ Trabajo Practico N 1
 
  Bigram:
 
- - Log probability: -1138964.1555715788
- - Cross entropy: 11.175189666024773
- - Perplexity: 2312.423087161682
+ - Log probability: -1467346.9789190202
+ - Cross entropy: 10.560403740385038
+ - Perplexity: 1510.0742159283482
 
  Trigram:
 
- - Log probability: -1407232.658596782
- - Cross entropy: 13.807363284537544
- - Perplexity: 14336.083097852614
+ - Log probability: -1792917.7352821475
+ - Cross entropy: 12.903515957639891
+ - Perplexity: 7662.056546441069
 
  Quadrigram:
 
- - Log probability: -1478995.35455488
- - Cross entropy: 14.51147827740539
- - Perplexity: 23355.557742842422
-
-
- Por otro lado separé el corpus en entrenamiento y test.
+ - Log probability: -1875687.7217938555
+ - Cross entropy: 13.499206334699712
+ - Perplexity: 11578.865905324472
 
 - Ejercicio 6::
- NO LLEGUÉ A HACERLO.
+Para este ejercicio completé la clase InterpolatedNgrame dentro de ngram.py. Para eso primeramente actualice la funcion generate_n_grams_count_dict_by_sent dentro de la clase NGram para que admitiera un parametro extra a fin de indicarle si calcular los n y (n-1) gramas o si calcular todos los k-gramas con k=0..n. Tambien en la misma clase centralice el calculo del vocabulario en la funcion compute_vocabulary, la cual llamo desde las clases AddOneNGram e InterpolatedNgrame.
 
+Luego completé la funcion de instanciacion de la clase, para lo cual, en primer lugar dividí el conjunto de oraciones en dos subconjuntos: de entrenamiento y de test, luego con el conjunto de entrenamiento computo el diccionario de counts y el vocabulario. A ambos los guardo en variables nombradas igual que en las clases anteriores a fin de poder usar sus metodos.
+
+A continuacion seteo la variable de clase gamma a partir del parametro de entrada en caso de haber, sino selecciono el gamma con menor perplejidad dentro de una lista de posibles.
+
+La funcion count() no hizo falta sobreescribirla (Al usar _count puedo usar la ya definida en la super clase NGram.
+
+Para calcular la probabilidad condicional acepto un parametro booleano para setear si usar o no la condicion addone en el ultimo termino de la suma, y realizo la misma siguiendo la formula que figura en https://cs.famaf.unc.edu.ar/~francolq/lm-notas.pdf.
+
+Por ultimo agregué al script train.py la opcion de linea de comandos para seleccionar la clase InterpolatedNgrame para el modelo, entrené cuatro modelos con n=1...4 sobre un conjunto de entrenamiento, y luego los evalué sobre el test obteniendo los siguientes resultados:
+
+ Unigram:
+
+ - Log probability: -1340283.6002042596
+ - Cross entropy: 9.645936610849091
+ - Perplexity: 801.1544625910676
+
+ Bigram:
+
+ - Log probability: -1175829.7018092459
+ - Cross entropy: 8.462372267389568
+ - Perplexity: 352.718214162022
+
+ Trigram:
+
+ - Log probability: -1168215.096599106
+ - Cross entropy: 8.40757043353705
+ - Perplexity: 339.57123265930886
+
+ Quadrigram:
+
+ - Log probability: -1167209.0829901563
+ - Cross entropy: 8.400330216988774
+ - Perplexity: 337.8713513351703

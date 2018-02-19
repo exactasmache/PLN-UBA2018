@@ -102,7 +102,6 @@ class NGram(LanguageModel):
         given_n -- allows
         """
         n = self._n if given_n == None else given_n
-        print(n, len(prev_tokens))
 
         # if now prev_tokens, then prev_tokens=():
         prev_tokens = prev_tokens or ()
@@ -228,7 +227,6 @@ class InterpolatedNGram(NGram):
             # use grid search to choose gamma
             min_gamma, min_p = None, float('inf')
 
-            # WORK HERE!! TRY DIFFERENT VALUES BY HAND:
             for gamma in [100 + i * 50 for i in range(10)]:
                 self._gamma = gamma
                 p = self.perplexity(held_out_sents)
@@ -240,12 +238,12 @@ class InterpolatedNGram(NGram):
             print('  Choose gamma = {}'.format(min_gamma))
             self._gamma = min_gamma
 
-    def count(self, tokens):
-        """Count for an k-gram for k <= n.
+    # def count(self, tokens):
+    #     """Count for an k-gram for k <= n.
 
-        tokens -- the k-gram tuple.
-        """
-        return self._count.get(tokens, 0)
+    #     tokens -- the k-gram tuple.
+    #     """
+    #     return self._count.get(tokens, 0)
 
     def cond_prob(self, token, prev_tokens=None):
         """Conditional probability of a token.
@@ -269,25 +267,45 @@ class InterpolatedNGram(NGram):
             tokens = p_tkns + (token,)
             appear = self.count(tokens)
             t_amount = self.count(p_tkns)
-            
+
             # COMPUTE lambdaa AND cond_ml.
             if i < n - 1:
-                cond_ml = 0. if appear == 0 else appear / t_amount
+                cond_ml = 0. if (appear == 0 or t_amount ==
+                                 0) else appear / t_amount
 
                 lambdaa = (1 - cum_lambda) * t_amount / \
                     (t_amount + gamma)
             else:
                 # COMPUTE lambdaa AND cond_ml.
                 if addone:
-                    cond_ml = float(appear + 1) / t_amount + self._V
+                    cond_ml = float(appear + 1) / (t_amount + self._V)
                 else:
-                    cond_ml = 0. if appear == 0 else appear / t_amount
+                    cond_ml = 0. if (appear == 0 or t_amount ==
+                                     0) else appear / t_amount
 
                 lambdaa = 1 - cum_lambda
-
-            print(i, p_tkns, tokens, appear, t_amount, cond_ml, lambdaa)
 
             prob += lambdaa * cond_ml
             cum_lambda += lambdaa
 
         return prob
+
+# def cond_prob(token, prev_tokens):
+#     tokens = prev_tokens + (token,)
+#     return float(count.get(tokens, 0)) / float(count.get(prev_tokens, 0))
+
+# def add_one_cond_prob(token, prev_tokens):
+#     tokens = prev_tokens + (token,)
+#     return float(count.get(tokens, 0) + 1) / float(count.get(prev_tokens, 0) + V)
+
+# def interpolated_cond_prob(token, prev_tokens):
+#     cond_ml1 = cond_prob(token, prev_tokens)              # 2-uple: (u,v)
+#     cond_ml2 = cond_prob(token, prev_tokens[1:])          # 1-uple: (v,)
+#     cond_ml3 = add_one_cond_prob(token, prev_tokens[2:])  # 0-uple: ()
+
+#     lambda1 = count[prev_tokens] / (count[prev_tokens] + gamma)
+#     lambda2 = (1 - lambda1) * count[prev_tokens[1:]] / (count[prev_tokens[1:]] + gamma)
+#     lambda3 = 1 - (lambda1 + lambda2)
+
+#     prob = lambda1 * cond_ml1 + lambda2 * cond_ml2 + lambda3 * cond_ml3
+#     return prob

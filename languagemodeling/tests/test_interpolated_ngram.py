@@ -36,6 +36,7 @@ class TestInterpolatedNGram(TestCase):
 
         counts = {
             (): self.total,
+            # ('<s>'):2,
             ('el',): 1,
             ('gato',): 1,
             ('come',): 2,
@@ -59,7 +60,7 @@ class TestInterpolatedNGram(TestCase):
         }
         for gram, c in counts.items():
             self.assertEqual(ngram.count(gram), c, gram)
-          
+
     def test_cond_prob_1gram_no_addone(self):
         model = InterpolatedNGram(1, self.sents, gamma=1.0, addone=False)
 
@@ -86,7 +87,8 @@ class TestInterpolatedNGram(TestCase):
             ('</s>', '.'): l1 * 1.0 + (1.0 - l1) * 2 / self.total,
         }
         for (token, prev), p in probs.items():
-            self.assertAlmostEqual(model.cond_prob(token, (prev,)), p, msg=token)
+            self.assertAlmostEqual(model.cond_prob(
+                token, (prev,)), p, msg=token)
 
     def test_norm_1gram(self):
         models = [
@@ -102,78 +104,84 @@ class TestInterpolatedNGram(TestCase):
             InterpolatedNGram(1, self.sents, gamma=100.0, addone=True),
         ]
 
-        tokens = {'el', 'gato', 'come', 'pescado', '.', 'la', 'gata', 'salmón', '</s>'}
+        tokens = {'el', 'gato', 'come', 'pescado',
+                  '.', 'la', 'gata', 'salmón', '</s>'}
 
         for model in models:
             prob_sum = sum(model.cond_prob(token) for token in tokens)
             # prob_sum < 1.0 or almost equal to 1.0:
             if not prob_sum < 1.0:
-              self.assertAlmostEqual(prob_sum, 1.0)
+                self.assertAlmostEqual(prob_sum, 1.0)
 
-    # def test_norm_2gram(self):
-    #     models = [
-    #         InterpolatedNGram(2, self.sents, gamma=1.0, addone=False),
-    #         InterpolatedNGram(2, self.sents, gamma=5.0, addone=False),
-    #         InterpolatedNGram(2, self.sents, gamma=10.0, addone=False),
-    #         InterpolatedNGram(2, self.sents, gamma=50.0, addone=False),
-    #         InterpolatedNGram(2, self.sents, gamma=100.0, addone=False),
-    #         InterpolatedNGram(2, self.sents, gamma=1.0, addone=True),
-    #         InterpolatedNGram(2, self.sents, gamma=5.0, addone=True),
-    #         InterpolatedNGram(2, self.sents, gamma=10.0, addone=True),
-    #         InterpolatedNGram(2, self.sents, gamma=50.0, addone=True),
-    #         InterpolatedNGram(2, self.sents, gamma=100.0, addone=True),
-    #     ]
+    def test_norm_2gram(self):
+        models = [
+            InterpolatedNGram(2, self.sents, gamma=1.0, addone=False),
+            InterpolatedNGram(2, self.sents, gamma=5.0, addone=False),
+            InterpolatedNGram(2, self.sents, gamma=10.0, addone=False),
+            InterpolatedNGram(2, self.sents, gamma=50.0, addone=False),
+            InterpolatedNGram(2, self.sents, gamma=100.0, addone=False),
+            InterpolatedNGram(2, self.sents, gamma=1.0, addone=True),
+            InterpolatedNGram(2, self.sents, gamma=5.0, addone=True),
+            InterpolatedNGram(2, self.sents, gamma=10.0, addone=True),
+            InterpolatedNGram(2, self.sents, gamma=50.0, addone=True),
+            InterpolatedNGram(2, self.sents, gamma=100.0, addone=True),
+        ]
 
-    #     tokens = {'el', 'gato', 'come', 'pescado', '.', 'la', 'gata', 'salmón', '</s>'}
-    #     prevs = {'el', 'gato', 'come', 'pescado', '.', 'la', 'gata', 'salmón', '<s>'}
+        tokens = {'el', 'gato', 'come', 'pescado',
+                  '.', 'la', 'gata', 'salmón', '</s>'}
+        prevs = {'el', 'gato', 'come', 'pescado',
+                 '.', 'la', 'gata', 'salmón', '<s>'}
 
-    #     for model in models:
-    #         for prev in prevs:
-    #             prob_sum = sum(model.cond_prob(token, (prev,)) for token in tokens)
-    #             # prob_sum < 1.0 or almost equal to 1.0:
-    #             self.assertAlmostLessEqual(prob_sum, 1.0, msg=prev)
+        for model in models:
+            for prev in prevs:
+                prob_sum = sum(model.cond_prob(token, (prev,))
+                               for token in tokens)
+                # prob_sum < 1.0 or almost equal to 1.0:
+                if not prob_sum < 1.0:
+                    self.assertAlmostEqual(prob_sum, 1.0, msg=prev)
 
-    # def test_norm_3gram(self):
-    #     models = [
-    #         InterpolatedNGram(3, self.sents, gamma=1.0, addone=False),
-    #         InterpolatedNGram(3, self.sents, gamma=5.0, addone=False),
-    #         InterpolatedNGram(3, self.sents, gamma=10.0, addone=False),
-    #         InterpolatedNGram(3, self.sents, gamma=50.0, addone=False),
-    #         InterpolatedNGram(3, self.sents, gamma=100.0, addone=False),
-    #         InterpolatedNGram(3, self.sents, gamma=1.0, addone=True),
-    #         InterpolatedNGram(3, self.sents, gamma=5.0, addone=True),
-    #         InterpolatedNGram(3, self.sents, gamma=10.0, addone=True),
-    #         InterpolatedNGram(3, self.sents, gamma=50.0, addone=True),
-    #         InterpolatedNGram(3, self.sents, gamma=100.0, addone=True),
-    #     ]
+    def test_norm_3gram(self):
+        models = [
+            InterpolatedNGram(3, self.sents, gamma=1.0, addone=False),
+            InterpolatedNGram(3, self.sents, gamma=5.0, addone=False),
+            InterpolatedNGram(3, self.sents, gamma=10.0, addone=False),
+            InterpolatedNGram(3, self.sents, gamma=50.0, addone=False),
+            InterpolatedNGram(3, self.sents, gamma=100.0, addone=False),
+            InterpolatedNGram(3, self.sents, gamma=1.0, addone=True),
+            InterpolatedNGram(3, self.sents, gamma=5.0, addone=True),
+            InterpolatedNGram(3, self.sents, gamma=10.0, addone=True),
+            InterpolatedNGram(3, self.sents, gamma=50.0, addone=True),
+            InterpolatedNGram(3, self.sents, gamma=100.0, addone=True),
+        ]
 
-    #     tokens = {'el', 'gato', 'come', 'pescado', '.', 'la', 'gata', 'salmón', '</s>'}
-    #     prev_tokens = {'el', 'gato', 'come', 'pescado', '.', 'la', 'gata', 'salmón', '<s>'}
-    #     prevs = [('<s>', '<s>')] + \
-    #         [('<s>', t) for t in prev_tokens] + \
-    #         [(t1, t2) for t1 in prev_tokens for t2 in prev_tokens]
+        tokens = {'el', 'gato', 'come', 'pescado', '.', 'la', 'gata', 'salmón', '</s>'}
+        prev_tokens = {'el', 'gato', 'come', 'pescado', '.', 'la', 'gata', 'salmón', '<s>'}
+        prevs = [('<s>', '<s>')] + \
+            [('<s>', t) for t in prev_tokens] + \
+            [(t1, t2) for t1 in prev_tokens for t2 in prev_tokens]
 
-    #     for model in models:
-    #         for prev in prevs:
-    #             prob_sum = sum(model.cond_prob(token, prev) for token in tokens)
-    #             # prob_sum < 1.0 or almost equal to 1.0:
-    #             self.assertAlmostLessEqual(prob_sum, 1.0, msg=prev)
+        for model in models:
+            for prev in prevs:
+                prob_sum = sum(model.cond_prob(token, prev) for token in tokens)
+                # prob_sum < 1.0 or almost equal to 1.0:
+                if not prob_sum < 1.0:
+                    self.assertAlmostEqual(prob_sum, 1.0, msg=prev)
 
-    # def test_held_out(self):
-    #     model = InterpolatedNGram(1, self.sents)
+    def test_held_out(self):
+        model = InterpolatedNGram(1, self.sents)
 
-    #     # only first sentence (second sentence is held-out data)
-    #     counts = {
-    #         (): 6,
-    #         ('el',): 1,
-    #         ('gato',): 1,
-    #         ('come',): 1,
-    #         ('pescado',): 1,
-    #         ('.',): 1,
-    #         ('</s>',): 1,
-    #     }
-    #     for gram, c in counts.items():
-    #         self.assertEqual(model.count(gram), c, gram)
+        # only first sentence (second sentence is held-out data)
+        counts = {
+            (): 6,
+            ('el',): 1,
+            ('gato',): 1,
+            ('come',): 1,
+            ('pescado',): 1,
+            ('.',): 1,
+            ('</s>',): 1,
+        }
+        for gram, c in counts.items():
+            self.assertEqual(model.count(gram), c, gram)
 
-    # def assertAlmostLessEqual(self, a, b, places=7, msg=None):
-    #     self.assertTrue(a < b or round(abs(a - b), places) == 0, msg=msg)
+    def assertAlmostLessEqual(self, a, b, places=7, msg=None):
+        self.assertTrue(a < b or round(abs(a - b), places) == 0, msg=msg)
