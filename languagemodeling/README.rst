@@ -223,3 +223,6 @@ Por ultimo agregué al script train.py la opcion de linea de comandos para selec
  - Log probability: -1167209.0829901563
  - Cross entropy: 8.400330216988774
  - Perplexity: 337.8713513351703
+
+--------------------
+[1] https://www.gutenberg.org/browse/languages/es
