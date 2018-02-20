@@ -1,0 +1,5 @@
+*venv
+.python-version
+.vscode
+.DS_Store
+corpus
