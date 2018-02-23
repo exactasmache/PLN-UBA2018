@@ -1,15 +1,18 @@
 """Print corpus statistics.
 
 Usage:
-  stats.py
+  stats.py [-c <corpus>]
   stats.py -h | --help
 
 Options:
   -h --help     Show this screen.
+  -c <c>        Corpus path (if needed).
 """
+import os
 from docopt import docopt
 from collections import defaultdict
 
+import tagging.configs as cfg
 from ancora import SimpleAncoraCorpusReader
 
 
@@ -75,8 +78,17 @@ class POSStats:
 if __name__ == '__main__':
     opts = docopt(__doc__)
 
+    c_path = opts['-c']
+    c_path, df = (cfg.ancora_path, ' default') if not c_path else (c_path, '')
+
+    log = "Using the{} corpus {}".format(
+        df, os.path.basename(c_path.rstrip('/')))
+
+    print(log)
+    print('='*len(log))
+
     # load the data
-    corpus = SimpleAncoraCorpusReader('ancora/ancora-3.0.1es/')
+    corpus = SimpleAncoraCorpusReader(c_path)
     sents = corpus.tagged_sents()
 
     # compute the statistics
@@ -101,7 +113,8 @@ if __name__ == '__main__':
         words = stats.tag_word_dict(t).items()
         sorted_words = sorted(words, key=lambda w_f: -w_f[1])
         top = [w for w, _ in sorted_words[:5]]
-        print('{0}\t{1}\t{2:2.2f}\t({3})'.format(t, f, f * 100 / token_count, ', '.join(top)))
+        print('{0}\t{1}\t{2:2.2f}\t({3})'.format(
+            t, f, f * 100 / token_count, ', '.join(top)))
     print('')
 
     print('Word Ambiguity Levels')
@@ -114,4 +127,5 @@ if __name__ == '__main__':
         # most frequent words:
         sorted_words = sorted(words, key=lambda w: -stats.word_freq(w))
         top = sorted_words[:5]
-        print('{0}\t{1}\t{2:2.2f}\t({3})'.format(n, m, m * 100 / word_count, ', '.join(top)))
+        print('{0}\t{1}\t{2:2.2f}\t({3})'.format(
+            n, m, m * 100 / word_count, ', '.join(top)))
