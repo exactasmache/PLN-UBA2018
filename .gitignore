@@ -4,3 +4,4 @@
 .DS_Store
 corpus
 *.egg-info
+*__pycache__
