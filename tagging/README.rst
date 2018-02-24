@@ -23,7 +23,7 @@ Trabajo Practico N 2
  **+Basic Statistics**
 
  :Sents: 17378
- :Rokens: 517194
+ :Tokens: 517194
  :Words: 46501
  :Tags: 85
  
