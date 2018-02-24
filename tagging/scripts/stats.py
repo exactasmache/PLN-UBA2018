@@ -24,8 +24,8 @@ class POSStats:
         """
         tagged_sents -- corpus (list/iterable/generator of tagged sentences)
         """
-        self._sent_count = len(tagged_sents)   # |sents|
-        self._token_count = 0                  # |tokens|
+        self._sent_count = 0    # |sents|
+        self._token_count = 0   # |tokens|
 
         # {D: {w1: 1, w4: 1}, ..., P: {w2: 2}},
         self._tag_word_dict = defaultdict(lambda: defaultdict(int))
@@ -34,6 +34,7 @@ class POSStats:
         self._word_tag_dict = defaultdict(lambda: defaultdict(int))
 
         for sent in tagged_sents:
+            self._sent_count += 1
             for word, tag in sent:
                 self._token_count += 1
                 self._word_tag_dict[word][tag] += 1
