@@ -145,13 +145,13 @@ Trabajo Practico N 2
  g | m    sp000	nc0s000	da0000	aq0000	fc    nc0p000 rg    np00000 fp    cc
  =======  ===== ======= ======  ======  ====  ======= ====  ======= ====  ====
  sp000    14.25 0.03    -       0.05    -     0.00    0.00  -       -     -
- nc0s000  0.00  11.80   -       0.59    -     0.01    0.01  0.06    -     0.00 
+ nc0s000  0.00  11.80   -       0.59    -     0.01    0.01  0.06    -     0.00
  da0000   -     0.13    9.48    0.00    -     -       -     0.00    -     -
  aq0000   0.01  0.83    -       6.16    -     0.07    0.00  0.05    -     -
  fc       -     -       -       -       5.85  -       -     -       -     -
  nc0p000  -     1.27    -       0.46    -     3.68    -     0.03    -     -
- rg       0.02  0.11    -       0.29    -     0.02    3.10  0.03    -     0.02 
- np00000  0.00  0.27    -       0.09    -     0.00    -     3.21    -     0.00 
+ rg       0.02  0.11    -       0.29    -     0.02    3.10  0.03    -     0.02
+ np00000  0.00  0.27    -       0.09    -     0.00    -     3.21    -     0.00
  fp       -     -       -       -       -     -       -     -       3.55  -
  cc       0.00  0.00    -       0.01    -     0.00    0.05  0.00    -     3.34
  =======  ===== ======= ======  ======  ====  ======= ====  ======= ====  ====
@@ -161,19 +161,19 @@ Trabajo Practico N 2
  -----------------------------------------------------------------------------
  g | m    sp000	nc0s000	da0000	aq0000	fc    nc0p000 rg    np00000 fp    cc
  =======  ===== ======= ======  ======  ====  ======= ====  ======= ====  ====
- sp000    14.30 0.01    -       0.02    -     -       0.00  -       -     - 
- nc0s000  0.00  12.01   -       0.42    -     0.01    0.02  0.07    -     0.00  
- da0000   -     0.09    9.56    -       -     -       -     0.01    -     -  
- aq0000   0.01  0.49    -       6.55    -     0.09    0.01  0.04    -     - 
- fc       -     -       -       -       5.85  -       -     -       -     -  
- nc0p000  -     0.91    -       0.33    -     4.23    -     0.03    -     -  
- rg       0.02  0.03    -       0.22    -     0.02    3.35  0.00    -     0.02  
- np00000  0.00  0.26    -       0.07    -     0.01    -     3.23    -     0.00  
- fp       -     -       -       -       -     -       -     -       3.55  -  
+ sp000    14.30 0.01    -       0.02    -     -       0.00  -       -     -
+ nc0s000  0.00  12.01   -       0.42    -     0.01    0.02  0.07    -     0.00
+ da0000   -     0.09    9.56    -       -     -       -     0.01    -     -
+ aq0000   0.01  0.49    -       6.55    -     0.09    0.01  0.04    -     -
+ fc       -     -       -       -       5.85  -       -     -       -     -
+ nc0p000  -     0.91    -       0.33    -     4.23    -     0.03    -     -
+ rg       0.02  0.03    -       0.22    -     0.02    3.35  0.00    -     0.02
+ np00000  0.00  0.26    -       0.07    -     0.01    -     3.23    -     0.00
+ fp       -     -       -       -       -     -       -     -       3.55  -
  cc       0.00  -       -       0.01    -     -       0.05  0.00    -     3.34
  =======  ===== ======= ======  ======  ====  ======= ====  ======= ====  ====
 
 
 
- Si estudiamos los errores de las matrices de confusion, podemos ver que los errores mas comunes estan dados por sustantivos comunes plurales etiquetados gulares, y por sustantivos comunes singulares etiquetados como adjetivos. Un tercer error, ya menos significativo, esta dado por sustantivos propios, tagueados como comunes singulares.
- Si agregamos como features el que la palabra actual y la anterior terminen en **s**, podriamos llegar a mitigar dos de esos tres errores (singular en vez de plural o propio). Por otro lado, pareciera ser que el mejor valor para n, es 2, se me ocurre que es porque el idioma español es muy permisivo en cuanto a la ubicacion de las palabras en la oracion, lo cual hace que las sub estructuras mas comunes esten entre dos y tres palabras.
+ Si estudiamos los errores de las matrices de confusion, podemos ver que los errores mas comunes estan dados por sustantivos comunes plurales etiquetados como singulares, y por sustantivos comunes singulares etiquetados como adjetivos (y viceversa). Un tercer error, ya menos significativo, esta dado por sustantivos propios, tagueados como comunes singulares.
+ Si agregamos como features el que la palabra actual y la anterior terminen en **s**, podriamos llegar a mitigar dos de esos tres errores (singular en vez de plural o propio). Por otro lado, pareciera ser que el mejor valor para n, es 2, se me ocurre que, ya que se miran los n tags previos en un feature, es porque el idioma español es muy permisivo en cuanto a la ubicacion de las palabras en la oracion, lo cual hace que las sub estructuras mas comunes esten entre dos y tres palabras.
