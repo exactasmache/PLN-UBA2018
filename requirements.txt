@@ -7,4 +7,5 @@ scipy
 scikit-learn
 featureforge
 jupyter
+featureforge
 -e .  # install our code in editing mode
