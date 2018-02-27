@@ -73,4 +73,10 @@ Trabajo Practico N 2
 
  :Accuracy: 87.58% / 95.27% / 18.01%
 
+ - Ejercicio 3.
+ 
+ Para completar el script de features (*features.py*), utilicé principalmente funciones de strings y acceso a named-tuplas.
+
+ - Ejercicio 4.
+ 
  
