@@ -46,6 +46,7 @@ class BaselineTagger:
         for sent in tagged_sents:
             for word, tag in sent:
                 self._word_tag_dict[word][tag] += 1
+        self._word_tag_dict = {k:dict(v) for k,v in self._word_tag_dict.items()}
 
     def tag(self, sent):
         """Tag a sentence.
