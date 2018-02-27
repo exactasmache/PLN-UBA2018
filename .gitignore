@@ -6,3 +6,4 @@ corpus
 *.egg-info
 *__pycache__
 *baseline
+*memm_model*
