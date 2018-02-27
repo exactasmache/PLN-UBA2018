@@ -1,7 +1,7 @@
 """Train a sequence tagger.
 
 Usage:
-  train.py [-m <model>] [-n <n>] [-c <clf>] -o <file>
+  train.py [-f <corpus>] [-m <model>] [-n <n>] [-c <clf>] -o <file>
   train.py -h | --help
 
 Options:
@@ -14,6 +14,7 @@ Options:
                   maxent: Maximum Entropy (i.e. Logistic Regression)
                   svm: Support Vector Machine
                   mnb: Multinomial Bayes
+  -f <corpus>   Corpus path (if needed).
   -o <file>     Output model file.
   -h --help     Show this screen.
 """
@@ -22,6 +23,7 @@ import pickle
 
 from ancora import SimpleAncoraCorpusReader
 
+import tagging.configs as cfg
 from tagging.baseline import BaselineTagger, BadBaselineTagger
 # from tagging.memm import MEMM
 
@@ -36,9 +38,12 @@ models = {
 if __name__ == '__main__':
     opts = docopt(__doc__)
 
+    c_path = opts['-f']
+    c_path = cfg.ancora_path if not c_path else c_path
+
     # load the data
     files = 'CESS-CAST-(A|AA|P)/.*\.tbf\.xml'
-    corpus = SimpleAncoraCorpusReader('ancora/ancora-3.0.1es/', files)
+    corpus = SimpleAncoraCorpusReader(c_path, files)
     sents = corpus.tagged_sents()
 
     # train the model

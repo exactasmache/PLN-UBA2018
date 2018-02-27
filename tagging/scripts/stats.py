@@ -6,7 +6,7 @@ Usage:
 
 Options:
   -h --help     Show this screen.
-  -c <c>        Corpus path (if needed).
+  -c <corpus>   Corpus path (if needed).
 """
 import os
 from docopt import docopt
