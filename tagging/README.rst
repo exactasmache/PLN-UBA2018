@@ -64,5 +64,10 @@ Trabajo Practico N 2
 
 - Ejercicio 2.
  
- Para completar la clase *BaselineTagger* dentro del script *baseline.py* utilicé una de dos estructuras de datos basadas en diccionarios desarrolladas en el ejercicio anterior, *_word_tag_dict*. Para obtener el tag mas probable para una palabra **w** entro al diccionario con esa clave y devuelvo el tag con mayor cantidad de apariciones en el conjunto de entrenamiento. Para eso ordeno el sub-diccionario de tags segun la cantidad de apariciones de mayor a menor y tomo el primer elemento. En caso de igualdad, el resultado dependerá de la implementación de la funcion **sorted()**.
- 
+ Para completar la clase *BaselineTagger* dentro del script *baseline.py* utilicé una de dos estructuras de datos basadas en diccionarios desarrolladas en el ejercicio anterior, *_word_tag_dict*. Para obtener el tag mas probable para una palabra **w** entro al diccionario con esa clave y devuelvo el tag con mayor cantidad de apariciones en el conjunto de entrenamiento. Para eso ordeno el sub-diccionario de tags segun la cantidad de apariciones de mayor a menor y tomo el primer elemento. En caso de igualdad, el resultado dependerá de la implementación de la funcion **sorted()**. 
+ Para poder entrenar el modelo (en realidad para poder guardar el dump del mismo) tuve que convertir los default dict a dict comunes de python, porque la funcion *pickle.dump* se quejaba del lambda. Agregué ademas al script *train.py* la posibilidad de pasarle el path del corpus como parametro, y que en el caso default lo buscara en el path almacenado en *config.py* al igual que con *stats.py*.
+ Los resultados de evaluar el modelo *baseline* fueron los siguientes:
+
+ 100.0% (87.58% / 95.27% / 18.01%)
+
+ :Accuracy: 87.58% / 95.27% / 18.01%
