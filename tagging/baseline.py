@@ -40,21 +40,12 @@ class BaselineTagger:
         """
         self._default_tag = default_tag
 
-        self._sent_count = 0    # |sents|
-        self._token_count = 0   # |tokens|
-
-        # {D: {w1: 1, w4: 1}, ..., P: {w2: 2}},
-        self._tag_word_dict = defaultdict(lambda: defaultdict(int))
-
         # {w1: {V: 1, A: 2}, ..., wn: {N: 4}}
         self._word_tag_dict = defaultdict(lambda: defaultdict(int))
 
         for sent in tagged_sents:
-            self._sent_count += 1
             for word, tag in sent:
-                self._token_count += 1
                 self._word_tag_dict[word][tag] += 1
-                self._tag_word_dict[tag][word] += 1
 
     def tag(self, sent):
         """Tag a sentence.
