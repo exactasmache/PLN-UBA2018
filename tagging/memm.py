@@ -55,7 +55,7 @@ class MEMM:
         self._pipeline.fit(list(X), list(y))
 
         # 3. build known words set
-        self.words = set([w for w_t in tagged_sents for w, _ in w_t])
+        self.words = set([w for w_t in tagged_sents_list for w, _ in w_t])
 
     def sents_histories(self, tagged_sents):
         """

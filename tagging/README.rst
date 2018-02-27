@@ -30,7 +30,7 @@ Trabajo Practico N 2
  =======  =========================== ===== ===== ============================
  Most Frequent POS Tags
  -----------------------------------------------------------------------------
-   tag	  Description                 freq   %	   top
+   tag    Description                 freq   %	   top
  =======  =========================== ===== ===== ============================
  sp000    Preposición                 79884 15.45	(de, en, a, del, con)
  nc0s000  Sustantivo Común (singular) 63452 12.27	(presidente, equipo, partido, país, año)
@@ -69,12 +69,24 @@ Trabajo Practico N 2
  Para poder entrenar el modelo (en realidad para poder guardar el dump del mismo) tuve que convertir los default dict a dict comunes de python, porque la funcion *pickle.dump* se quejaba del lambda. Agregué ademas al script *train.py* la posibilidad de pasarle el path del corpus como parametro, y que en el caso default lo buscara en el path almacenado en *config.py* al igual que con *stats.py*.
  Los resultados de evaluar el modelo *baseline* fueron los siguientes:
 
- 100.0% (87.58% / 95.27% / 18.01%)
-
  :Accuracy: 87.58% / 95.27% / 18.01%
+ 
+ =======  ===== ======= ======  ======  ====  ======= ====  ======= ====  ====
+ g | m    sp000	nc0s000	da0000	aq0000	fc    nc0p000 rg    np00000 fp    cc
+ =======  ===== ======= ======  ======  ====  ======= ====  ======= ====  ====
+ sp000    14.28	0.05    0     	0       0     0       0.01  0       0     0	
+ nc0s000  0.00  12.22   0       0.25    0     0.00    0.03  0.00    0     0.00 
+ da0000   0     0.15    9.54    0       0     0       0     0       0     0       
+ aq0000   0.01  2.05    0       4.84    0     0.13    0.00  0       0     0  
+ fc       0     0       0       0       5.85  0       0     0       0     0
+ nc0p000  0     1.24    0       0.20    0     4.09    0     0       0     0
+ rg       0.02  0.31    0       0.04    0     0       3.27  0       0     0.02 
+ np00000  0.00  2.05    0       0.00    0     0.00    0     1.52    0     0.00  
+ fp       0     0       0       0       0     0       0     0       3.55  0  
+ cc       0.00  0.01    0       0       0     0       0.05  0.00    0     3.34
+ =======  ===== ======= ======  ======  ====  ======= ====  ======= ====  ====
 
-
-- Ejercicio 3.
+0 Ejercicio 3.
  
  Para completar el script de features (*features.py*), utilicé principalmente funciones de strings y acceso a named-tuplas.
 
@@ -86,120 +98,28 @@ Trabajo Practico N 2
 
  Los resultados obtenidos fueron para el classifier *LogisticRegression* para n = 1, ..., 4, con dos conjuntos distintos de features::
 
- v1 = [word_lower,word_istitle, word_istitle, word_isupper, word_isdigit]
+  v1 = [word_lower,word_istitle, word_istitle, word_isupper, word_isdigit]
 
- v2 = v1 + [NPrevTags(2), PrevWord(word_istitle),  NextWord(word_istitle),  WordLongerThan(3)]
- 
-RESULTADOS:
+  v2 = v1 + [NPrevTags(2), PrevWord(word_istitle),  NextWord(word_istitle),  WordLongerThan(3)]
 
- Tiempos de los modelos utilizando el classifier: LogisticRegression para n = 1, ..., 4
+ El siguiente cuadro representa los tiempos consumidos en la generación de los modelos
 
- time python scripts/train.py -m memm -c maxent -n 1 -o memm_model_maxent_1
- real	17m47.707s
- user	15m58.628s
- sys	0m7.569s
+ ===========  ==  = ==========  ==========  ========  ======  ===== ======= ==========  ==========  ========
+ Training times
+ -----------------------------------------------------------------------------------------------------------
+ Model                    Training Times                    Accuracy        Accuracy Times
+ ------------------ --------------------------------  --------------------- --------------------------------
+ Classifier   Fs  n real        user        sys       total   known unknown real        user        sys     
+ ===========  ==  = ==========  ==========  ========  ======  ===== ======= ==========  ==========  ========
+ LRegression  v1  1 8m29.171s   6m34.024s   0m5.690s  87.49%  0.00% 87.49%
+ LRegression  v1  2 9m23.497s   7m23.294s   0m6.000s  87.49%  0.00% 87.49%
+ LRegression  v1  3 9m35.827s   7m34.238s   0m6.267s  87.49%  0.00% 87.49%
+ LRegression  v1  4 9m47.498s   8m2.635s    0m5.893s  87.49%  0.00% 87.49%
 
- time python scripts/train.py -m memm -c maxent -n 2 -o memm_model_maxent_2
- real	48m11.600s
- user	18m41.463s
- sys	0m8.678s
+ LRegression  v2  1 17m47.707s  15m58.628s  0m7.569s  87.67%  0.00% 87.67%  
+ LRegression  v2  2 48m11.600s  18m41.463s  0m8.678s  89.45%  0.00% 89.45%  
+ LRegression  v2  3 50m9.277s   20m31.382s  0m9.305s  89.37%  0.00% 89.37%
+ LRegression  v2  4 63m26.406s  20m31.344s  0m9.061s  89.37%  0.00% 89.37%
 
- time python scripts/train.py -m memm -c maxent -n 3 -o memm_model_maxent_3
- real	50m9.277s
- user	20m31.382s
- sys	0m9.305s
- 
- time python scripts/train.py -m memm -c maxent -n 2 -o memm_model_maxent_2
- real	48m11.600s
- user	18m41.463s
- sys	0m8.678s
- 
-
-
-
- time python scripts/eval.py -i memm_model_maxent_1 -c
- 100.0% (87.67% / 0.00% / 87.67%)
- Accuracy: 87.67% / 0.00% / 87.67%
-
- g \ m	sp000	nc0s000	da0000	aq0000	fc	nc0p000	rg	np00000	fp	cc
- sp000	14.26	0.07	-	-	-	-	0.00	-	-	-	
- nc0s000	0.00	12.19	-	0.24	-	0.00	0.03	0.06	-	0.00	
- da0000	-	0.13	9.56	-	-	-	-	0.00	-	-	
- aq0000	0.01	2.08	-	4.89	-	0.12	0.00	0.05	-	-	
- fc	-	-	-	-	5.85	-	-	-	-	-	
- nc0p000	-	1.23	-	0.22	-	4.05	-	0.03	-	-	
- rg	0.02	0.45	-	0.05	-	-	3.11	0.03	-	0.02	
- np00000	0.00	0.36	-	-	-	-	-	3.20	-	0.00	
- fp	-	-	-	-	-	-	-	-	3.55	-	
- cc	0.00	0.01	-	-	-	-	0.05	0.00	-	3.34	
-
- real	1m16.078s
- user	0m59.268s
- sys	0m1.294s
-
-
-
- time python scripts/eval.py -i memm_model_maxent_2 -c
- 100.0% (89.45% / 0.00% / 89.45%)
- Accuracy: 89.45% / 0.00% / 89.45%
-
- g \ m	sp000	nc0s000	da0000	aq0000	fc	nc0p000	rg	np00000	fp	cc
- sp000	14.25	0.03	-	0.05	-	0.00	0.00	-	-	-	
- nc0s000	0.00	11.80	-	0.59	-	0.01	0.01	0.06	-	0.00	
- da0000	-	0.13	9.48	0.00	-	-	-	0.00	-	-	
- aq0000	0.01	0.83	-	6.16	-	0.07	0.00	0.05	-	-	
- fc	-	-	-	-	5.85	-	-	-	-	-	
- nc0p000	-	1.27	-	0.46	-	3.68	-	0.03	-	-	
- rg	0.02	0.11	-	0.29	-	0.02	3.10	0.03	-	0.02	
- np00000	0.00	0.27	-	0.09	-	0.00	-	3.21	-	0.00	
- fp	-	-	-	-	-	-	-	-	3.55	-	
- cc	0.00	0.00	-	0.01	-	0.00	0.05	0.00	-	3.34	
- 
- real	1m27.165s
- user	1m6.625s
- sys	0m1.344s
-
-
-
-
- time python scripts/eval.py -i memm_model_maxent_3 -c
- 100.0% (89.37% / 0.00% / 89.37%)
- Accuracy: 89.37% / 0.00% / 89.37%
-
- g \ m	sp000	nc0s000	da0000	aq0000	fc	nc0p000	rg	np00000	fp	cc
- sp000	14.25	0.02	-	0.05	-	-	0.00	0.00	-	-	
- nc0s000	0.00	11.64	-	0.76	-	0.01	0.02	0.06	-	0.00	
- da0000	-	0.09	9.48	0.04	-	0.00	-	0.00	-	-	
- aq0000	0.01	0.88	-	6.09	-	0.06	0.01	0.06	-	-	
- fc	-	-	-	-	5.85	-	-	-	-	-	
- nc0p000	-	1.05	-	0.63	-	3.73	-	0.03	-	-	
- rg	0.02	0.14	-	0.27	-	0.00	3.10	0.04	-	0.02	
- np00000	0.00	0.23	-	0.11	-	0.00	-	3.21	-	0.00	
- fp	-	-	-	-	-	-	-	-	3.55	-	
- cc	0.00	0.01	-	0.01	-	0.00	0.05	0.00	-	3.34	
- 
- real	1m29.595s
- user	1m7.706s
- sys	0m1.453s
-
-
-
- time python scripts/eval.py -i memm_model_maxent_4 -c
- 100.0% (89.37% / 0.00% / 89.37%)
- Accuracy: 89.37% / 0.00% / 89.37%
-
- g \ m	sp000	nc0s000	da0000	aq0000	fc	nc0p000	rg	np00000	fp	cc
- sp000	14.25	0.02	-	0.05	-	-	0.00	0.00	-	-	
- nc0s000	0.00	11.64	-	0.76	-	0.01	0.02	0.06	-	0.00	
- da0000	-	0.09	9.48	0.04	-	0.00	-	0.00	-	-	
- aq0000	0.01	0.88	-	6.09	-	0.06	0.01	0.06	-	-	
- fc	-	-	-	-	5.85	-	-	-	-	-	
- nc0p000	-	1.05	-	0.63	-	3.73	-	0.03	-	-	
- rg	0.02	0.14	-	0.27	-	0.00	3.10	0.04	-	0.02	
- np00000	0.00	0.23	-	0.11	-	0.00	-	3.21	-	0.00	
- fp	-	-	-	-	-	-	-	-	3.55	-	
- cc	0.00	0.01	-	0.01	-	0.00	0.05	0.00	-	3.34	
- 
- real	1m28.099s
- user	1m6.749s
- sys	0m1.551s
+ MultinomNB   v1  1 1m9.918s    1m2.927s    0m1.467s  
+ ===========  ==  = ==========  ==========  ========  ======  ===== ======= ==========  ==========  ========
