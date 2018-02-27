@@ -96,9 +96,9 @@ Trabajo Practico N 2
  Comienzo completando la clase **MEMM** (en el script *memm.py*). En el metodo de inicializacion genero un vectorizador a partir de los features del ejercicio anterior; lo conecto mediante un pipeline con el classifier (el cual obtengo de un diccionario a partir de una clave recibida como parametro en el constructor de la clase MEMM, y calculo el conjunto de palabras conocidas a partir del conjunto de oraciones taggeadas recibido.
  Agrego el return del metodo unknown chequeando pertenencia al conjunto de palabras conocidas. Completo el metodo que etiqueta una history mirando los *n* tags previos aplicando el metodo *predict* y con eso completo el metodo para etiquetar oraciones *tag(sent)*. Para poder probar los features complejos, instancio sus clases y las agrego al vector de features. 
 
- Las pruebas fueron realizadas en una Macbook Retina con OSX El Capitan, procesador de 1.1 GHz Intel Core M con dos cores (4 virtuales) y 8 GB de memoria de 1600MHz (DDR3).
+ Las pruebas fueron realizadas en una Macbook Retina con OSX El Capitan, procesador de 1.1 GHz Intel Core M con dos cores (4 virtuales) y 8 GB de memoria de 1600MHz (DDR3). Viendo que cada ejecución consumia solo un procesador, se paralelizaron no mas de 4 pruebas (en distintos procesos) a fin de no afectar mucho a los resultados.
 
- Los resultados obtenidos fueron para el classifier *LogisticRegression* para n = 1, ..., 4, con dos conjuntos distintos de features::
+ Se utilizaron, para los tres classifier *LogisticRegression*, *MultinomialNB* y *LinearSVC* n = 1, ..., 4, con dos conjuntos distintos de features::
 
   v1 = [word_lower,word_istitle, word_istitle, word_isupper, word_isdigit]
 
@@ -107,7 +107,7 @@ Trabajo Practico N 2
  El siguiente cuadro representa los tiempos consumidos en la generación de los modelos, su precisión sobre palabras conocidas y desconocidas y el tiempo empleado en calcular estos datos.
  
  ===========  ==  = ===== ======  ===== ======  ======  ======= ======  ===== ======
- Training times
+ Times and Accuracy
  -----------------------------------------------------------------------------------
  Model              Training Times              Accuracy          Accuracy Times
  ------------------ ------------------- ----------------------- --------------------
@@ -130,8 +130,8 @@ Trabajo Practico N 2
 
  MultinomNB   v2  1 01:23 01:17   2s    
  MultinomNB   v2  2 01:10 01:08   1s    
- MultinomNB   v2  3 
- MultinomNB   v2  4 
+ MultinomNB   v2  3 01:22 01:17   2s    
+ MultinomNB   v2  4 01:20 01:17   2s
 
  LinearSVC    v2  1 24:35 20:39   11s   89.62%  95.32%  38.04%  01:16   01:06 1.008s
  LinearSVC    v2  2 17:49 14:18   8s    92.48%  96.91%  52.37%  00:51   00:47 0.803s
@@ -139,7 +139,7 @@ Trabajo Practico N 2
  LinearSVC    v2  4 22:32 18:41   11s   91.52%  96.60%  45.55%  01:18   01:01 1.015s
  ===========  ==  = ===== ======  ===== ======  ======  ======= ======  ===== ======
 
-
+ A continuación se presentan las matrices de confusion de los dos modelos que mejores resultados dieron en cuanto a la precision (sin ser muy grande el tiempo empleado) a fin de ver mas en detalle sus errores y aciertos
 
  =======  ===== ======= ======  ======  ====  ======= ====  ======= ====  ====
  Matriz de confunsion del modelo que usa linear *LinearRegression* y el vector de features *v2* con n=2.
@@ -158,18 +158,25 @@ Trabajo Practico N 2
  cc       0.00  0.00    -       0.01    -     0.00    0.05  0.00    -     3.34
  =======  ===== ======= ======  ======  ====  ======= ====  ======= ====  ====
 
+ =======  ===== ======= ======  ======  ====  ======= ====  ======= ====  ====
+ Matriz de confunsion del modelo que usa linear *LinearSVC* y el vector de features *v2* con n=2.
+ -----------------------------------------------------------------------------
+ g | m    sp000	nc0s000	da0000	aq0000	fc    nc0p000 rg    np00000 fp    cc
+ =======  ===== ======= ======  ======  ====  ======= ====  ======= ====  ====
+ sp000    14.30 0.01    -       0.02    -     -       0.00  -       -     - 
+ nc0s000  0.00  12.01   -       0.42    -     0.01    0.02  0.07    -     0.00  
+ da0000   -     0.09    9.56    -       -     -       -     0.01    -     -  
+ aq0000   0.01  0.49    -       6.55    -     0.09    0.01  0.04    -     - 
+ fc       -     -       -       -       5.85  -       -     -       -     -  
+ nc0p000  -     0.91    -       0.33    -     4.23    -     0.03    -     -  
+ rg       0.02  0.03    -       0.22    -     0.02    3.35  0.00    -     0.02  
+ np00000  0.00  0.26    -       0.07    -     0.01    -     3.23    -     0.00  
+ fp       -     -       -       -       -     -       -     -       3.55  -  
+ cc       0.00  -       -       0.01    -     -       0.05  0.00    -     3.34
+ =======  ===== ======= ======  ======  ====  ======= ====  ======= ====  ====
 
-Matriz de confunsion del modelo que usa linear *LinearSVC* y el vector de features *v2* con n=2.
-g \ m	sp000	nc0s000	da0000	aq0000	fc	nc0p000	rg	np00000	fp	cc
-sp000	14.30	0.01	-	0.02	-	-	0.00	-	-	-	
-nc0s000	0.00	12.01	-	0.42	-	0.01	0.02	0.07	-	0.00	
-da0000	-	0.09	9.56	-	-	-	-	0.01	-	-	
-aq0000	0.01	0.49	-	6.55	-	0.09	0.01	0.04	-	-	
-fc	-	-	-	-	5.85	-	-	-	-	-	
-nc0p000	-	0.91	-	0.33	-	4.23	-	0.03	-	-	
-rg	0.02	0.03	-	0.22	-	0.02	3.35	0.00	-	0.02	
-np00000	0.00	0.26	-	0.07	-	0.01	-	3.23	-	0.00	
-fp	-	-	-	-	-	-	-	-	3.55	-	
-cc	0.00	-	-	0.01	-	-	0.05	0.00	-	3.34
+ *En una primera iteracion la precisión sobre las palabras conocidas me estaba dando 0.0 para todos los modelos. Esto se debia a que el vocabulario lo calculaba a partir de la variable* **tagged_sents** *la cual era usada para generar las listas y llegaba vacia. Utilicé otra variable, una lista, generada a partir de* **tagged_sents** *y se solucionó. Pero las pruebas las tuve que rehacer todas.*
 
- *En una primera iteracion la precisión sobre las palabras conocidas me estaba dando 0.0 para todos los modelos. Esto se debia a que el vocabulario lo calculaba a partir de la variable* **tagged_sents** *la cual era usada para generar las listas y llegaba vacia. Utilicé otra variable, una lista, generada a partir de * **tagged_sents** *l y se solucionó. Pero las pruebas las tuve que rehacer todas.*
+
+ Si estudiamos los errores de las matrices de confusion, podemos ver los errores mas comunes (y casi los unicos), estan dados por sustantivos comunes plurales etiquetados como singulares, y por sustantivos comunes singulares etiquetados como adjetivos. Un tercer error, ya menos significativo, esta dado por sustantivos propios, tagueados como comunes singulares.
+ Si agregamos como features el hecho de que la palabra actual y la anterior terminen en **s**, podriamos llegar a mitigar dos de esos tres errores (singular en vez de plural o propio). Por otro lado, pareciera ser que el mejor valor para n, es 2, se me ocurre que es porque el idioma español es muy permisivo en cuanto a la ubicacion de las palabras en la oracion, lo cual hace que las sub estructuras mas comunes esten entre dos y tres palabras.

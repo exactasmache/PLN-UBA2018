@@ -48,6 +48,13 @@ def word_isdigit(h):
     """
     return h.sent[h.i].isdigit()
 
+def ends_with_s(h):
+    """Feature: is the current word all digits?
+
+    h -- a history.
+    """
+    return h.sent[h.i].endswith('s')
+
 
 class NPrevTags(Feature):
 

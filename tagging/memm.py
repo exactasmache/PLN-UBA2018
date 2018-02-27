@@ -32,13 +32,13 @@ class MEMM:
         features = [
             word_lower,
             word_istitle,
-            word_istitle,
             word_isupper,
             word_isdigit,
             NPrevTags(n),
+            ends_with_s
             PrevWord(word_istitle),
             NextWord(word_istitle),
-            WordLongerThan(3)
+            WordLongerThan(3),
         ]
         vect = Vectorizer(features)
 
