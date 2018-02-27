@@ -128,7 +128,7 @@ Trabajo Practico N 2
  MultinomNB   v1  3 00:50 00:46   1s    83.67%  90.90%  18.22%  59:54   37:07 14:14
  MultinomNB   v1  4 01:05 00:59   1s  
 
- MultinomNB   v2  1 01:23 01:17   2s    
+ MultinomNB   v2  1 01:23 01:17   2s    80.45%  85.45%  35.18%  85:35   42:59 13:19
  MultinomNB   v2  2 01:10 01:08   1s    
  MultinomNB   v2  3 01:22 01:17   2s    
  MultinomNB   v2  4 01:20 01:17   2s
@@ -139,7 +139,11 @@ Trabajo Practico N 2
  LinearSVC    v2  4 22:32 18:41   11s   91.52%  96.60%  45.55%  01:18   01:01 1.015s
  ===========  ==  = ===== ======  ===== ======  ======  ======= ======  ===== ======
 
- A continuación se presentan las matrices de confusion de los dos modelos que mejores resultados dieron en cuanto a la precision (sin ser muy grande el tiempo empleado) a fin de ver mas en detalle sus errores y aciertos
+ 
+ *En una primera iteracion la precisión sobre las palabras conocidas me estaba dando 0.0 para todos los modelos. Esto se debia a que el vocabulario lo calculaba a partir de la variable* **tagged_sents** *la cual era usada para generar las listas y llegaba vacia. Utilicé otra variable, una lista, generada a partir de* **tagged_sents** *y se solucionó. Pero las pruebas las tuve que rehacer todas.*
+
+
+ Si bien los de SVM fueron los mejores en cuanto a precision, quiero comparar los resultados de dos clasificadores distintos, por lo que a fin de ver mas en detalle sus errores y aciertos, a continuación presento las matrices de confusion del modelo que mejores resultados dio (en cuanto a la precision) junto con el mejor modelo que utiliza LinearRegression. Los que utilizan MultinomialNB, no los tengo en cuenta porque, si bien son muy rapidos de entrenar, consumen 30 veces mas tiempo que los otros en evaluar.
 
  =======  ===== ======= ======  ======  ====  ======= ====  ======= ====  ====
  Matriz de confunsion del modelo que usa linear *LinearRegression* y el vector de features *v2* con n=2.
@@ -175,8 +179,7 @@ Trabajo Practico N 2
  cc       0.00  -       -       0.01    -     -       0.05  0.00    -     3.34
  =======  ===== ======= ======  ======  ====  ======= ====  ======= ====  ====
 
- *En una primera iteracion la precisión sobre las palabras conocidas me estaba dando 0.0 para todos los modelos. Esto se debia a que el vocabulario lo calculaba a partir de la variable* **tagged_sents** *la cual era usada para generar las listas y llegaba vacia. Utilicé otra variable, una lista, generada a partir de* **tagged_sents** *y se solucionó. Pero las pruebas las tuve que rehacer todas.*
 
 
- Si estudiamos los errores de las matrices de confusion, podemos ver los errores mas comunes (y casi los unicos), estan dados por sustantivos comunes plurales etiquetados como singulares, y por sustantivos comunes singulares etiquetados como adjetivos. Un tercer error, ya menos significativo, esta dado por sustantivos propios, tagueados como comunes singulares.
- Si agregamos como features el hecho de que la palabra actual y la anterior terminen en **s**, podriamos llegar a mitigar dos de esos tres errores (singular en vez de plural o propio). Por otro lado, pareciera ser que el mejor valor para n, es 2, se me ocurre que es porque el idioma español es muy permisivo en cuanto a la ubicacion de las palabras en la oracion, lo cual hace que las sub estructuras mas comunes esten entre dos y tres palabras.
+ Si estudiamos los errores de las matrices de confusion, podemos ver que los errores mas comunes estan dados por sustantivos comunes plurales etiquetados gulares, y por sustantivos comunes singulares etiquetados como adjetivos. Un tercer error, ya menos significativo, esta dado por sustantivos propios, tagueados como comunes singulares.
+ Si agregamos como features el que la palabra actual y la anterior terminen en **s**, podriamos llegar a mitigar dos de esos tres errores (singular en vez de plural o propio). Por otro lado, pareciera ser que el mejor valor para n, es 2, se me ocurre que es porque el idioma español es muy permisivo en cuanto a la ubicacion de las palabras en la oracion, lo cual hace que las sub estructuras mas comunes esten entre dos y tres palabras.
