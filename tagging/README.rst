@@ -74,16 +74,16 @@ Trabajo Practico N 2
  =======  ===== ======= ======  ======  ====  ======= ====  ======= ====  ====
  g | m    sp000	nc0s000	da0000	aq0000	fc    nc0p000 rg    np00000 fp    cc
  =======  ===== ======= ======  ======  ====  ======= ====  ======= ====  ====
- sp000    14.28	0.05    0     	0       0     0       0.01  0       0     0	
- nc0s000  0.00  12.22   0       0.25    0     0.00    0.03  0.00    0     0.00 
- da0000   0     0.15    9.54    0       0     0       0     0       0     0       
- aq0000   0.01  2.05    0       4.84    0     0.13    0.00  0       0     0  
- fc       0     0       0       0       5.85  0       0     0       0     0
- nc0p000  0     1.24    0       0.20    0     4.09    0     0       0     0
- rg       0.02  0.31    0       0.04    0     0       3.27  0       0     0.02 
- np00000  0.00  2.05    0       0.00    0     0.00    0     1.52    0     0.00  
- fp       0     0       0       0       0     0       0     0       3.55  0  
- cc       0.00  0.01    0       0       0     0       0.05  0.00    0     3.34
+ sp000    14.28	0.05    -     	0       -     -       0.01  -       -     0	
+ nc0s000  0.00  12.22   -       0.25    -     0.00    0.03  0.00    -     0.00 
+ da0000   -     0.15    9.54    -       -     -       -     -       -     -       
+ aq0000   0.01  2.05    -       4.84    -     0.13    0.00  -       -     -  
+ fc       -     -       -       -       5.85  -       -     -       -     0
+ nc0p000  -     1.24    -       0.20    -     4.09    -     -       -     0
+ rg       0.02  0.31    -       0.04    -     -       3.27  -       -     0.02 
+ np00000  0.00  2.05    -       0.00    -     0.00    -     1.52    -     0.00  
+ fp       -     -       -       -       -     -       -     -       3.55  -  
+ cc       0.00  0.01    -       -       -     -       0.05  0.00    -     3.34
  =======  ===== ======= ======  ======  ====  ======= ====  ======= ====  ====
 
 0 Ejercicio 3.
@@ -96,30 +96,80 @@ Trabajo Practico N 2
  Comienzo completando la clase **MEMM** (en el script *memm.py*). En el metodo de inicializacion genero un vectorizador a partir de los features del ejercicio anterior; lo conecto mediante un pipeline con el classifier (el cual obtengo de un diccionario a partir de una clave recibida como parametro en el constructor de la clase MEMM, y calculo el conjunto de palabras conocidas a partir del conjunto de oraciones taggeadas recibido.
  Agrego el return del metodo unknown chequeando pertenencia al conjunto de palabras conocidas. Completo el metodo que etiqueta una history mirando los *n* tags previos aplicando el metodo *predict* y con eso completo el metodo para etiquetar oraciones *tag(sent)*. Para poder probar los features complejos, instancio sus clases y las agrego al vector de features. 
 
+ Las pruebas fueron realizadas en una Macbook Retina con OSX El Capitan, procesador de 1.1 GHz Intel Core M con dos cores (4 virtuales) y 8 GB de memoria de 1600MHz (DDR3).
+
  Los resultados obtenidos fueron para el classifier *LogisticRegression* para n = 1, ..., 4, con dos conjuntos distintos de features::
 
   v1 = [word_lower,word_istitle, word_istitle, word_isupper, word_isdigit]
 
-  v2 = v1 + [NPrevTags(2), PrevWord(word_istitle),  NextWord(word_istitle),  WordLongerThan(3)]
+  v2 = v1 + [NPrevTags(n), PrevWord(word_istitle),  NextWord(word_istitle),  WordLongerThan(3)]
 
- El siguiente cuadro representa los tiempos consumidos en la generación de los modelos
-
- ===========  ==  = ==========  ==========  ========  ======  ===== ======= ==========  ==========  ========
+ El siguiente cuadro representa los tiempos consumidos en la generación de los modelos, su precisión sobre palabras conocidas y desconocidas y el tiempo empleado en calcular estos datos.
+ 
+ ===========  ==  = ===== ======  ===== ======  ======  ======= ======  ===== ======
  Training times
- -----------------------------------------------------------------------------------------------------------
- Model                    Training Times                    Accuracy        Accuracy Times
- ------------------ --------------------------------  --------------------- --------------------------------
- Classifier   Fs  n real        user        sys       total   known unknown real        user        sys     
- ===========  ==  = ==========  ==========  ========  ======  ===== ======= ==========  ==========  ========
- LRegression  v1  1 8m29.171s   6m34.024s   0m5.690s  87.49%  0.00% 87.49%
- LRegression  v1  2 9m23.497s   7m23.294s   0m6.000s  87.49%  0.00% 87.49%
- LRegression  v1  3 9m35.827s   7m34.238s   0m6.267s  87.49%  0.00% 87.49%
- LRegression  v1  4 9m47.498s   8m2.635s    0m5.893s  87.49%  0.00% 87.49%
+ -----------------------------------------------------------------------------------
+ Model              Training Times              Accuracy          Accuracy Times
+ ------------------ ------------------- ----------------------- --------------------
+ Classifier   Fs  n real  user    sys   total   known   unknown real    user  sys     
+ ===========  ==  = ===== ======  ===== ======  ======  ======= ======  ===== ======
+ LRegression  v1  1 07:36 06:39   5s    87.49%  93.29%  34.93%  41s     37s   0.844s
+ LRegression  v1  2 10:21 08:09   6s    87.49%  93.29%  34.93%  40s     36s   0.645s
+ LRegression  v1  3 09:37 07:37   6s    -       -       -       -       -     -
+ LRegression  v1  4 09:47 08:02   5s    -       -       -       -       -     -
 
- LRegression  v2  1 17m47.707s  15m58.628s  0m7.569s  87.67%  0.00% 87.67%  
- LRegression  v2  2 48m11.600s  18m41.463s  0m8.678s  89.45%  0.00% 89.45%  
- LRegression  v2  3 50m9.277s   20m31.382s  0m9.305s  89.37%  0.00% 89.37%
- LRegression  v2  4 63m26.406s  20m31.344s  0m9.061s  89.37%  0.00% 89.37%
+ LRegression  v2  1 15:30 13:52   6s    87.67%  93.41%  35.79%  43s     39s   1.118s
+ LRegression  v2  2 18:24 16:33   7s    89.45%  93.74%  50.69%  53s     49s   0.775s
+ LRegression  v2  3 20:54 19:02   8s    89.37%  94.13%  46.30%  57s     51s   0.833s
+ LRegression  v2  4 22:49 20:56   8s    89.23%  94.13%  44.87%  56s     50s   0.968s
 
- MultinomNB   v1  1 1m9.918s    1m2.927s    0m1.467s  
- ===========  ==  = ==========  ==========  ========  ======  ===== ======= ==========  ==========  ========
+ MultinomNB   v1  1 01:09 01:2s   1s    83.67%  90.90%  18.22%  59:26   36:49 14:07
+ MultinomNB   v1  2 01:11 01:4s   1s    83.67%  90.90%  18.22%  59:29   36:56 14:00
+ MultinomNB   v1  3 00:50 00:46   1s    83.67%  90.90%  18.22%  59:54   37:07 14:14
+ MultinomNB   v1  4 01:05 00:59   1s  
+
+ MultinomNB   v2  1 01:23 01:17   2s    
+ MultinomNB   v2  2 01:10 01:08   1s    
+ MultinomNB   v2  3 
+ MultinomNB   v2  4 
+
+ LinearSVC    v2  1 24:35 20:39   11s   89.62%  95.32%  38.04%  01:16   01:06 1.008s
+ LinearSVC    v2  2 17:49 14:18   8s    92.48%  96.91%  52.37%  00:51   00:47 0.803s
+ LinearSVC    v2  3 19:08 15:28   8s    91.93%  96.82%  47.64%  01:21   01:10 1.003s
+ LinearSVC    v2  4 22:32 18:41   11s   91.52%  96.60%  45.55%  01:18   01:01 1.015s
+ ===========  ==  = ===== ======  ===== ======  ======  ======= ======  ===== ======
+
+
+
+ =======  ===== ======= ======  ======  ====  ======= ====  ======= ====  ====
+ Matriz de confunsion del modelo que usa linear *LinearRegression* y el vector de features *v2* con n=2.
+ -----------------------------------------------------------------------------
+ g | m    sp000	nc0s000	da0000	aq0000	fc    nc0p000 rg    np00000 fp    cc
+ =======  ===== ======= ======  ======  ====  ======= ====  ======= ====  ====
+ sp000    14.25 0.03    -       0.05    -     0.00    0.00  -       -     -
+ nc0s000  0.00  11.80   -       0.59    -     0.01    0.01  0.06    -     0.00 
+ da0000   -     0.13    9.48    0.00    -     -       -     0.00    -     -
+ aq0000   0.01  0.83    -       6.16    -     0.07    0.00  0.05    -     -
+ fc       -     -       -       -       5.85  -       -     -       -     -
+ nc0p000  -     1.27    -       0.46    -     3.68    -     0.03    -     -
+ rg       0.02  0.11    -       0.29    -     0.02    3.10  0.03    -     0.02 
+ np00000  0.00  0.27    -       0.09    -     0.00    -     3.21    -     0.00 
+ fp       -     -       -       -       -     -       -     -       3.55  -
+ cc       0.00  0.00    -       0.01    -     0.00    0.05  0.00    -     3.34
+ =======  ===== ======= ======  ======  ====  ======= ====  ======= ====  ====
+
+
+Matriz de confunsion del modelo que usa linear *LinearSVC* y el vector de features *v2* con n=2.
+g \ m	sp000	nc0s000	da0000	aq0000	fc	nc0p000	rg	np00000	fp	cc
+sp000	14.30	0.01	-	0.02	-	-	0.00	-	-	-	
+nc0s000	0.00	12.01	-	0.42	-	0.01	0.02	0.07	-	0.00	
+da0000	-	0.09	9.56	-	-	-	-	0.01	-	-	
+aq0000	0.01	0.49	-	6.55	-	0.09	0.01	0.04	-	-	
+fc	-	-	-	-	5.85	-	-	-	-	-	
+nc0p000	-	0.91	-	0.33	-	4.23	-	0.03	-	-	
+rg	0.02	0.03	-	0.22	-	0.02	3.35	0.00	-	0.02	
+np00000	0.00	0.26	-	0.07	-	0.01	-	3.23	-	0.00	
+fp	-	-	-	-	-	-	-	-	3.55	-	
+cc	0.00	-	-	0.01	-	-	0.05	0.00	-	3.34
+
+ *En una primera iteracion la precisión sobre las palabras conocidas me estaba dando 0.0 para todos los modelos. Esto se debia a que el vocabulario lo calculaba a partir de la variable* **tagged_sents** *la cual era usada para generar las listas y llegaba vacia. Utilicé otra variable, una lista, generada a partir de * **tagged_sents** *l y se solucionó. Pero las pruebas las tuve que rehacer todas.*
