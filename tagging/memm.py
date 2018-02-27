@@ -8,7 +8,8 @@ from sklearn.svm import LinearSVC
 from sklearn.linear_model import LogisticRegression
 
 from tagging.features import (History, word_lower, word_istitle, word_isupper,
-                              word_isdigit, NPrevTags, PrevWord, NextWord)
+                              word_isdigit, NPrevTags, PrevWord, NextWord,
+                              WordLongerThan)
 
 
 classifiers = {
@@ -34,9 +35,10 @@ class MEMM:
             word_istitle,
             word_isupper,
             word_isdigit,
-            # NPrevTags,
-            # PrevWord,
-            # NextWord
+            NPrevTags(2),
+            PrevWord(word_istitle),
+            NextWord(word_istitle),
+            WordLongerThan(3)
         ]
         vect = Vectorizer(features)
 
@@ -104,10 +106,10 @@ class MEMM:
         tags = []
 
         for i, _ in enumerate(sent):
-          h = History(sent, prev_tags, i)
-          tag = self.tag_history(h)
-          tags += [tag]
-          prev_tags = (prev_tags + (tag,))[1:]
+            h = History(sent, prev_tags, i)
+            tag = self.tag_history(h)
+            tags += [tag]
+            prev_tags = (prev_tags + (tag,))[1:]
 
         return tags
 

@@ -104,3 +104,16 @@ class NextWord(Feature):
         if i < len(sent) - 1:
             return str(self._f(History(sent, h.prev_tags, i + 1)))
         return 'EOS'  # end of sentence
+
+class WordLongerThan(Feature):
+    def __init__(self, n):
+        self.n = n
+        self._name = 'word_longer_than_{}'.format(n)
+
+    def _evaluate(self, h):
+        """Feature: is the current word longer than n?
+
+        h -- a history.
+        """
+        sent, i = h.sent, h.i
+        return len(sent[i]) > self.n
