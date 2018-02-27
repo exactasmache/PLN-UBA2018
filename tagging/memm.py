@@ -9,7 +9,7 @@ from sklearn.linear_model import LogisticRegression
 
 from tagging.features import (History, word_lower, word_istitle, word_isupper,
                               word_isdigit, NPrevTags, PrevWord, NextWord,
-                              WordLongerThan)
+                              WordLongerThan, ends_with_s)
 
 
 classifiers = {
@@ -35,7 +35,7 @@ class MEMM:
             word_isupper,
             word_isdigit,
             NPrevTags(n),
-            ends_with_s
+            ends_with_s,
             PrevWord(word_istitle),
             NextWord(word_istitle),
             WordLongerThan(3),

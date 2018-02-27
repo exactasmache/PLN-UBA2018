@@ -114,9 +114,6 @@ Trabajo Practico N 2
  Classifier   Fs  n real  user    sys   total   known   unknown real    user  sys     
  ===========  ==  = ===== ======  ===== ======  ======  ======= ======  ===== ======
  LRegression  v1  1 07:36 06:39   5s    87.49%  93.29%  34.93%  41s     37s   0.844s
- LRegression  v1  2 10:21 08:09   6s    87.49%  93.29%  34.93%  40s     36s   0.645s
- LRegression  v1  3 09:37 07:37   6s    -       -       -       -       -     -
- LRegression  v1  4 09:47 08:02   5s    -       -       -       -       -     -
 
  LRegression  v2  1 15:30 13:52   6s    87.67%  93.41%  35.79%  43s     39s   1.118s
  LRegression  v2  2 18:24 16:33   7s    89.45%  93.74%  50.69%  53s     49s   0.775s
@@ -124,9 +121,6 @@ Trabajo Practico N 2
  LRegression  v2  4 22:49 20:56   8s    89.23%  94.13%  44.87%  56s     50s   0.968s
 
  MultinomNB   v1  1 01:09 01:2s   1s    83.67%  90.90%  18.22%  59:26   36:49 14:07
- MultinomNB   v1  2 01:11 01:4s   1s    83.67%  90.90%  18.22%  59:29   36:56 14:00
- MultinomNB   v1  3 00:50 00:46   1s    83.67%  90.90%  18.22%  59:54   37:07 14:14
- MultinomNB   v1  4 01:05 00:59   1s  
 
  MultinomNB   v2  1 01:23 01:17   2s    80.45%  85.45%  35.18%  85:35   42:59 13:19
  MultinomNB   v2  2 01:10 01:08   1s    
