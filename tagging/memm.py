@@ -102,10 +102,10 @@ class MEMM:
         """
         prev_tags = ('<s>',) * (self.n - 1)
         tags = []
-        
+
         for i, _ in enumerate(sent):
           h = History(sent, prev_tags, i)
-          tag = self._pipeline.predict([h])[0]
+          tag = self.tag_history(h)
           tags += [tag]
           prev_tags = (prev_tags + (tag,))[1:]
 
@@ -116,7 +116,7 @@ class MEMM:
 
         h -- the history.
         """
-        # WORK HERE!!
+        return self._pipeline.predict([h])[0]
 
     def unknown(self, w):
         """Check if a word is unknown for the model.
