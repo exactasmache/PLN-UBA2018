@@ -31,9 +31,9 @@ class MEMM:
         features = [
             word_lower,
             word_istitle,
-            # word_istitle,
-            # word_isupper,
-            # word_isdigit,
+            word_istitle,
+            word_isupper,
+            word_isdigit,
             # NPrevTags,
             # PrevWord,
             # NextWord
@@ -100,7 +100,16 @@ class MEMM:
 
         sent -- the sentence.
         """
-        # WORK HERE!!
+        prev_tags = ('<s>',) * (self.n - 1)
+        tags = []
+        
+        for i, _ in enumerate(sent):
+          h = History(sent, prev_tags, i)
+          tag = self._pipeline.predict([h])[0]
+          tags += [tag]
+          prev_tags = (prev_tags + (tag,))[1:]
+
+        return tags
 
     def tag_history(self, h):
         """Tag a history.

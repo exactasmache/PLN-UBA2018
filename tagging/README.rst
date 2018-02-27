@@ -81,4 +81,5 @@ Trabajo Practico N 2
 
 - Ejercicio 4.
  
- 
+ Comienzo completando la clase **MEMM** (en el script *memm.py*). En el metodo de inicializacion genero un vectorizador a partir de los features del ejercicio anterior; lo conecto mediante un pipeline con el classifier (el cual obtengo de un diccionario a partir de una clave recibida como parametro en el constructor de la clase MEMM, y calculo el conjunto de palabras conocidas a partir del conjunto de oraciones taggeadas recibido.
+ Agrego el return del metodo unknown chequeando pertenencia al conjunto de palabras conocidas. Completo el metodo para etiquetar oraciones *tag(sent)* mirando los *n* tags previos aplicando un algoritmo goloso.
