@@ -36,7 +36,7 @@ class MEMM:
             word_isdigit,
             NPrevTags(n),
             ends_with_s,
-            PrevWord(word_istitle),
+            PrevWord(ends_with_s),
             NextWord(word_istitle),
             WordLongerThan(3),
         ]

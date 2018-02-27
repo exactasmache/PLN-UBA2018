@@ -100,7 +100,7 @@ Trabajo Practico N 2
 
  Se utilizaron, para los tres classifier *LogisticRegression*, *MultinomialNB* y *LinearSVC* n = 1, ..., 4, con dos conjuntos distintos de features::
 
-  v1 = [word_lower,word_istitle, word_istitle, word_isupper, word_isdigit]
+  v1 = [word_lower,word_istitle, word_isupper, word_isdigit]
 
   v2 = v1 + [NPrevTags(n), PrevWord(word_istitle),  NextWord(word_istitle),  WordLongerThan(3)]
 
@@ -123,9 +123,9 @@ Trabajo Practico N 2
  MultinomNB   v1  1 01:09 01:2s   1s    83.67%  90.90%  18.22%  59:26   36:49 14:07
 
  MultinomNB   v2  1 01:23 01:17   2s    80.45%  85.45%  35.18%  85:35   42:59 13:19
- MultinomNB   v2  2 01:10 01:08   1s    
- MultinomNB   v2  3 01:22 01:17   2s    
- MultinomNB   v2  4 01:20 01:17   2s
+ MultinomNB   v2  2 01:10 01:08   1s    78.80%  82.39%  46.27%  96:59   49:13 14:27
+ MultinomNB   v2  3 01:22 01:17   2s    78.63%  83.19%  37.35%  96:53   49:15 14:27
+ MultinomNB   v2  4 01:20 01:17   2s    78.10%  82.55%  37.84%  96:51   49:15 14:25
 
  LinearSVC    v2  1 24:35 20:39   11s   89.62%  95.32%  38.04%  01:16   01:06 1.008s
  LinearSVC    v2  2 17:49 14:18   8s    92.48%  96.91%  52.37%  00:51   00:47 0.803s
@@ -177,3 +177,58 @@ Trabajo Practico N 2
 
  Si estudiamos los errores de las matrices de confusion, podemos ver que los errores mas comunes estan dados por sustantivos comunes plurales etiquetados como singulares, y por sustantivos comunes singulares etiquetados como adjetivos (y viceversa). Un tercer error, ya menos significativo, esta dado por sustantivos propios, tagueados como comunes singulares.
  Si agregamos como features el que la palabra actual y la anterior terminen en **s**, podriamos llegar a mitigar dos de esos tres errores (singular en vez de plural o propio). Por otro lado, pareciera ser que el mejor valor para n, es 2, se me ocurre que, ya que se miran los n tags previos en un feature, es porque el idioma español es muy permisivo en cuanto a la ubicacion de las palabras en la oracion, lo cual hace que las sub estructuras mas comunes esten entre dos y tres palabras.
+
+ Llamemos v3 y v4 a los sig conjuntos de features::
+
+  v3 = v1 + [ends_with_s, NPrevTags(n), PrevWord(word_istitle),  NextWord(word_istitle),  WordLongerThan(3)]
+  v4 = v1 + [ends_with_s, NPrevTags(n), PrevWord(ends_with_s),  NextWord(word_istitle),  WordLongerThan(3)]
+
+ Estos resultados sobre un modelo con clasificador SVM y n=2 son mejores que todos los demas anteriores, con un tiempo de entranamiento y de evaluacion en el mismo orden.
+
+ ===========  ==  = ===== ======  ===== ======  ======  ======= ======  ===== ======
+ Times and Accuracy
+ -----------------------------------------------------------------------------------
+ Model              Training Times              Accuracy          Accuracy Times
+ ------------------ ------------------- ----------------------- --------------------
+ Classifier   Fs  n real  user    sys   total   known   unknown real    user  sys     
+ ===========  ==  = ===== ======  ===== ======  ======  ======= ======  ===== ======
+ LinearSVC    v3  2 18:45 14:51   10s   93.42%  96.85%  62.42%  45s     42s   0.938s
+ LinearSVC    v4  2 19:34 15:51   11s   93.44%  96.86%  62.50%  43s     39s   0.903s
+ ===========  ==  = ===== ======  ===== ======  ======  ======= ======  ===== ======
+
+ Y si ahora miramos los campos que nos interesan de las tres matrices en cuestion (SVM con v2, v3 y v4), se ve como se achicó casi a cero el error de etiquetar plurales como singulares: 0.91 a 0.01; tambien se logró una mejora interesante sobre los sustantivos comunes singulares etiquetados como adjetivos: 0.42 a 0.34; aunque se empeoró con los adjetivos etiquetados como plurales: de 0.07 a 0.34/0.33; los otros dos casos que nombramos antes casi no variaron (los nombres propios y adjetivos etiquetados como sustantivos comunes).
+
+ =======  ======= ======  ======= =======
+ Confusion Matrix: LinearSVC con v2 y n=2.
+ ----------------------------------------
+ (Es una porcion de la de arriba)
+ ----------------------------------------
+ g | m    nc0s000 aq0000  nc0p000 np00000
+ =======  ======= ======  ======= =======
+ nc0s000  12.01   0.42    0.01    0.07
+ aq0000   0.49    6.55    0.09    0.04
+ nc0p000  0.91    0.33    4.23    0.03
+ np00000  0.26    0.07    0.01    3.23
+ =======  ======= ======  ======= =======
+
+ =======  ======= ======  ======= =======
+ Confusion Matrix: LinearSVC con v3 y n=2.
+ ----------------------------------------
+ g | m    nc0s000 aq0000  nc0p000 np00000
+ =======  ======= ======  ======= =======
+ nc0s000   12.11   0.34    0.01    0.06
+ aq0000    0.47    6.30    0.34    0.03
+ nc0p000   0.01    0.20    5.28    0.02
+ np00000   0.25    0.03    0.06    3.23
+ =======  ======= ======  ======= =======
+ 
+ =======  ======= ======  ======= =======
+ Confusion Matrix: LinearSVC con v4 y n=2.
+ ----------------------------------------
+ g | m    nc0s000 aq0000  nc0p000 np00000
+ =======  ======= ======  ======= =======
+ nc0s000  12.11   0.34    0.01    0.06
+ aq0000   0.48    6.30    0.33    0.03
+ nc0p000  0.01    0.20    5.28    0.02
+ np00000  0.25    0.03    0.06    3.23
+ =======  ======= ======  ======= =======
