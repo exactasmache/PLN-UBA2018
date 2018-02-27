@@ -14,7 +14,7 @@ def word_lower(h):
 
     h -- a history.
     """
-    return h[0][h[2]].lower()
+    return h.sent[h.i].lower()
 
 
 def prev_tags(h):
@@ -22,7 +22,7 @@ def prev_tags(h):
 
     h -- a history.
     """
-    return h[1]
+    return h.prev_tags
 
 
 def word_istitle(h):
@@ -30,7 +30,7 @@ def word_istitle(h):
 
     h -- a history.
     """
-    return h[0][h[2]].istitle()
+    return h.sent[h.i].istitle()
 
 
 def word_isupper(h):
@@ -38,7 +38,7 @@ def word_isupper(h):
 
     h -- a history.
     """
-    return h[0][h[2]].isupper()
+    return h.sent[h.i].isupper()
 
 
 def word_isdigit(h):
@@ -46,7 +46,7 @@ def word_isdigit(h):
 
     h -- a history.
     """
-    return h[0][h[2]].isdigit()
+    return h.sent[h.i].isdigit()
 
 
 class NPrevTags(Feature):
@@ -83,8 +83,7 @@ class PrevWord(Feature):
         i = h.i
         if i > 0:
             return str(self._f(History(h.sent, h.prev_tags, i - 1)))
-        else:
-            return 'BOS'  # beginning of sentence
+        return 'BOS'  # beginning of sentence
 
 
 class NextWord(Feature):
@@ -104,5 +103,4 @@ class NextWord(Feature):
         sent, i = h.sent, h.i
         if i < len(sent) - 1:
             return str(self._f(History(sent, h.prev_tags, i + 1)))
-        else:
-            return 'EOS'  # end of sentence
+        return 'EOS'  # end of sentence
