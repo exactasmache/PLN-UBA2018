@@ -83,3 +83,123 @@ Trabajo Practico N 2
  
  Comienzo completando la clase **MEMM** (en el script *memm.py*). En el metodo de inicializacion genero un vectorizador a partir de los features del ejercicio anterior; lo conecto mediante un pipeline con el classifier (el cual obtengo de un diccionario a partir de una clave recibida como parametro en el constructor de la clase MEMM, y calculo el conjunto de palabras conocidas a partir del conjunto de oraciones taggeadas recibido.
  Agrego el return del metodo unknown chequeando pertenencia al conjunto de palabras conocidas. Completo el metodo que etiqueta una history mirando los *n* tags previos aplicando el metodo *predict* y con eso completo el metodo para etiquetar oraciones *tag(sent)*. Para poder probar los features complejos, instancio sus clases y las agrego al vector de features. 
+
+ Los resultados obtenidos fueron para el classifier *LogisticRegression* para n = 1, ..., 4, con dos conjuntos distintos de features::
+
+ v1 = [word_lower,word_istitle, word_istitle, word_isupper, word_isdigit]
+
+ v2 = v1 + [NPrevTags(2), PrevWord(word_istitle),  NextWord(word_istitle),  WordLongerThan(3)]
+ 
+RESULTADOS:
+
+ Tiempos de los modelos utilizando el classifier: LogisticRegression para n = 1, ..., 4
+
+ time python scripts/train.py -m memm -c maxent -n 1 -o memm_model_maxent_1
+ real	17m47.707s
+ user	15m58.628s
+ sys	0m7.569s
+
+ time python scripts/train.py -m memm -c maxent -n 2 -o memm_model_maxent_2
+ real	48m11.600s
+ user	18m41.463s
+ sys	0m8.678s
+
+ time python scripts/train.py -m memm -c maxent -n 3 -o memm_model_maxent_3
+ real	50m9.277s
+ user	20m31.382s
+ sys	0m9.305s
+ 
+ time python scripts/train.py -m memm -c maxent -n 2 -o memm_model_maxent_2
+ real	48m11.600s
+ user	18m41.463s
+ sys	0m8.678s
+ 
+
+
+
+ time python scripts/eval.py -i memm_model_maxent_1 -c
+ 100.0% (87.67% / 0.00% / 87.67%)
+ Accuracy: 87.67% / 0.00% / 87.67%
+
+ g \ m	sp000	nc0s000	da0000	aq0000	fc	nc0p000	rg	np00000	fp	cc
+ sp000	14.26	0.07	-	-	-	-	0.00	-	-	-	
+ nc0s000	0.00	12.19	-	0.24	-	0.00	0.03	0.06	-	0.00	
+ da0000	-	0.13	9.56	-	-	-	-	0.00	-	-	
+ aq0000	0.01	2.08	-	4.89	-	0.12	0.00	0.05	-	-	
+ fc	-	-	-	-	5.85	-	-	-	-	-	
+ nc0p000	-	1.23	-	0.22	-	4.05	-	0.03	-	-	
+ rg	0.02	0.45	-	0.05	-	-	3.11	0.03	-	0.02	
+ np00000	0.00	0.36	-	-	-	-	-	3.20	-	0.00	
+ fp	-	-	-	-	-	-	-	-	3.55	-	
+ cc	0.00	0.01	-	-	-	-	0.05	0.00	-	3.34	
+
+ real	1m16.078s
+ user	0m59.268s
+ sys	0m1.294s
+
+
+
+ time python scripts/eval.py -i memm_model_maxent_2 -c
+ 100.0% (89.45% / 0.00% / 89.45%)
+ Accuracy: 89.45% / 0.00% / 89.45%
+
+ g \ m	sp000	nc0s000	da0000	aq0000	fc	nc0p000	rg	np00000	fp	cc
+ sp000	14.25	0.03	-	0.05	-	0.00	0.00	-	-	-	
+ nc0s000	0.00	11.80	-	0.59	-	0.01	0.01	0.06	-	0.00	
+ da0000	-	0.13	9.48	0.00	-	-	-	0.00	-	-	
+ aq0000	0.01	0.83	-	6.16	-	0.07	0.00	0.05	-	-	
+ fc	-	-	-	-	5.85	-	-	-	-	-	
+ nc0p000	-	1.27	-	0.46	-	3.68	-	0.03	-	-	
+ rg	0.02	0.11	-	0.29	-	0.02	3.10	0.03	-	0.02	
+ np00000	0.00	0.27	-	0.09	-	0.00	-	3.21	-	0.00	
+ fp	-	-	-	-	-	-	-	-	3.55	-	
+ cc	0.00	0.00	-	0.01	-	0.00	0.05	0.00	-	3.34	
+ 
+ real	1m27.165s
+ user	1m6.625s
+ sys	0m1.344s
+
+
+
+
+ time python scripts/eval.py -i memm_model_maxent_3 -c
+ 100.0% (89.37% / 0.00% / 89.37%)
+ Accuracy: 89.37% / 0.00% / 89.37%
+
+ g \ m	sp000	nc0s000	da0000	aq0000	fc	nc0p000	rg	np00000	fp	cc
+ sp000	14.25	0.02	-	0.05	-	-	0.00	0.00	-	-	
+ nc0s000	0.00	11.64	-	0.76	-	0.01	0.02	0.06	-	0.00	
+ da0000	-	0.09	9.48	0.04	-	0.00	-	0.00	-	-	
+ aq0000	0.01	0.88	-	6.09	-	0.06	0.01	0.06	-	-	
+ fc	-	-	-	-	5.85	-	-	-	-	-	
+ nc0p000	-	1.05	-	0.63	-	3.73	-	0.03	-	-	
+ rg	0.02	0.14	-	0.27	-	0.00	3.10	0.04	-	0.02	
+ np00000	0.00	0.23	-	0.11	-	0.00	-	3.21	-	0.00	
+ fp	-	-	-	-	-	-	-	-	3.55	-	
+ cc	0.00	0.01	-	0.01	-	0.00	0.05	0.00	-	3.34	
+ 
+ real	1m29.595s
+ user	1m7.706s
+ sys	0m1.453s
+
+
+
+ time python scripts/eval.py -i memm_model_maxent_4 -c
+ 100.0% (89.37% / 0.00% / 89.37%)
+ Accuracy: 89.37% / 0.00% / 89.37%
+
+ g \ m	sp000	nc0s000	da0000	aq0000	fc	nc0p000	rg	np00000	fp	cc
+ sp000	14.25	0.02	-	0.05	-	-	0.00	0.00	-	-	
+ nc0s000	0.00	11.64	-	0.76	-	0.01	0.02	0.06	-	0.00	
+ da0000	-	0.09	9.48	0.04	-	0.00	-	0.00	-	-	
+ aq0000	0.01	0.88	-	6.09	-	0.06	0.01	0.06	-	-	
+ fc	-	-	-	-	5.85	-	-	-	-	-	
+ nc0p000	-	1.05	-	0.63	-	3.73	-	0.03	-	-	
+ rg	0.02	0.14	-	0.27	-	0.00	3.10	0.04	-	0.02	
+ np00000	0.00	0.23	-	0.11	-	0.00	-	3.21	-	0.00	
+ fp	-	-	-	-	-	-	-	-	3.55	-	
+ cc	0.00	0.01	-	0.01	-	0.00	0.05	0.00	-	3.34	
+ 
+ real	1m28.099s
+ user	1m6.749s
+ sys	0m1.551s

@@ -35,10 +35,10 @@ class MEMM:
             word_istitle,
             word_isupper,
             word_isdigit,
-            NPrevTags(2),
-            PrevWord(word_istitle),
-            NextWord(word_istitle),
-            WordLongerThan(3)
+            # NPrevTags(2),
+            # PrevWord(word_istitle),
+            # NextWord(word_istitle),
+            # WordLongerThan(3)
         ]
         vect = Vectorizer(features)
 
