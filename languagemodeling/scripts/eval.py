@@ -12,8 +12,13 @@ from docopt import docopt
 import pickle
 import math
 
+import languagemodeling.config as cfg
+import languagemodeling.utils as utils
+
 from nltk.corpus import gutenberg
 
+from nltk.corpus import PlaintextCorpusReader
+from nltk.tokenize import RegexpTokenizer
 
 if __name__ == '__main__':
     opts = docopt(__doc__)
@@ -24,10 +29,13 @@ if __name__ == '__main__':
     model = pickle.load(f)
     f.close()
 
-    # load the data
-    # WORK HERE!! LOAD YOUR EVALUATION CORPUS
-    sents = gutenberg.sents('austen-persuasion.txt')
+    # load the data:
+    tokenizer = RegexpTokenizer(utils.patterns['sofisticated'])
 
+    chesterton_eval_corpus = PlaintextCorpusReader(
+        cfg.corpus_evaluation, '.*\.txt', word_tokenizer=tokenizer)
+    sents = chesterton_eval_corpus.sents()
+    
     # compute the cross entropy
     log_prob = model.log_prob(sents)
     n = sum(len(sent) + 1 for sent in sents)  # count '</s>' event

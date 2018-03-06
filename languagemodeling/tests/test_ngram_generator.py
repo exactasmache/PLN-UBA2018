@@ -12,6 +12,7 @@ class TestNGramGenerator(TestCase):
             'el gato come pescado .'.split(),
             'la gata come salmón .'.split(),
         ]
+        self.total = 12.
 
     def test_init_1gram(self):
         ngram = NGram(1, self.sents)
@@ -19,15 +20,15 @@ class TestNGramGenerator(TestCase):
 
         probs = {
             (): {
-                'el': 1 / 12.0,
-                'gato': 1 / 12.0,
-                'come': 2 / 12.0,
-                'pescado': 1 / 12.0,
-                '.': 2 / 12.0,
-                '</s>': 2 / 12.0,
-                'la': 1 / 12.0,
-                'gata': 1 / 12.0,
-                'salmón': 1 / 12.0,
+                'el': 1 / self.total,
+                'gato': 1 / self.total,
+                'come': 2 / self.total,
+                'pescado': 1 / self.total,
+                '.': 2 / self.total,
+                '</s>': 2 / self.total,
+                'la': 1 / self.total,
+                'gata': 1 / self.total,
+                'salmón': 1 / self.total,
             }
         }
 
@@ -67,7 +68,7 @@ class TestNGramGenerator(TestCase):
         ngram = NGram(2, self.sents)
         generator = NGramGenerator(ngram)
 
-        for i in range(100):
+        for _ in range(100):
             # after 'el' always comes 'gato':
             token = generator.generate_token(('el',))
             self.assertEqual(token, 'gato')
@@ -80,9 +81,10 @@ class TestNGramGenerator(TestCase):
         ngram = NGram(1, self.sents)
         generator = NGramGenerator(ngram)
 
-        voc = {'el', 'gato', 'come', 'pescado', '.', 'la', 'gata', 'salmón'}
+        voc = {'<s>', 'el', 'gato', 'come', 'pescado',
+               '.', 'la', 'gata', 'salmón', '</s>'}
 
-        for i in range(100):
+        for _ in range(100):
             sent = generator.generate_sent()
             self.assertTrue(set(sent).issubset(voc))
 
@@ -98,6 +100,6 @@ class TestNGramGenerator(TestCase):
             'la gata come pescado .',
         ]
 
-        for i in range(100):
+        for _ in range(100):
             sent = generator.generate_sent()
             self.assertTrue(' '.join(sent) in sents, sent)

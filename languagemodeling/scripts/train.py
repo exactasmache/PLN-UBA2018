@@ -1,11 +1,12 @@
 """Train an n-gram model.
 
 Usage:
-  train.py [-m <model>] -n <n> -o <file>
+  train.py [-v] [-m <model>] -n <n> -o <file>
   train.py -h | --help
 
 Options:
   -n <n>        Order of the model.
+  -v            Show basical statistics.
   -m <model>    Model to use [default: ngram]:
                   ngram: Unsmoothed n-grams.
                   addone: N-grams with add-one smoothing.
@@ -16,31 +17,40 @@ Options:
 from docopt import docopt
 import pickle
 
-from nltk.corpus import gutenberg
+import languagemodeling.config as cfg
+import languagemodeling.utils as utils
 
-from languagemodeling.ngram import NGram
-# from languagemodeling.ngram import NGram, AddOneNGram, InterpolatedNGram
+from languagemodeling.ngram import NGram, AddOneNGram, InterpolatedNGram
 
+from nltk.corpus import PlaintextCorpusReader
+from nltk.tokenize import RegexpTokenizer
 
-# models = {
-#     'ngram': NGram,
-#     'addone': AddOneNGram,
-#     'inter': InterpolatedNGram,
-# }
+models = {
+    'ngram': NGram,
+    'addone': AddOneNGram,
+    'inter': InterpolatedNGram,
+}
 
 
 if __name__ == '__main__':
     opts = docopt(__doc__)
 
-    # load the data
-    # WORK HERE!! LOAD YOUR TRAINING CORPUS
-    sents = gutenberg.sents(['austen-emma.txt', 'austen-sense.txt'])
+    # load the data:
+    tokenizer = RegexpTokenizer(utils.patterns['sofisticated'])
+
+    chesterton_corpus = PlaintextCorpusReader(
+        cfg.corpus_root, '.*\.txt', word_tokenizer=tokenizer)
+    sents = chesterton_corpus.sents()
+    
+    verbose = opts['-v']
+
+    if verbose:
+      utils.show_basic_statistics(sents)
 
     # train the model
     n = int(opts['-n'])
-    model = NGram(n, sents)
-    # model_class = models[opts['-m']]
-    # model = model_class(n, sents)
+    model_class = models[opts['-m']]
+    model = model_class(n, sents)
 
     # save it
     filename = opts['-o']
