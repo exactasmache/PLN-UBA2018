@@ -6,6 +6,7 @@ corpus_root = os.path.join(root_path, '../corpus')
 
 corpus_folder_name = 'InterTASS_2017'
 tweets_path = os.path.join(corpus_root, corpus_folder_name)
+graphs_path = os.path.join(root_path, 'graphs')
 
 tweets = {
     'InterTASS': {

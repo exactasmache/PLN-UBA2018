@@ -21,7 +21,7 @@ import pickle
 from sentiment.tass import InterTASSReader, GeneralTASSReader
 from sentiment.baselines import MostFrequent
 from sentiment.classifier import SentimentClassifier
-
+import sentiment.configs as cfg
 
 models = {
     'basemf': MostFrequent,
@@ -33,9 +33,9 @@ if __name__ == '__main__':
     opts = docopt(__doc__)
 
     # load corpora
-    reader1 = InterTASSReader('TASS/InterTASS/tw_faces4tassTrain1000rc.xml')
+    reader1 = InterTASSReader(cfg.tweets['InterTASS']['train']['path'])
     X1, y1 = list(reader1.X()), list(reader1.y())
-    reader2 = GeneralTASSReader('TASS/GeneralTASS/general-tweets-train-tagged.xml', simple=True)
+    reader2 = GeneralTASSReader(cfg.tweets['GeneralTASS']['train']['path'], simple=True)
     X2, y2 = list(reader2.X()), list(reader2.y())
     X, y = X1 + X2, y1 + y2
 

@@ -23,6 +23,8 @@ class SentimentClassifier(object):
             ('vect', CountVectorizer()),
             ('clf', classifiers[clf]()),
         ])
+    def name(self):
+        return 'clf_basic'
 
     def fit(self, X, y):
         self._pipeline.fit(X, y)
