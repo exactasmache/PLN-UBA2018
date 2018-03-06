@@ -1,0 +1,10 @@
+*venv
+.python-version
+.vscode
+.DS_Store
+corpus
+*.egg-info
+*__pycache__
+*baseline
+*memm_model*
+*/models/
