@@ -25,7 +25,9 @@ Trabajo Practico N 3
 
 - Ejercicio 2.
 
- Para este ejercicio modifico la clase train para que levante los paths de configs.py, al igual que para el ejercicio anterior; mejoro el script de curve.py a fin de que con los valores calculados genere graficos usando la libreria matplotlib (realizo un chequeo del sistema operativo, a fin de no necesitar instalar python como framework y poder usarlo desde el pyenv). Los graficos son almacenados en la carpeta *graphs* con extensión *.png* y con el nombre del modelo y el clasificador utilizado (en caso de corresponder). El nombre del modelo, en caso de usar *clf* lo obtengo directamente de la clase mediante el metodo **name()**. La idea de esto es poder variar el mismo segun las mejoras aplicadas a la clase.
+ Para este ejercicio modifico la clase train para que levante los paths de configs.py, al igual que para el ejercicio anterior; mejoro el script de curve.py a fin de que con los valores calculados genere graficos usando la libreria matplotlib (realizo un chequeo del sistema operativo, a fin de no necesitar instalar python como framework y poder usarlo desde el pyenv). Los graficos son almacenados en la carpeta *graphs* con extensión *.png* y con el nombre del modelo y el clasificador utilizado (en caso de corresponder). El nombre del modelo, en caso de usar *clf* lo obtengo directamente de la clase mediante el metodo **name()**. La idea de esto es poder variar el mismo segun las mejoras aplicadas a la clase. 
+
+ Para cada variacion de modelo grafico la *accuracy*(azul) y *F1*(anaranjado) en funcion del *n*.
 
  **Resultados:**
 
@@ -55,8 +57,6 @@ Trabajo Practico N 3
  :Macro-Precision: 39.40%
  :Macro-Recall: 40.35%
  :Macro-F1: 39.87%
-
- **Confusion Matrix:**
 
  ==== === === === ====
  \    P   N   NEU NONE
@@ -398,3 +398,113 @@ Trabajo Practico N 3
  ==== === === === ====
 
  .. image:: graphs/clf_swords_mnb.png
+
+  
+ **clf con negacion con maxent**
+
+ :Sentiment P:
+  Precision: 51.21% (106/207)
+  Recall: 67.95% (106/156)
+  F1: 58.40%
+ :Sentiment N:
+  Precision: 58.33% (140/240)
+  Recall: 63.93% (140/219)
+  F1: 61.00%
+ :Sentiment NEU:
+  Precision: 20.00% (3/15)
+  Recall: 4.35% (3/69)
+  F1: 7.14%
+ :Sentiment NONE:
+  Precision: 22.73% (10/44)
+  Recall: 16.13% (10/62)
+  F1: 18.87%
+ :Accuracy: 51.19% (259/506)
+ :Macro-Precision: 38.07%
+ :Macro-Recall: 38.09%
+ :Macro-F1: 38.08%
+
+ ==== === === === ====
+ clf con negacion con maxent
+ ---------------------
+ \    P   N   NEU NONE
+ ==== === === === ====
+ P    106 39  3   8
+ N    55  140 6   18
+ NEU  27  31  3   8
+ NONE 19  30  3   10
+ ==== === === === ====
+  
+ .. image:: graphs/clf_neg_maxent.png
+
+
+ **clf con negacion con svm**
+
+ :Sentiment P:
+  Precision: 53.12% (102/192)
+  Recall: 65.38% (102/156)
+  F1: 58.62%
+ :Sentiment N:
+  Precision: 58.45% (128/219)
+  Recall: 58.45% (128/219)
+  F1: 58.45%
+ :Sentiment NEU:
+  Precision: 13.79% (4/29)
+  Recall: 5.80% (4/69)
+  F1: 8.16%
+ :Sentiment NONE:
+  Precision: 18.18% (12/66)
+  Recall: 19.35% (12/62)
+  F1: 18.75%
+ :Accuracy: 48.62% (246/506)
+ :Macro-Precision: 35.89%
+ :Macro-Recall: 37.25%
+ :Macro-F1: 36.55%
+
+ ==== === === === ====
+ clf con negacion con svm
+ ---------------------
+ \    P   N   NEU NONE
+ ==== === === === ====
+ P    102 37  5   12
+ N    50  128 12  29
+ NEU  22  30  4   13
+ NONE 18  24  8   12
+ ==== === === === ====
+
+ .. image:: graphs/clf_neg_svm.png
+ 
+ **clf con negacion con mnb**
+
+ :Sentiment P:
+  Precision: 44.93% (124/276)
+  Recall: 79.49% (124/156)
+  F1: 57.41%
+ :Sentiment N:
+  Precision: 58.85% (133/226)
+  Recall: 60.73% (133/219)
+  F1: 59.78%
+ :Sentiment NEU:
+  Precision: 100.00% (0/0)
+  Recall: 0.00% (0/69)
+  F1: 0.00%
+ :Sentiment NONE:
+  Precision: 50.00% (2/4)
+  Recall: 3.23% (2/62)
+  F1: 6.06%
+ :Accuracy: 51.19% (259/506)
+ :Macro-Precision: 63.44%
+ :Macro-Recall: 35.86%
+ :Macro-F1: 45.82%
+
+ ==== === === === ====
+ clf con negacion con mnb
+ ---------------------
+ \    P   N   NEU NONE
+ ==== === === === ====
+ P    124 32  0   0
+ N    84  133 0   2
+ NEU  39  30  0   0
+ NONE 29  31  0   2
+ ==== === === === ====
+
+ .. image:: graphs/clf_neg_mnb.png
