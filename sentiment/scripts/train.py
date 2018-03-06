@@ -22,7 +22,8 @@ import pickle
 
 from sentiment.tass import InterTASSReader, GeneralTASSReader
 from sentiment.baselines import MostFrequent
-from sentiment.classifier import SentimentClassifier, SentimentClassifier_tkn, SentimentClassifier_binary
+from sentiment.classifier import (SentimentClassifier, SentimentClassifier_tkn,
+                                  SentimentClassifier_binary, SentimentClassifier_StopWords)
 import sentiment.configs as cfg
 
 models = {
@@ -30,7 +31,8 @@ models = {
     'clf': {
         '': SentimentClassifier,
         'tkn': SentimentClassifier_tkn,
-        'bin': SentimentClassifier_binary
+        'bin': SentimentClassifier_binary,
+        'swords': SentimentClassifier_StopWords
     }
 }
 

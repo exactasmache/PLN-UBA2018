@@ -255,7 +255,7 @@ Trabajo Practico N 3
 
 
  **clf binario con mnb**
- 
+
  :Sentiment P:
   Precision: 48.11% (127/264)
   Recall: 81.41% (127/156)
@@ -289,3 +289,112 @@ Trabajo Practico N 3
  ==== === === === ====
 
  .. image:: graphs/clf_bin_mnb.png
+
+
+ **clf binario con clf_swords_maxent**
+
+ :Sentiment P:
+  Precision: 48.71% (113/232)
+  Recall: 72.44% (113/156)
+  F1: 58.25%
+ :Sentiment N:
+  Precision: 61.84% (128/207)
+  Recall: 58.45% (128/219)
+  F1: 60.09%
+ :Sentiment NEU:
+  Precision: 21.43% (3/14)
+  Recall: 4.35% (3/69)
+  F1: 7.23%
+ :Sentiment NONE:
+  Precision: 30.19% (16/53)
+  Recall: 25.81% (16/62)
+  F1: 27.83%
+ :Accuracy: 51.38% (260/506)
+ :Macro-Precision: 40.54%
+ :Macro-Recall: 40.26%
+ :Macro-F1: 40.40%
+
+ ==== === === === ====
+ clf con stop_words list con maxent
+ ---------------------
+ \    P   N   NEU NONE
+ ==== === === === ====
+ P    113 29  2   12
+ N    66  128 6   19
+ NEU  31  29  3   6
+ NONE 22  21  3   16
+ ==== === === === ====
+
+ .. image:: graphs/clf_swords_maxent.png
+
+ **clf binario con clf_swords_svm**
+
+ :Sentiment P:
+  Precision: 50.50% (101/200)
+  Recall: 64.74% (101/156)
+  F1: 56.74%
+ :Sentiment N:
+  Precision: 61.83% (115/186)
+  Recall: 52.51% (115/219)
+  F1: 56.79%
+ :Sentiment NEU:
+  Precision: 17.65% (6/34)
+  Recall: 8.70% (6/69)
+  F1: 11.65%
+ :Sentiment NONE:
+  Precision: 22.09% (19/86)
+  Recall: 30.65% (19/62)
+  F1: 25.68%
+ :Accuracy: 47.63% (241/506)
+ :Macro-Precision: 38.02%
+ :Macro-Recall: 39.15%
+ :Macro-F1: 38.57%
+
+ ==== === === === ====
+ clf con stop_words list con svm
+ ---------------------
+ \    P   N   NEU NONE
+ ==== === === === ====
+ P    101 28  6   21
+ N    56  115 16  32
+ NEU  26  23  6   14
+ NONE 17  20  6   19
+ ==== === === === ====
+
+ .. image:: graphs/clf_swords_svm.png
+ 
+ **clf binario con clf_swords_mnb**
+
+ :Sentiment P:
+  Precision: 43.88% (129/294)
+  Recall: 82.69% (129/156)
+  F1: 57.33%
+ :Sentiment N:
+  Precision: 60.71% (119/196)
+  Recall: 54.34% (119/219)
+  F1: 57.35%
+ :Sentiment NEU:
+  Precision: 20.00% (1/5)
+  Recall: 1.45% (1/69)
+  F1: 2.70%
+ :Sentiment NONE:
+  Precision: 54.55% (6/11)
+  Recall: 9.68% (6/62)
+  F1: 16.44%
+ :Accuracy: 50.40% (255/506)
+ :Macro-Precision: 44.78%
+ :Macro-Recall: 37.04%
+ :Macro-F1: 40.55%
+
+ ==== === === === ====
+ clf con stop_words list con mnb
+ ---------------------
+ \    P   N   NEU NONE
+ ==== === === === ====
+ P    129 24  1   2
+ N    97  119 2   1
+ NEU  41  25  1   2
+ NONE 27  28  1   6
+ ==== === === === ====
+
+ .. image:: graphs/clf_swords_mnb.png
