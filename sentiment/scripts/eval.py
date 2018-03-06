@@ -15,7 +15,8 @@ from pprint import pprint
 from collections import defaultdict
 
 from sentiment.evaluator import Evaluator
-from sentiment.tass import InterTASSReader
+
+import sentiment.configs as cfg
 
 if __name__ == '__main__':
     opts = docopt(__doc__)
@@ -26,13 +27,15 @@ if __name__ == '__main__':
     model = pickle.load(f)
     f.close()
 
+    reader_class = cfg.tweets['InterTASS']['reader']
     # load corpus
     if not opts['--final']:
-        reader = InterTASSReader('TASS/InterTASS/TASS2017_T1_development.xml')
+        reader = reader_class(cfg.tweets['InterTASS']['development']['path'])
     else:
-        reader = InterTASSReader(
-            'TASS/InterTASS/TASS2017_T1_test.xml',
-            'TASS/InterTASS/TASS2017_T1_test_res.qrel')
+        reader = reader_class(
+          cfg.tweets['InterTASS']['test']['path'],
+          cfg.tweets['InterTASS']['test']['res_path']
+        )
     X, y_true = list(reader.X()), list(reader.y())
 
     # classify

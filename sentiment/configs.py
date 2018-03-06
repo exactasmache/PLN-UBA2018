@@ -20,7 +20,8 @@ tweets = {
         },
         'test': {
             'name': 'InterTASS Test Tweets',
-            'path': os.path.join(tweets_path, 'intertass-test.xml')
+            'path': os.path.join(tweets_path, 'intertass-test.xml'),
+            'res_path': os.path.join(tweets_path, 'intertass-sentiment.qrel')
         },
         'reader': InterTASSReader
     },
