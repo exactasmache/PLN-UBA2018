@@ -29,7 +29,7 @@ Trabajo Practico N 3
 
  **Resultados:**
 
- *clf sin mejoras con maxent*
+ **clf sin mejoras con maxent**
  
  :Sentiment P:
   Precision: 52.89% (119/225)
@@ -59,7 +59,7 @@ Trabajo Practico N 3
  **Confusion Matrix:**
 
  ==== === === === ====
-      P   N   NEU NONE
+ \    P   N   NEU NONE
  ==== === === === ====
  P    119 27  5   5
  N    60  131 7   21
@@ -68,3 +68,114 @@ Trabajo Practico N 3
  ==== === === === ====
 
  .. image:: graphs/clf_basic_maxent.png
+
+
+ **clf con mejor tokenizer con maxent**
+
+ :Sentiment P:
+  Precision: 52.94% (108/204)
+  Recall: 69.23% (108/156)
+  F1: 60.00%
+ :Sentiment N:
+  Precision: 61.29% (133/217)
+  Recall: 60.73% (133/219)
+  F1: 61.01%
+ :Sentiment NEU:
+  Precision: 27.78% (5/18)
+  Recall: 7.25% (5/69)
+  F1: 11.49%
+ :Sentiment NONE:
+  Precision: 23.88% (16/67)
+  Recall: 25.81% (16/62)
+  F1: 24.81%
+ :Accuracy: 51.78% (262/506)
+ :Macro-Precision: 41.47%
+ :Macro-Recall: 40.75%
+ :Macro-F1: 41.11%
+
+ ==== === === === ====
+ clf con mejor tokenizer con maxent
+ ---------------------
+ \    P   N   NEU NONE
+ ==== === === === ====
+ P    108 30  5   13  
+ N    54  133 6   26  
+ NEU  26  26  5   12 
+ NONE 16  28  2   16
+ ==== === === === ====
+
+ .. image:: graphs/clf_tkn_maxent.png
+
+ **clf con mejor tokenizer con svm**
+
+ :Sentiment P:
+  Precision: 55.43% (102/184)
+  Recall: 65.38% (102/156)
+  F1: 60.00%
+ :Sentiment N:
+  Precision: 63.18% (127/201)
+  Recall: 57.99% (127/219)
+  F1: 60.48%
+ :Sentiment NEU:
+  Precision: 13.51% (5/37)
+  Recall: 7.25% (5/69)
+  F1: 9.43%
+ :Sentiment NONE:
+  Precision: 22.62% (19/84)
+  Recall: 30.65% (19/62)
+  F1: 26.03%
+ :Accuracy: 50.00% (253/506)
+ :Macro-Precision: 38.69%
+ :Macro-Recall: 40.32%
+ :Macro-F1: 39.49%
+
+ ==== === === === ====
+ clf con mejor tokenizer con svm
+ ---------------------
+ \    P   N   NEU NONE
+ ==== === === === ====
+ P    102 27  10  17  
+ N    44  127 14  34  
+ NEU  26  24  5   14  
+ NONE 12  23  8   19 
+ ==== === === === ====
+
+.. image:: graphs/clf_tkn_svm.png
+
+**clf con mejor tokenizer con mnb**
+
+ :Sentiment P:
+  Precision: 50.00% (134/268)
+  Recall: 85.90% (134/156)
+  F1: 63.21%
+ :Sentiment N:
+  Precision: 61.86% (146/236)
+  Recall: 66.67% (146/219)
+  F1: 64.18%
+ :Sentiment NEU:
+  Precision: 100.00% (0/0)
+  Recall: 0.00% (0/69)
+  F1: 0.00%
+ :Sentiment NONE:
+  Precision: 100.00% (2/2)
+  Recall: 3.23% (2/62)
+  F1: 6.25%
+ :Accuracy: 55.73% (282/506)
+ :Macro-Precision: 77.97%
+ :Macro-Recall: 38.95%
+ :Macro-F1: 51.95%
+
+ ==== === === === ====
+ clf con mejor tokenizer con mnb
+ ---------------------
+ \    P   N   NEU NONE
+ ==== === === === ====
+ P    134 22  0   0  
+ N    73  146 0   0  
+ NEU  37  32  0   0 
+ NONE 24  36  0   2
+ ==== === === === ====
+
+ .. image:: graphs/clf_tkn_mnb.png
+
+

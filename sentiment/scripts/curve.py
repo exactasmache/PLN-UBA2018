@@ -1,11 +1,12 @@
 """Draw a learning curve for a Sentiment Analysis model.
 
 Usage:
-  curve.py [-m <model>] [-c <clf>]
+  curve.py [-i <file>] [-m <model>] [-c <clf>]
   curve.py -h | --help
 
 Options:
-  -m <model>    Model to use [default: basemf]:
+  -i <file>     Trained model file.
+  -m <model>    Model to use if not input file given [default: basemf]:
                   basemf: Most frequent sentiment
                   clf: Machine Learning Classifier
   -c <clf>      Classifier to use if the model is a MEMM [default: svm]:
@@ -21,6 +22,7 @@ from sentiment.baselines import MostFrequent
 from sentiment.classifier import SentimentClassifier
 from sentiment.evaluator import Evaluator
 
+import pickle
 import os
 import sentiment.configs as cfg
 import numpy as np
@@ -54,20 +56,31 @@ if __name__ == '__main__':
     reader = InterTASSReader(cfg.tweets['InterTASS']['development']['path'])
     Xdev, y_true = list(reader.X()), list(reader.y())
 
-    # create model and evaluator instances
-    # train model
-    model_type = opts['-m']
-    filename = ''
-    if model_type == 'clf':
-        model = models[model_type](clf=opts['-c'])
-        filename += model.name() +'_'
-        if not opts['-c']:
-            filename += 'svm'
-        else:
-            filename += opts['-c']
+
+    # load model if given
+    if opts['-i']:
+      filename = opts['-i']
+      f = open(filename, 'rb')
+      model = pickle.load(f)
+      f.close()
+      filename = os.path.basename(filename)
+
     else:
-        filename += 'basemf'
-        model = models[model_type]()  # baseline
+      # create model and evaluator instances
+      # train model
+      model_type = opts['-m']
+      filename = ''
+      if model_type == 'clf':
+          model = models[model_type](clf=opts['-c'])
+          filename += model.name() +'_'
+          if not opts['-c']:
+              filename += 'svm'
+          else:
+              filename += opts['-c']
+      else:
+          filename += 'basemf'
+          model = models[model_type]()  # baseline
+
 
     evaluator = Evaluator()
 

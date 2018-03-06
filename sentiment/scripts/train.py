@@ -1,31 +1,36 @@
 """Train a Sentiment Analysis model.
 
 Usage:
-  train.py [-m <model>] [-c <clf>] -o <file>
+  train.py [-m <model> [-i <improvments>]] [-c <clf>] -o <file>
   train.py -h | --help
 
 Options:
-  -m <model>    Model to use [default: basemf]:
-                  basemf: Most frequent sentiment
-                  clf: Machine Learning Classifier
-  -c <clf>      Classifier to use if the model is a MEMM [default: svm]:
-                  maxent: Maximum Entropy (i.e. Logistic Regression)
-                  svm: Support Vector Machine
-                  mnb: Multinomial Bayes
-  -o <file>    Output model file.
-  -h --help     Show this screen.
+  -m <model>          Model to use [default: basemf]:
+                        basemf: Most frequent sentiment
+                        clf: Machine Learning Classifier
+  -c <clf>            Classifier to use if the model is a MEMM [default: svm]:
+                        maxent: Maximum Entropy (i.e. Logistic Regression)
+                        svm: Support Vector Machine
+                        mnb: Multinomial Bayes
+  -i <improvments>    Improvements to apply to the clf model
+                        tkn: a better tokenizer with emojis and punctuation
+  -o <file>           Output model file.
+  -h --help           Show this screen.
 """
 from docopt import docopt
 import pickle
 
 from sentiment.tass import InterTASSReader, GeneralTASSReader
 from sentiment.baselines import MostFrequent
-from sentiment.classifier import SentimentClassifier
+from sentiment.classifier import SentimentClassifier, SentimentClassifier_tkn
 import sentiment.configs as cfg
 
 models = {
     'basemf': MostFrequent,
-    'clf': SentimentClassifier,
+    'clf': {
+      '' : SentimentClassifier,
+      'tkn' : SentimentClassifier_tkn
+    }
 }
 
 
@@ -42,7 +47,7 @@ if __name__ == '__main__':
     # train model
     model_type = opts['-m']
     if model_type == 'clf':
-        model = models[model_type](clf=opts['-c'])
+        model = models[model_type].get( opts['-i'], SentimentClassifier)(clf=opts['-c'])
     else:
         model = models[model_type]()  # baseline
 
