@@ -6,7 +6,7 @@ from sklearn.linear_model import LogisticRegression
 
 from nltk import word_tokenize
 import emoji
-emojis = set(emoji.UNICODE_EMOJI)
+from nltk.corpus import stopwords
 
 classifiers = {
     'maxent': LogisticRegression,
@@ -59,6 +59,21 @@ class SentimentClassifier_binary(SentimentClassifier):
         """
         self._clf = clf
         self.countvectorizer = CountVectorizer(binary=True)
+        self._pipeline = Pipeline([
+            ('vect', self.countvectorizer),
+            ('clf', classifiers[clf]()),
+        ])
+
+    def name(self):
+      return 'clf_binary'
+
+class SentimentClassifier_StopWords(SentimentClassifier):
+    def __init__(self, clf='svm'):
+        """
+        clf -- classifying model, one of 'svm', 'maxent', 'mnb' (default: 'svm').
+        """
+        self._clf = clf
+        self.countvectorizer = CountVectorizer(stop_words=stopwords.words('spanish'))
         self._pipeline = Pipeline([
             ('vect', self.countvectorizer),
             ('clf', classifiers[clf]()),

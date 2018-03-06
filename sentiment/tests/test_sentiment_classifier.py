@@ -1,9 +1,11 @@
 # https://docs.python.org/3/library/unittest.html
 from unittest import TestCase
 
-from sentiment.classifier import SentimentClassifier, SentimentClassifier_tkn
+from sentiment.classifier import (SentimentClassifier, SentimentClassifier_tkn,
+                                  SentimentClassifier_binary, SentimentClassifier_StopWords)
 import emoji
 import re
+from nltk.corpus import stopwords
 
 
 class TestSentimentClassifier_tkn(TestCase):
@@ -31,3 +33,8 @@ class TestSentimentClassifier_tkn(TestCase):
                'sí', 'a', 'la', 'expo', ',', '+']
         analyze = model.countvectorizer.build_analyzer()
         self.assertEqual(analyze(self.x), res)
+
+    def test_stopWordsClassifier(self):
+        model = SentimentClassifier_StopWords()
+        stop_words = model.countvectorizer.get_stop_words()
+        self.assertEqual(set(stopwords.words('spanish')), stop_words)
