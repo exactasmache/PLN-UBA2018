@@ -4,6 +4,9 @@ from sklearn.naive_bayes import MultinomialNB
 from sklearn.svm import LinearSVC
 from sklearn.linear_model import LogisticRegression
 
+from nltk import word_tokenize
+import emoji
+emojis = set(emoji.UNICODE_EMOJI)
 
 classifiers = {
     'maxent': LogisticRegression,
@@ -19,8 +22,9 @@ class SentimentClassifier(object):
         clf -- classifying model, one of 'svm', 'maxent', 'mnb' (default: 'svm').
         """
         self._clf = clf
-        self._pipeline = pipeline = Pipeline([
-            ('vect', CountVectorizer()),
+        self.countvectorizer = CountVectorizer()
+        self._pipeline = Pipeline([
+            ('vect', self.countvectorizer),
             ('clf', classifiers[clf]()),
         ])
     def name(self):
@@ -31,3 +35,20 @@ class SentimentClassifier(object):
 
     def predict(self, X):
         return self._pipeline.predict(X)
+
+
+class SentimentClassifier_tkn(SentimentClassifier):
+    def __init__(self, clf='svm'):
+        """
+        clf -- classifying model, one of 'svm', 'maxent', 'mnb' (default: 'svm').
+        """
+        self._clf = clf
+        self.countvectorizer = CountVectorizer(tokenizer=word_tokenize)
+        self._pipeline = Pipeline([
+            ('vect', self.countvectorizer),
+            ('clf', classifiers[clf]()),
+        ])
+    def name(self):
+      return 'clf_better_tokenizer'
+
+    
