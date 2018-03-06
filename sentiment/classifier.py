@@ -48,7 +48,23 @@ class SentimentClassifier_tkn(SentimentClassifier):
             ('vect', self.countvectorizer),
             ('clf', classifiers[clf]()),
         ])
+
     def name(self):
       return 'clf_better_tokenizer'
+
+class SentimentClassifier_binary(SentimentClassifier):
+    def __init__(self, clf='svm'):
+        """
+        clf -- classifying model, one of 'svm', 'maxent', 'mnb' (default: 'svm').
+        """
+        self._clf = clf
+        self.countvectorizer = CountVectorizer(binary=True)
+        self._pipeline = Pipeline([
+            ('vect', self.countvectorizer),
+            ('clf', classifiers[clf]()),
+        ])
+
+    def name(self):
+      return 'clf_binary'
 
     

@@ -22,14 +22,15 @@ import pickle
 
 from sentiment.tass import InterTASSReader, GeneralTASSReader
 from sentiment.baselines import MostFrequent
-from sentiment.classifier import SentimentClassifier, SentimentClassifier_tkn
+from sentiment.classifier import SentimentClassifier, SentimentClassifier_tkn, SentimentClassifier_binary
 import sentiment.configs as cfg
 
 models = {
     'basemf': MostFrequent,
     'clf': {
-      '' : SentimentClassifier,
-      'tkn' : SentimentClassifier_tkn
+        '': SentimentClassifier,
+        'tkn': SentimentClassifier_tkn,
+        'bin': SentimentClassifier_binary
     }
 }
 
@@ -40,14 +41,16 @@ if __name__ == '__main__':
     # load corpora
     reader1 = InterTASSReader(cfg.tweets['InterTASS']['train']['path'])
     X1, y1 = list(reader1.X()), list(reader1.y())
-    reader2 = GeneralTASSReader(cfg.tweets['GeneralTASS']['train']['path'], simple=True)
+    reader2 = GeneralTASSReader(
+        cfg.tweets['GeneralTASS']['train']['path'], simple=True)
     X2, y2 = list(reader2.X()), list(reader2.y())
     X, y = X1 + X2, y1 + y2
 
     # train model
     model_type = opts['-m']
     if model_type == 'clf':
-        model = models[model_type].get( opts['-i'], SentimentClassifier)(clf=opts['-c'])
+        model = models[model_type].get(
+            opts['-i'], SentimentClassifier)(clf=opts['-c'])
     else:
         model = models[model_type]()  # baseline
 
