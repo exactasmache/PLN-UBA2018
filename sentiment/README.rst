@@ -38,6 +38,8 @@ Trabajo Practico N 3
   - **Manejo de Negaciones:** Mirando la implementacion del metodo negated del modulo sentiment de nltk (http://www.nltk.org/_modules/nltk/sentiment/vader.html#negated), genere la funcion *add_negation*, la cual mira la pertenencia a una lista de palabras negadoras (no, tampoco, nunca y jamas), y se la paso como parametro al constructor de la clase CountVectorizer a modo de *preprocessor*.
 
  **Resultados:**
+A continuacion pongo uno abajo del otro los resultados obtenidos meidante el script eval.py y el curve.py. Un hecho curioso que ocurre con todos los modelos que utilizan *MultinomialNB* es que casi no predicen NEUTRAL ni NONE. Estuve tratando de ver las frases que deberian serlo y no lo son, pero no llegué a ninguna conclusion. Será un error en mi implementacion? 
+A pesar de eso (o quizas debido a eso) son los mejores modelos en cuanto a la precision. Estimo que esto es consecuencia de que la mayoria de los tweets son mas bien positivos o negativos, y si casi las unicas predicciones que hace son *N* o *P*, es mas grande la probabilidad de acertar.
 
  **clf sin mejoras con maxent**
  
@@ -569,7 +571,7 @@ Trabajo Practico N 3
 
 - Ejercicio 3:
  
- El mejor modelo pareciera ser **clf con mejor tokenizer y mnb**; por lo que realicé sobre este la evaluacion final. Para esto tuve que modificar el script eval para que trajera los tweets de test del archivo *config.py* donde los habia centralizado.
+ El mejor modelo pareciera ser **clf con mejor tokenizer y mnb**; por lo que realicé sobre este la evaluacion final. Para esto tuve que modificar el script eval para que trajera los tweets de test del archivo *config.py* donde los habia centralizado. 
 
  :Sentiment P:
   Precision: 51.30% (533/1039)
@@ -587,7 +589,7 @@ Trabajo Practico N 3
   Precision: 33.33% (3/9)
   Recall: 1.09% (3/274)
   F1: 2.12%
-  
+
  :Accuracy: 56.03% (1064/1899)
  :Macro-Precision: 36.69%
  :Macro-Recall: 38.24%

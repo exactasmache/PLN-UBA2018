@@ -49,6 +49,10 @@ if __name__ == '__main__':
     evaluator.evaluate(y_true, y_pred)
     evaluator.print_results()
     evaluator.print_confusion_matrix()
+    
+    # print (model)
+    # for x,y,z in zip(X, y_pred, y_true):
+    #   print (x, y, z)
 
     # detailed confusion matrix, for result analysis
     cm_items = defaultdict(list)
