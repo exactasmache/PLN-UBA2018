@@ -291,7 +291,7 @@ Trabajo Practico N 3
  .. image:: graphs/clf_bin_mnb.png
 
 
- **clf binario con clf_swords_maxent**
+ **clf con stop_words list con maxent**
 
  :Sentiment P:
   Precision: 48.71% (113/232)
@@ -327,7 +327,7 @@ Trabajo Practico N 3
 
  .. image:: graphs/clf_swords_maxent.png
 
- **clf binario con clf_swords_svm**
+ **clf con stop_words list con svm**
 
  :Sentiment P:
   Precision: 50.50% (101/200)
@@ -363,7 +363,7 @@ Trabajo Practico N 3
 
  .. image:: graphs/clf_swords_svm.png
  
- **clf binario con clf_swords_mnb**
+ **clf con stop_words list con mnb**
 
  :Sentiment P:
   Precision: 43.88% (129/294)
@@ -508,3 +508,52 @@ Trabajo Practico N 3
  ==== === === === ====
 
  .. image:: graphs/clf_neg_mnb.png
+
+
+
+ **Features mas relevantes para cada sentimiento usando el clf con stop_words list y maxent:**
+ 
+ Para otbener las siguientes tablas utilice la funcion *print_maxent_features* del script analysis.py, pasandole como parametro el vectorizador y el classificador modificado con lista de stop_words. Este script lo agregué al final de eval.py, mediante la opcion *--deep*, dado que ahi ya levanto el modelo entrenado y lo evaluo. 
+
+ :N:
+  =========== =========== ==========  ============  ===========
+  portada     enhorabuena gracias     buena         feliz 
+  -1.72087583 -1.61411829 -1.5147778  -1.41222895   -1.41042164
+  peor        corrupción  recortes    muertos       triste 
+  1.78473314  1.81873067  1.91682432  1.99076086    2.47628181
+  =========== =========== ==========  ============  ===========
+ :NEU:
+  =========== =========== ==============  =========== ===========
+  parados     enhorabuena puedes          tres        felicidades 
+  -1.150014   -1.03717982 -0.91364664     -0.89044434 -0.86144292
+  gana        decidirán   vicepresidenta  broma       expectación
+  1.24276137  1.26878577  1.27755031      1.32713174  1.34644755
+  =========== =========== ==============  =========== ===========
+ :NONE:
+  =========== =========== ==============  =========== ===========
+  gracias     feliz       interesante     gran        mal 
+  -1.90620348 -1.85716252 -1.82737906     -1.74255732 -1.67852606
+  jugar       sesión      reunión         300         portada 
+  1.20167406  1.22048877  1.26525043      1.26773251  2.42187342
+  =========== =========== ==============  =========== ===========
+ :P:
+  =========== =========== ==============  =========== ===========
+  triste      portada     urdangarin      griñan      culpa 
+  -1.64422166 -1.59682204 -1.36776675     -1.35668775 -1.35352689
+  genial      homenaje    gracias         felicidades enhorabuena
+  1.94677427  1.99712245  2.2420285       2.32473931  2.58299915
+  =========== =========== ==============  =========== ===========
+
+ **Tweet de ejemplo, con todos los features que intervienen y sus respectivos pesos para cada clase:**
+
+ La siguiente tabla, al igual que la anterior, se computa utilizando una funcion del script analysis.py, en este caso *print_feature_weights_for_item*, y se realiza al finalizar la ejecucion del script eval.py, si se agregó la opcion *-d* o *--deep*. Estos resultados son para el modelo que utiliza stop_words (y maxent).
+
+ ======= =========== =========== =========== ===========
+ bandera -0.25073875 -0.07730685 -0.29306683 0.50205028
+ gran    -0.78957733 0.11226857  -1.74255732  1.4192134 
+ hijos   -0.03697914 0.69577544  -0.06639183 -0.53354103
+ ja      -0.5576505  0.08787272  -0.74400354  0.80983631
+ japón   0.18120326  -0.06493422 -0.08471276 -0.0091092 
+ puta    1.03660427  -0.44976595 -0.6070564  -0.5019685 
+ teneis  0.03606403  0.26372942  0.04960757  -0.23969036
+ ======= =========== =========== =========== ===========
