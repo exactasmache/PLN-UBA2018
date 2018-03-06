@@ -565,3 +565,39 @@ Trabajo Practico N 3
  puta    1.03660427  -0.44976595 -0.6070564  -0.5019685 
  teneis  0.03606403  0.26372942  0.04960757  -0.23969036
  ======= =========== =========== =========== ===========
+
+
+- Ejercicio 3:
+ 
+ El mejor modelo pareciera ser **clf con mejor tokenizer y mnb**; por lo que realicé sobre este la evaluacion final. Para esto tuve que modificar el script eval para que trajera los tweets de test del archivo *config.py* donde los habia centralizado.
+
+ :Sentiment P:
+  Precision: 51.30% (533/1039)
+  Recall: 83.02% (533/642)
+  F1: 63.41%
+ :Sentiment N:
+  Precision: 62.12% (528/850)
+  Recall: 68.84% (528/767)
+  F1: 65.31%
+ :Sentiment NEU:
+  Precision: 0.00% (0/1)
+  Recall: 0.00% (0/216)
+  F1: 0.00%
+ :Sentiment NONE:
+  Precision: 33.33% (3/9)
+  Recall: 1.09% (3/274)
+  F1: 2.12%
+  
+ :Accuracy: 56.03% (1064/1899)
+ :Macro-Precision: 36.69%
+ :Macro-Recall: 38.24%
+ :Macro-F1: 37.45%
+
+ ==== === === === ====
+ \    P   N   NEU NONE
+ ==== === === === ====
+ P    533 105 1   3
+ N    238 528 0   1
+ NEU  112 102 0   2
+ NONE 156 115 0   3
+ ==== === === === ====
