@@ -82,4 +82,45 @@ class SentimentClassifier_StopWords(SentimentClassifier):
     def name(self):
       return 'clf_binary'
 
-    
+
+ENG_NEGATE = { "aint", "arent", "cannot", "cant", "couldnt", "darent", "didnt", "doesnt",
+ "ain't", "aren't", "can't", "couldn't", "daren't", "didn't", "doesn't",
+ "dont", "hadnt", "hasnt", "havent", "isnt", "mightnt", "mustnt", "neither",
+ "don't", "hadn't", "hasn't", "haven't", "isn't", "mightn't", "mustn't",
+ "neednt", "needn't", "never", "none", "nope", "nor", "not", "nothing", "nowhere",
+ "oughtnt", "shant", "shouldnt", "uhuh", "wasnt", "werent",
+ "oughtn't", "shan't", "shouldn't", "uh-uh", "wasn't", "weren't",
+ "without", "wont", "wouldnt", "won't", "wouldn't", "rarely", "seldom", "despite" }
+
+SPANISH_NEGATE = {'no', 'tampoco', 'nunca', 'jamas'}
+
+def add_negations(x):
+    tokens = x.split()
+    new_tokens = []
+    negate = False
+    for token in tokens:
+        if token.lower() in SPANISH_NEGATE:
+            negate = True
+        elif token == '.':
+            negate = False
+        elif negate:
+            token = 'NOT_' + token
+        new_tokens.append(token)
+
+    return ' '.join(new_tokens)
+
+
+class SentimentClassifier_Negation(SentimentClassifier):
+    def __init__(self, clf='svm'):
+        """
+        clf -- classifying model, one of 'svm', 'maxent', 'mnb' (default: 'svm').
+        """
+        self._clf = clf
+        self.countvectorizer = CountVectorizer(preprocessor=add_negations)
+        self._pipeline = Pipeline([
+            ('vect', self.countvectorizer),
+            ('clf', classifiers[clf]()),
+        ])
+
+    def name(self):
+      return 'clf_binary'

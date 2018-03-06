@@ -14,6 +14,9 @@ Options:
                         mnb: Multinomial Bayes
   -i <improvments>    Improvements to apply to the clf model
                         tkn: a better tokenizer with emojis and punctuation
+                        bin: ignores the word reapeatition,
+                        swords: Filters the stop words,
+                        neg: add negation sufix _NOT
   -o <file>           Output model file.
   -h --help           Show this screen.
 """
@@ -23,7 +26,8 @@ import pickle
 from sentiment.tass import InterTASSReader, GeneralTASSReader
 from sentiment.baselines import MostFrequent
 from sentiment.classifier import (SentimentClassifier, SentimentClassifier_tkn,
-                                  SentimentClassifier_binary, SentimentClassifier_StopWords)
+                                  SentimentClassifier_binary, SentimentClassifier_StopWords,
+                                  SentimentClassifier_Negation)
 import sentiment.configs as cfg
 
 models = {
@@ -32,7 +36,8 @@ models = {
         '': SentimentClassifier,
         'tkn': SentimentClassifier_tkn,
         'bin': SentimentClassifier_binary,
-        'swords': SentimentClassifier_StopWords
+        'swords': SentimentClassifier_StopWords,
+        'neg': SentimentClassifier_Negation
     }
 }
 
