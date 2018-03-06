@@ -14,7 +14,7 @@ def word_lower(h):
 
     h -- a history.
     """
-    # WORK HERE!! USE STRING METHOD lower()
+    return h.sent[h.i].lower()
 
 
 def prev_tags(h):
@@ -22,7 +22,7 @@ def prev_tags(h):
 
     h -- a history.
     """
-    # WORK HERE!!
+    return h.prev_tags
 
 
 def word_istitle(h):
@@ -30,7 +30,7 @@ def word_istitle(h):
 
     h -- a history.
     """
-    # WORK HERE!! USE STRING METHOD istitle()
+    return h.sent[h.i].istitle()
 
 
 def word_isupper(h):
@@ -38,7 +38,7 @@ def word_isupper(h):
 
     h -- a history.
     """
-    # WORK HERE!! USE STRING METHOD isupper()
+    return h.sent[h.i].isupper()
 
 
 def word_isdigit(h):
@@ -46,7 +46,14 @@ def word_isdigit(h):
 
     h -- a history.
     """
-    # WORK HERE!! USE STRING METHOD isdigit()
+    return h.sent[h.i].isdigit()
+
+def ends_with_s(h):
+    """Feature: is the current word all digits?
+
+    h -- a history.
+    """
+    return h.sent[h.i].endswith('s')
 
 
 class NPrevTags(Feature):
@@ -63,7 +70,7 @@ class NPrevTags(Feature):
 
         h -- a history.
         """
-        # WORK HERE!!
+        return h.prev_tags[-self._n:]
 
 
 class PrevWord(Feature):
@@ -83,8 +90,7 @@ class PrevWord(Feature):
         i = h.i
         if i > 0:
             return str(self._f(History(h.sent, h.prev_tags, i - 1)))
-        else:
-            return 'BOS'  # beginning of sentence
+        return 'BOS'  # beginning of sentence
 
 
 class NextWord(Feature):
@@ -104,5 +110,17 @@ class NextWord(Feature):
         sent, i = h.sent, h.i
         if i < len(sent) - 1:
             return str(self._f(History(sent, h.prev_tags, i + 1)))
-        else:
-            return 'EOS'  # end of sentence
+        return 'EOS'  # end of sentence
+
+class WordLongerThan(Feature):
+    def __init__(self, n):
+        self.n = n
+        self._name = 'word_longer_than_{}'.format(n)
+
+    def _evaluate(self, h):
+        """Feature: is the current word longer than n?
+
+        h -- a history.
+        """
+        sent, i = h.sent, h.i
+        return len(sent[i]) > self.n

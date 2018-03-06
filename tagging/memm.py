@@ -8,7 +8,8 @@ from sklearn.svm import LinearSVC
 from sklearn.linear_model import LogisticRegression
 
 from tagging.features import (History, word_lower, word_istitle, word_isupper,
-                              word_isdigit, NPrevTags, PrevWord, NextWord)
+                              word_isdigit, NPrevTags, PrevWord, NextWord,
+                              WordLongerThan, ends_with_s)
 
 
 classifiers = {
@@ -27,17 +28,34 @@ class MEMM:
         clf -- classifying model, one of 'svm', 'maxent', 'mnb' (default: 'svm').
         """
         # 1. build the pipeline
-        # WORK HERE!!
-        self._pipeline = pipeline = None
+        self.n = n
+        features = [
+            word_lower,
+            word_istitle,
+            word_isupper,
+            word_isdigit,
+            NPrevTags(n),
+            ends_with_s,
+            PrevWord(ends_with_s),
+            NextWord(word_istitle),
+            WordLongerThan(3),
+        ]
+        vect = Vectorizer(features)
+
+        self._pipeline = Pipeline([
+            ('vect', vect),
+            ('clf', classifiers[clf]())
+        ])
 
         # 2. train it
         print('Training classifier...')
-        X = self.sents_histories(tagged_sents)
-        y = self.sents_tags(tagged_sents)
-        pipeline.fit(list(X), list(y))
+        tagged_sents_list = list(tagged_sents)
+        X = self.sents_histories(tagged_sents_list)
+        y = self.sents_tags(tagged_sents_list)
+        self._pipeline.fit(list(X), list(y))
 
         # 3. build known words set
-        # WORK HERE!!
+        self.words = set([w for w_t in tagged_sents_list for w, _ in w_t])
 
     def sents_histories(self, tagged_sents):
         """
@@ -57,7 +75,7 @@ class MEMM:
         """
         prev_tags = ('<s>',) * (self.n - 1)
         sent = [w for w, _ in tagged_sent]
-        for i, (w, t) in enumerate(tagged_sent):
+        for i, (_, t) in enumerate(tagged_sent):
             yield History(sent, prev_tags, i)
             prev_tags = (prev_tags + (t,))[1:]
 
@@ -84,18 +102,27 @@ class MEMM:
 
         sent -- the sentence.
         """
-        # WORK HERE!!
+        prev_tags = ('<s>',) * (self.n - 1)
+        tags = []
+
+        for i, _ in enumerate(sent):
+            h = History(sent, prev_tags, i)
+            tag = self.tag_history(h)
+            tags += [tag]
+            prev_tags = (prev_tags + (tag,))[1:]
+
+        return tags
 
     def tag_history(self, h):
         """Tag a history.
 
         h -- the history.
         """
-        # WORK HERE!!
+        return self._pipeline.predict([h])[0]
 
     def unknown(self, w):
         """Check if a word is unknown for the model.
 
         w -- the word.
         """
-        # WORK HERE!!
+        return w not in self.words
